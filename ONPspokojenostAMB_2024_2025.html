@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Spokojenost ambulantních pacientů 2024–2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--mu:#6b7080;--a1:#2c6e8a;--a2:#e8a045;--a3:#5caa7f;--a4:#c94040;--a5:#7b5ea7;--bd:#e0ddd6;--tag:#eef4f7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
+header{background:var(--ink);color:#fff;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+header h1{font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;line-height:1.2;}
+header h1 em{color:var(--a2);font-style:italic;}
+.hm{font-size:.75rem;color:#aaa;margin-top:3px;}
+.tabs{background:var(--ink);padding:0 32px;display:flex;gap:2px;flex-wrap:wrap;border-top:1px solid #2e2e44;overflow-x:auto;}
+.tb{background:none;border:none;color:#999;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;padding:10px 13px;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.tb:hover{color:#fff;}.tb.active{color:var(--a2);border-bottom-color:var(--a2);}
+main{padding:22px 32px;max-width:1500px;margin:0 auto;}
+.sec{display:none;}.sec.active{display:block;}
+.ctr{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.ctr label{font-size:.78rem;color:var(--mu);font-weight:500;}
+select{padding:6px 10px;border:1.5px solid var(--bd);border-radius:7px;background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink);cursor:pointer;outline:none;}
+select:focus{border-color:var(--a1);}
+.ks{display:grid;gap:12px;margin-bottom:18px;}
+.k4{grid-template-columns:repeat(4,1fr);} .k3{grid-template-columns:repeat(3,1fr);} .k2{grid-template-columns:repeat(2,1fr);}
+.kpi{background:var(--card);border-radius:11px;padding:15px 17px;border:1px solid var(--bd);position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.kpi.c1::before{background:var(--a1);}.kpi.c2::before{background:var(--a3);}
+.kpi.c3::before{background:var(--a2);}.kpi.c4::before{background:var(--a4);}.kpi.c5::before{background:var(--a5);}
+.kl{font-size:.7rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.kv{font-family:'DM Serif Display',serif;font-size:1.9rem;line-height:1;}
+.ks2{font-size:.72rem;color:var(--mu);margin-top:4px;}
+.gr{display:grid;gap:16px;margin-bottom:16px;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}.g1{grid-template-columns:1fr;}
+.cc{background:var(--card);border-radius:11px;padding:18px;border:1px solid var(--bd);}
+.cc h3{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+.cs{font-size:.7rem;color:var(--mu);margin-bottom:14px;}
+.tw{overflow-x:auto;max-height:560px;overflow-y:auto;}
+table{width:100%;border-collapse:collapse;font-size:.8rem;}
+thead th{position:sticky;top:0;background:var(--tag);padding:8px 11px;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mu);border-bottom:2px solid var(--bd);white-space:nowrap;z-index:1;}
+tbody tr{border-bottom:1px solid var(--bd);transition:background .12s;}
+tbody tr:hover{background:#fafafa;}
+td{padding:8px 11px;vertical-align:middle;}
+.bg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:600;}
+.bgg{background:#d4f0e2;color:#257a50;}.bgy{background:#fdf0d5;color:#9a6a10;}
+.bgr{background:#fde0e0;color:#9a2020;}.bgx{background:#f0f0f0;color:#999;}
+.brow{display:flex;align-items:center;gap:6px;}
+.bbar{flex:1;height:5px;background:var(--bd);border-radius:3px;min-width:40px;}
+.bfill{height:5px;border-radius:3px;}
+.ins{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:500;}
+.chipg{background:#d4f0e2;color:#257a50;}.chipy{background:#fdf0d5;color:#9a6a10;}
+.chipr{background:#fde0e0;color:#9a2020;}.chipb{background:#dff0f7;color:#1a5a72;}
+.note{background:#fff8e8;border:1px solid #f0d080;border-radius:8px;padding:10px 14px;font-size:.76rem;color:#7a5810;margin-bottom:16px;line-height:1.5;}
+.info{background:#e8f4fb;border:1px solid #a8d4ea;border-radius:8px;padding:10px 14px;font-size:.76rem;color:#1a5a72;margin-bottom:16px;line-height:1.5;}
+.asel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.ac{padding:4px 10px;border-radius:20px;border:1.5px solid var(--bd);background:var(--card);font-size:.74rem;font-weight:500;cursor:pointer;transition:all .15s;color:var(--mu);}
+.ac.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+.ac:hover:not(.on){border-color:var(--a1);color:var(--a1);}
+.seg{display:flex;gap:8px;margin-bottom:16px;}
+.sb{padding:5px 14px;border-radius:20px;border:1.5px solid var(--bd);background:var(--card);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .15s;color:var(--mu);}
+.sb.on{background:var(--a1);border-color:var(--a1);color:#fff;}
+.pbadge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.68rem;font-weight:500;background:#dff0f7;color:#1a5a72;margin-left:4px;}
+.foot{padding:14px 32px;border-top:1px solid var(--bd);font-size:.7rem;color:var(--mu);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;max-width:1500px;margin:0 auto;}
+@media(max-width:860px){
+  header,main,.foot{padding-left:14px;padding-right:14px;}
+  .tabs{padding:0 14px;}
+  .k4{grid-template-columns:1fr 1fr;}
+  .k3{grid-template-columns:1fr 1fr;}
+  .g2,.g3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Spokojenost ambulantn&#237;ch pacient&#367; <em>2024&#8211;2025</em></h1>
+    <div class="hm">2 088 odpov&#283;d&#237; &#183; 35 ambulanc&#237; &#183; ro&#269;n&#237; srovn&#225;n&#237; &#183; pololet&#237; pro 4 velk&#233; ambulance &#183; recepce sledov&#225;na za celou nemocnici</div>
+  </div>
+</header>
+<nav class="tabs">
+  <button class="tb active" data-tab="prehled">&#127973; P&#345;ehled</button>
+  <button class="tb" data-tab="spok">&#11088; Spokojenost</button>
+  <button class="tb" data-tab="cekani">&#9201; &#268;ek&#225;n&#237;</button>
+  <button class="tb" data-tab="obj">&#128197; Objedn&#225;v&#225;n&#237;</button>
+  <button class="tb" data-tab="recepce">&#128203; Recepce</button>
+  <button class="tb" data-tab="detail">&#128269; Detail</button>
+  <button class="tb" data-tab="vyvoj">&#128200; V&#253;voj</button>
+</nav>
+<main>
+
+<section class="sec active" id="tab-prehled">
+  <div class="ks k4">
+    <div class="kpi c1"><div class="kl">Celkov&#225; spokojenost</div><div class="kv" id="kk-celk">-</div><div class="ks2" id="ks-celk"></div></div>
+    <div class="kpi c2"><div class="kl">Spokojenost s l&#233;ka&#345;em</div><div class="kv" id="kk-lekar">-</div><div class="ks2" id="ks-lekar"></div></div>
+    <div class="kpi c3"><div class="kl">Spokojenost se sestrou</div><div class="kv" id="kk-sestra">-</div><div class="ks2" id="ks-sestra"></div></div>
+    <div class="kpi c5"><div class="kl">Recepce (cel&#225; nemocnice)</div><div class="kv" id="kk-recepce">-</div><div class="ks2" id="ks-recepce"></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="cc"><h3>Rozlo&#382;en&#237; spokojenosti 2024 vs 2025</h3><div class="cs">% pacient&#367; v ka&#382;d&#233; kategorii hodnocen&#237;</div><canvas id="cCelkBar" height="230"></canvas></div>
+    <div class="cc"><h3>Trend % velmi spokojench 2024&#8211;2025</h3><div class="cs">L&#233;ka&#345;, sestra, celkov&#225; spokojenost</div><canvas id="cTrend" height="230"></canvas></div>
+  </div>
+  <div class="gr g2">
+    <div class="cc"><h3>Srovn&#225;n&#237; kategori&#237; p&#233;&#269;e</h3><div class="cs">% velmi spokojench &#8212; 2024 vs 2025</div><canvas id="cKat" height="210"></canvas></div>
+    <div class="cc"><h3>Trend po pololet&#237;ch &#8212; cel&#225; nemocnice</h3><div class="cs">% velmi spokojench: 2024-H1 &#8594; 2024-H2 &#8594; 2025-H1 &#8594; 2025-H2</div><canvas id="cPolo" height="210"></canvas></div>
+  </div>
+</section>
+
+<section class="sec" id="tab-spok">
+  <div class="info">&#128203; <strong>Pozn&#225;mka k recepci:</strong> Hodnocen&#237; recepce odra&#382;&#237; spole&#269;n&#233; pracovi&#353;t&#283; cel&#233; nemocnice &#8212; nen&#237; zobrazov&#225;no u jednotliv&#253;ch ambulanc&#237;. Viz z&#225;lo&#382;ka <em>Recepce</em>.</div>
+  <div class="note">&#9888; Ambulance s m&#233;n&#283; ne&#382; 5 odpov&#283;d&#237;mi jsou ozna&#269;eny &#353;ed&#283;.</div>
+  <div class="ctr">
+    <label>Se&#345;adit:</label>
+    <select id="srtSpok">
+      <option value="celkova_vs">% Velmi spokojench (celkov&#225;)</option>
+      <option value="celkova">Pr&#367;m&#283;rn&#233; sk&#243;re</option>
+      <option value="lekar_vs">% Velmi spokojench (l&#233;ka&#345;)</option>
+      <option value="sestra_vs">% Velmi spokojench (sestra)</option>
+      <option value="n">Po&#269;et odpov&#283;d&#237;</option>
+    </select>
+    <label>Rok:</label>
+    <select id="rokSpok">
+      <option value="all">Oba roky</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+  </div>
+  <div class="gr g1" style="margin-bottom:16px;">
+    <div class="cc"><h3>Spokojenost podle ambulanc&#237;</h3><div class="cs">Celkov&#225; spokojenost, l&#233;ka&#345; a sestra (recepce je spole&#269;n&#225; pro celou nemocnici)</div>
+      <div style="position:relative;height:660px"><canvas id="cSpokAmb"></canvas></div></div>
+  </div>
+  <div class="cc"><h3>P&#345;ehledov&#225; tabulka &#8212; v&#353;echny ambulance</h3><div class="cs">Pr&#367;m&#283;rn&#233; sk&#243;re (max 3,00) a pod&#237;l velmi spokojench</div>
+    <div class="tw" id="tSpok"></div></div>
+</section>
+
+<section class="sec" id="tab-cekani">
+  <div class="ks k3">
+    <div class="kpi c2"><div class="kl">M&#233;n&#283; ne&#382; 1 hodina</div><div class="kv" id="kk-c1">-</div><div class="ks2" id="ks-c1"></div></div>
+    <div class="kpi c3"><div class="kl">1&#8211;2 hodiny</div><div class="kv" id="kk-c2">-</div><div class="ks2" id="ks-c2"></div></div>
+    <div class="kpi c4"><div class="kl">V&#237;ce ne&#382; 2 hodiny</div><div class="kv" id="kk-c3">-</div><div class="ks2" id="ks-c3"></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="cc"><h3>&#268;ek&#225;n&#237; podle ambulanc&#237; &#8212; nejhor&#353;&#237; nejv&#253;&#353;</h3><div class="cs">% pacient&#367; &#269;ekaj&#237;c&#237;ch d&#233;le ne&#382; 1 hodinu</div>
+      <div style="position:relative;height:560px"><canvas id="cCekAmb"></canvas></div></div>
+    <div class="cc">
+      <h3>Vliv &#269;ek&#225;n&#237; na spokojenost</h3><div class="cs">% velmi spokojench podle d&#233;lky &#269;ek&#225;n&#237; (2024+2025)</div>
+      <canvas id="cCekSpok" height="190"></canvas>
+      <div class="ins">
+        <span class="chip chipg">&#10003; &lt;1h &#8594; 89,8 %</span>
+        <span class="chip chipy">&#9888; 1&#8211;2h &#8594; 65,7 %</span>
+        <span class="chip chipr">&#10007; &gt;2h &#8594; 37,4 %</span>
+      </div>
+      <h3 style="margin-top:18px">Vývoj &#269;ek&#225;n&#237; 2024 vs 2025</h3>
+      <div class="cs" style="margin-top:3px">Absolutn&#237; po&#269;ty pacient&#367;</div>
+      <canvas id="cCekRok" height="170"></canvas>
+    </div>
+  </div>
+  <div class="cc"><h3>Tabulka &#269;ek&#225;n&#237; podle ambulanc&#237;</h3><div class="cs">Se&#345;azeno od nejhor&#353;&#237;ho</div>
+    <div class="tw" id="tCekani"></div></div>
+</section>
+
+<section class="sec" id="tab-obj">
+  <div class="gr g3">
+    <div class="cc"><h3>Zp&#367;sob n&#225;v&#353;t&#283;vy</h3><div class="cs">2024 vs 2025</div><canvas id="cObBar" height="230"></canvas></div>
+    <div class="cc"><h3>SMS p&#345;ipom&#237;nka term&#237;nu</h3><div class="cs">Jen objedn&#225;n&#237; pacienti</div><canvas id="cSms" height="230"></canvas></div>
+    <div class="cc"><h3>Zna&#269;en&#237; cesty k ambulanci</h3><div class="cs">V&#353;ichni pacienti</div><canvas id="cZn" height="230"></canvas></div>
+  </div>
+  <div class="gr g1">
+    <div class="cc"><h3>Akutn&#237; vs objedn&#225;n&#237; podle ambulanc&#237;</h3><div class="cs">Se&#345;azeno dle pod&#237;lu akutn&#237;ch p&#345;&#237;pad&#367;</div>
+      <div style="position:relative;height:560px"><canvas id="cObAmb"></canvas></div></div>
+  </div>
+  <div class="cc"><h3>Tabulka objedn&#225;v&#225;n&#237; podle ambulanc&#237;</h3><div class="cs">% objedn&#225;nch / akutn&#237;ch / bez objedn&#225;n&#237;</div>
+    <div class="tw" id="tObj"></div></div>
+</section>
+
+<section class="sec" id="tab-recepce">
+  <div class="info">&#128203; Recepce je <strong>jedno spole&#269;n&#233; pracovi&#353;t&#283;</strong> pro celou nemocnici. Hodnocen&#237; odra&#382;&#237; spole&#269;n&#253; z&#225;&#382;itek v&#353;ech pacient&#367; bez ohledu na to, kter&#233; ambulance nav&#353;t&#237;vili &#8212; proto je sledov&#225;no pouze za celou nemocnici, ne per-ambulance.</div>
+  <div class="ks k3">
+    <div class="kpi c5"><div class="kl">% Velmi spokojench 2024</div><div class="kv" id="kk-r24">-</div><div class="ks2" id="ks-r24"></div></div>
+    <div class="kpi c5"><div class="kl">% Velmi spokojench 2025</div><div class="kv" id="kk-r25">-</div><div class="ks2" id="ks-r25"></div></div>
+    <div class="kpi c5"><div class="kl">Zm&#283;na 2024 &#8594; 2025</div><div class="kv" id="kk-rdiff">-</div><div class="ks2" id="ks-rdiff"></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="cc"><h3>Spokojenost s recepci &#8212; ro&#269;n&#237; srovn&#225;n&#237;</h3><div class="cs">% pacient&#367; v ka&#382;d&#233; kategorii hodnocen&#237;</div><canvas id="cRecBar" height="250"></canvas></div>
+    <div class="cc"><h3>Trend recepce po pololet&#237;ch</h3><div class="cs">% velmi spokojench: 2024-H1 &#8594; 2024-H2 &#8594; 2025-H1 &#8594; 2025-H2</div><canvas id="cRecPolo" height="250"></canvas></div>
+  </div>
+  <div class="cc"><h3>Recepce v kontextu cel&#233; nemocnice</h3><div class="cs">Srovn&#225;n&#237; recepce s ostatn&#237;mi kategoriemi</div><canvas id="cRecKontext" height="230"></canvas></div>
+</section>
+
+<section class="sec" id="tab-detail">
+  <div class="ctr">
+    <label>Ambulance:</label>
+    <select id="detAmb" style="min-width:280px;max-width:100%"></select>
+  </div>
+  <div id="detContent"></div>
+</section>
+
+<section class="sec" id="tab-vyvoj">
+  <div class="note">&#128200; <strong>Pololet&#237;</strong> jen pro ambulance s 30+ odpov&#283;d&#237;mi na pololet&#237;:
+    <span class="pbadge">Akutn&#237; ortopedick&#225;</span>
+    <span class="pbadge">Akutn&#237; chirurgick&#225;</span>
+    <span class="pbadge">O&#269;n&#237;</span>
+    <span class="pbadge">Urologick&#225;</span>
+    &#8212; ostatn&#237; ambulance zobrazuj&#237; pouze ro&#269;n&#237; data.
+  </div>
+  <div class="cc" style="margin-bottom:16px;">
+    <h3>Trend spokojenosti ambulanc&#237;</h3>
+    <div class="cs">Vyberte ambulance kliknut&#237;m &#183; p&#345;epn&#283;te granularitu a metriku</div>
+    <div class="seg">
+      <button class="sb on" id="btnRok" onclick="setGran('rok')">Po rok&#367;</button>
+      <button class="sb" id="btnPolo" onclick="setGran('polo')">Po pololet&#237;ch</button>
+    </div>
+    <div class="asel" id="ambSel"></div>
+    <div class="ctr" style="margin-bottom:12px;">
+      <label>Metrika:</label>
+      <select id="trM">
+        <option value="celkova">Celkov&#225; spokojenost</option>
+        <option value="lekar">L&#233;ka&#345;</option>
+        <option value="sestra">Sestra</option>
+      </select>
+      <label>Zobrazit:</label>
+      <select id="trD">
+        <option value="vs">% velmi spokojench</option>
+        <option value="avg">Pr&#367;m&#283;rn&#233; sk&#243;re</option>
+      </select>
+    </div>
+    <div style="position:relative;height:380px"><canvas id="cVyvoj"></canvas></div>
+  </div>
+  <div class="cc">
+    <h3>Trend cel&#233; nemocnice po pololet&#237;ch &#8212; v&#353;echny kategorie</h3>
+    <div class="cs">V&#269;etn&#283; recepce (sledov&#225;na pouze za nemocnici)</div>
+    <canvas id="cHospPolo" height="230"></canvas>
+  </div>
+</section>
+</main>
+<div class="foot">
+  <span>Dotazn&#237;k spokojenosti ambulantn&#237;ch pacient&#367; &#183; 2024&#8211;2025 &#183; n = 2 088 &#183; 35 ambulanc&#237;</span>
+  <span>&#352;k&#225;la: Velmi spokojen/a (3) &#183; Pr&#367;m&#283;rn&#283; spokojen/a (2) &#183; Nespokojen/a (1)</span>
+</div>
+<script>
+var _b="eyJhbWIiOnsiQWt1dG7DrSBvcnRvcGVkaWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjozMjcsInllYXJzIjp7IjIwMjQiOnsibiI6MTc3LCJsZWthciI6Mi43NDcsImxla2FyX3ZzIjo4NC41LCJzZXN0cmEiOjIuNzU2LCJzZXN0cmFfdnMiOjgyLjYsImNlbGtvdmEiOjIuNzQsImNlbGtvdmFfdnMiOjgxLjksImNla2FuaSI6eyJsdCI6eyJuIjoxNDAsInBjdCI6NzkuNX0sIm0iOnsibiI6MzEsInBjdCI6MTcuNn0sImd0Ijp7Im4iOjUsInBjdCI6Mi44fX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NTMsInBjdCI6MzAuMX0sIkFLVVROSSI6eyJuIjo5OCwicGN0Ijo1NS43fSwiTkUiOnsibiI6MjUsInBjdCI6MTQuMn19fSwiMjAyNSI6eyJuIjoxNTAsImxla2FyIjoyLjc0NywibGVrYXJfdnMiOjg0LjAsInNlc3RyYSI6Mi43ODUsInNlc3RyYV92cyI6ODUuMiwiY2Vsa292YSI6Mi43MzMsImNlbGtvdmFfdnMiOjgzLjMsImNla2FuaSI6eyJsdCI6eyJuIjoxMjcsInBjdCI6ODUuMn0sIm0iOnsibiI6MjAsInBjdCI6MTMuNH0sImd0Ijp7Im4iOjIsInBjdCI6MS4zfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MjYsInBjdCI6MTcuNH0sIkFLVVROSSI6eyJuIjo5OCwicGN0Ijo2NS44fSwiTkUiOnsibiI6MjUsInBjdCI6MTYuOH19fX0sInBlcmlvZHMiOnsiMjAyNC1IMSI6eyJuIjo4NiwibGVrYXIiOjIuNzkxLCJsZWthcl92cyI6ODYuMCwic2VzdHJhIjoyLjgxLCJzZXN0cmFfdnMiOjgzLjMsImNlbGtvdmEiOjIuNzkxLCJjZWxrb3ZhX3ZzIjo4My43fSwiMjAyNC1IMiI6eyJuIjo4NywibGVrYXIiOjIuNzI5LCJsZWthcl92cyI6ODQuNywic2VzdHJhIjoyLjcyOSwic2VzdHJhX3ZzIjo4My41LCJjZWxrb3ZhIjoyLjcxMywiY2Vsa292YV92cyI6ODEuNn0sIjIwMjUtSDEiOnsibiI6NzUsImxla2FyIjoyLjc0NywibGVrYXJfdnMiOjg0LjAsInNlc3RyYSI6Mi44NTEsInNlc3RyYV92cyI6ODkuMiwiY2Vsa292YSI6Mi43MzMsImNlbGtvdmFfdnMiOjg0LjB9LCIyMDI1LUgyIjp7Im4iOjc1LCJsZWthciI6Mi43NDcsImxla2FyX3ZzIjo4NC4wLCJzZXN0cmEiOjIuNzIsInNlc3RyYV92cyI6ODEuMywiY2Vsa292YSI6Mi43MzMsImNlbGtvdmFfdnMiOjgyLjd9fSwiY2Vsa292YV92c19hbGwiOjgyLjYsImNlbGtvdmFfYXZnX2FsbCI6Mi43MzcsImNla2FuaV9hbGwiOnsibHQiOjgyLjIsIm0iOjE1LjcsImd0IjoyLjJ9fSwiQWt1dG7DrSBjaGlydXJnaWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjoxODcsInllYXJzIjp7IjIwMjQiOnsibiI6ODUsImxla2FyIjoyLjQ4MiwibGVrYXJfdnMiOjY4LjcsInNlc3RyYSI6Mi42OTksInNlc3RyYV92cyI6NzcuMSwiY2Vsa292YSI6Mi40NzEsImNlbGtvdmFfdnMiOjY1LjksImNla2FuaSI6eyJsdCI6eyJuIjo2NywicGN0Ijo3OC44fSwibSI6eyJuIjoxMCwicGN0IjoxMS44fSwiZ3QiOnsibiI6OCwicGN0Ijo5LjR9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoxNCwicGN0IjoxNi41fSwiQUtVVE5JIjp7Im4iOjU0LCJwY3QiOjYzLjV9LCJORSI6eyJuIjoxNywicGN0IjoyMC4wfX19LCIyMDI1Ijp7Im4iOjEwMiwibGVrYXIiOjIuNTM5LCJsZWthcl92cyI6NzMuNSwic2VzdHJhIjoyLjY2Mywic2VzdHJhX3ZzIjo3Ny4yLCJjZWxrb3ZhIjoyLjU2OSwiY2Vsa292YV92cyI6NzEuNiwiY2VrYW5pIjp7Imx0Ijp7Im4iOjgzLCJwY3QiOjgyLjJ9LCJtIjp7Im4iOjExLCJwY3QiOjEwLjl9LCJndCI6eyJuIjo3LCJwY3QiOjYuOX19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjcsInBjdCI6Ni45fSwiQUtVVE5JIjp7Im4iOjY5LCJwY3QiOjY4LjN9LCJORSI6eyJuIjoyNSwicGN0IjoyNC44fX19fSwicGVyaW9kcyI6eyIyMDI0LUgxIjp7Im4iOjM5LCJsZWthciI6Mi41LCJsZWthcl92cyI6NzEuMSwic2VzdHJhIjoyLjcxMSwic2VzdHJhX3ZzIjo3Ni4zLCJjZWxrb3ZhIjoyLjQzNiwiY2Vsa292YV92cyI6NjEuNX0sIjIwMjQtSDIiOnsibiI6NDQsImxla2FyIjoyLjQ2NSwibGVrYXJfdnMiOjY3LjQsInNlc3RyYSI6Mi42NzQsInNlc3RyYV92cyI6NzYuNywiY2Vsa292YSI6Mi41LCJjZWxrb3ZhX3ZzIjo3MC41fSwiMjAyNS1IMSI6eyJuIjo0OSwibGVrYXIiOjIuNDksImxla2FyX3ZzIjo3My41LCJzZXN0cmEiOjIuNjI1LCJzZXN0cmFfdnMiOjc1LjAsImNlbGtvdmEiOjIuNTEsImNlbGtvdmFfdnMiOjcxLjR9LCIyMDI1LUgyIjp7Im4iOjUzLCJsZWthciI6Mi41ODUsImxla2FyX3ZzIjo3My42LCJzZXN0cmEiOjIuNjk4LCJzZXN0cmFfdnMiOjc5LjIsImNlbGtvdmEiOjIuNjIzLCJjZWxrb3ZhX3ZzIjo3MS43fX0sImNlbGtvdmFfdnNfYWxsIjo2OS4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuNTI0LCJjZWthbmlfYWxsIjp7Imx0Ijo4MC42LCJtIjoxMS4zLCJndCI6OC4xfX0sIkFrdXRuw60gaW50ZXJuw60gYW1idWxhbmNlIjp7InRvdGFsIjoxMDAsInllYXJzIjp7IjIwMjQiOnsibiI6NTIsImxla2FyIjoyLjUyLCJsZWthcl92cyI6NjguMCwic2VzdHJhIjoyLjc2NSwic2VzdHJhX3ZzIjo4MC40LCJjZWxrb3ZhIjoyLjUzOCwiY2Vsa292YV92cyI6NjkuMiwiY2VrYW5pIjp7Imx0Ijp7Im4iOjMyLCJwY3QiOjY0LjB9LCJtIjp7Im4iOjcsInBjdCI6MTQuMH0sImd0Ijp7Im4iOjExLCJwY3QiOjIyLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo2LCJwY3QiOjExLjV9LCJBS1VUTkkiOnsibiI6MzEsInBjdCI6NTkuNn0sIk5FIjp7Im4iOjE1LCJwY3QiOjI4Ljh9fX0sIjIwMjUiOnsibiI6NDgsImxla2FyIjoyLjYzOCwibGVrYXJfdnMiOjc4LjcsInNlc3RyYSI6Mi43MDIsInNlc3RyYV92cyI6NzguNywiY2Vsa292YSI6Mi42NjcsImNlbGtvdmFfdnMiOjc3LjEsImNla2FuaSI6eyJsdCI6eyJuIjozMywicGN0Ijo2OC44fSwibSI6eyJuIjo5LCJwY3QiOjE4Ljh9LCJndCI6eyJuIjo2LCJwY3QiOjEyLjV9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjozLCJwY3QiOjYuMn0sIkFLVVROSSI6eyJuIjozOCwicGN0Ijo3OS4yfSwiTkUiOnsibiI6NywicGN0IjoxNC42fX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo3My4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuNiwiY2VrYW5pX2FsbCI6eyJsdCI6NjYuMywibSI6MTYuMywiZ3QiOjE3LjN9fSwiQWt1dG7DrSBhbWJ1bGFuY2UgcHJvIGTEm3RpIGEgZG9yb3N0Ijp7InRvdGFsIjo5MiwieWVhcnMiOnsiMjAyNCI6eyJuIjo0NywibGVrYXIiOjIuNTY1LCJsZWthcl92cyI6NzMuOSwic2VzdHJhIjoyLjYzOCwic2VzdHJhX3ZzIjo3NC41LCJjZWxrb3ZhIjoyLjYxNywiY2Vsa292YV92cyI6NzYuNiwiY2VrYW5pIjp7Imx0Ijp7Im4iOjQ2LCJwY3QiOjk3Ljl9LCJtIjp7Im4iOjEsInBjdCI6Mi4xfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjozLCJwY3QiOjYuNX0sIkFLVVROSSI6eyJuIjozNSwicGN0Ijo3Ni4xfSwiTkUiOnsibiI6OCwicGN0IjoxNy40fX19LCIyMDI1Ijp7Im4iOjQ1LCJsZWthciI6Mi44MjIsImxla2FyX3ZzIjo4OC45LCJzZXN0cmEiOjIuODQ0LCJzZXN0cmFfdnMiOjkxLjEsImNlbGtvdmEiOjIuNzc4LCJjZWxrb3ZhX3ZzIjo4Ni43LCJjZWthbmkiOnsibHQiOnsibiI6NDAsInBjdCI6ODguOX0sIm0iOnsibiI6MywicGN0Ijo2Ljd9LCJndCI6eyJuIjoyLCJwY3QiOjQuNH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjQsInBjdCI6OC45fSwiQUtVVE5JIjp7Im4iOjMzLCJwY3QiOjczLjN9LCJORSI6eyJuIjo4LCJwY3QiOjE3Ljh9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjgxLjUsImNlbGtvdmFfYXZnX2FsbCI6Mi42OTYsImNla2FuaV9hbGwiOnsibHQiOjkzLjUsIm0iOjQuMywiZ3QiOjIuMn19LCJBbWJ1bGFuY2UgYW5lc3RlemllIjp7InRvdGFsIjowfSwiQW1idWxhbmNlIHBybyBsw6nEjWJ1IGJvbGVzdGkiOnsidG90YWwiOjQsInllYXJzIjp7IjIwMjQiOnsibiI6NCwibGVrYXIiOjIuNjY3LCJsZWthcl92cyI6NjYuNywic2VzdHJhIjoyLjI1LCJzZXN0cmFfdnMiOjUwLjAsImNlbGtvdmEiOjIuMjUsImNlbGtvdmFfdnMiOjUwLjAsImNla2FuaSI6eyJsdCI6eyJuIjowLCJwY3QiOjAuMH0sIm0iOnsibiI6MiwicGN0Ijo1MC4wfSwiZ3QiOnsibiI6MiwicGN0Ijo1MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MSwicGN0IjoyNS4wfSwiQUtVVE5JIjp7Im4iOjMsInBjdCI6NzUuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo1MC4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuMjUsImNla2FuaV9hbGwiOnsibHQiOjAuMCwibSI6NTAuMCwiZ3QiOjUwLjB9fSwiQW1idWxhbmNlIHJlaGFiaWxpdGFjZSBhIGZ5emlrw6FsbsOtIG1lZGljw61ueSAobMOpa2HFmSkiOnsidG90YWwiOjEzLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjgsImxla2FyIjoyLjcxNCwibGVrYXJfdnMiOjg1LjcsInNlc3RyYSI6My4wLCJzZXN0cmFfdnMiOjEwMC4wLCJjZWxrb3ZhIjoyLjc1LCJjZWxrb3ZhX3ZzIjo3NS4wLCJjZWthbmkiOnsibHQiOnsibiI6NywicGN0IjoxMDAuMH0sIm0iOnsibiI6MCwicGN0IjowLjB9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjgsInBjdCI6MTAwLjB9LCJBS1VUTkkiOnsibiI6MCwicGN0IjowLjB9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fSwiMjAyNSI6eyJuIjo1LCJsZWthciI6My4wLCJsZWthcl92cyI6MTAwLjAsInNlc3RyYSI6Mi44LCJzZXN0cmFfdnMiOjgwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo0LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NSwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo4NC42LCJjZWxrb3ZhX2F2Z19hbGwiOjIuODQ2LCJjZWthbmlfYWxsIjp7Imx0IjoxMDAuMCwibSI6MC4wLCJndCI6MC4wfX0sIkFtYnVsYW5jZSB6dWJuw61jaCBsw6lrYcWZxa8iOnsidG90YWwiOjMsInllYXJzIjp7IjIwMjQiOnsibiI6MywibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjEsInBjdCI6MzMuM30sIm0iOnsibiI6MSwicGN0IjozMy4zfSwiZ3QiOnsibiI6MSwicGN0IjozMy4zfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MSwicGN0IjozMy4zfSwiQUtVVE5JIjp7Im4iOjIsInBjdCI6NjYuN30sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjoxMDAuMCwiY2Vsa292YV9hdmdfYWxsIjozLjAsImNla2FuaV9hbGwiOnsibHQiOjMzLjMsIm0iOjMzLjMsImd0IjozMy4zfX0sIkRpYWJldG9sb2dpY2vDoSBhbWJ1bGFuY2UiOnsidG90YWwiOjE2LCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjEwLCJsZWthciI6My4wLCJsZWthcl92cyI6MTAwLjAsInNlc3RyYSI6My4wLCJzZXN0cmFfdnMiOjEwMC4wLCJjZWxrb3ZhIjozLjAsImNlbGtvdmFfdnMiOjEwMC4wLCJjZWthbmkiOnsibHQiOnsibiI6MTAsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo5LCJwY3QiOjkwLjB9LCJBS1VUTkkiOnsibiI6MSwicGN0IjoxMC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX0sIjIwMjUiOnsibiI6NiwibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjYsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo2LCJwY3QiOjEwMC4wfSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjEwMC4wLCJjZWxrb3ZhX2F2Z19hbGwiOjMuMCwiY2VrYW5pX2FsbCI6eyJsdCI6MTAwLjAsIm0iOjAuMCwiZ3QiOjAuMH19LCJHYXN0cm9lbnRlcm9sb2dpZSI6eyJ0b3RhbCI6MTE4LCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjU3LCJsZWthciI6Mi45NjUsImxla2FyX3ZzIjo5OC4yLCJzZXN0cmEiOjIuOTY1LCJzZXN0cmFfdnMiOjk2LjUsImNlbGtvdmEiOjIuOTQ3LCJjZWxrb3ZhX3ZzIjo5Ni41LCJjZWthbmkiOnsibHQiOnsibiI6NTMsInBjdCI6OTQuNn0sIm0iOnsibiI6MywicGN0Ijo1LjR9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjU3LCJwY3QiOjEwMC4wfSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX0sIjIwMjUiOnsibiI6NjEsImxla2FyIjoyLjg1MiwibGVrYXJfdnMiOjkxLjgsInNlc3RyYSI6Mi45MzMsInNlc3RyYV92cyI6OTUuMCwiY2Vsa292YSI6Mi44ODUsImNlbGtvdmFfdnMiOjkzLjQsImNla2FuaSI6eyJsdCI6eyJuIjo1NywicGN0Ijo5My40fSwibSI6eyJuIjo0LCJwY3QiOjYuNn0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NjAsInBjdCI6OTguNH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjEsInBjdCI6MS42fX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo5NC45LCJjZWxrb3ZhX2F2Z19hbGwiOjIuOTE1LCJjZWthbmlfYWxsIjp7Imx0Ijo5NC4wLCJtIjo2LjAsImd0IjowLjB9fSwiR3luZWtvbG9naWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjozNiwieWVhcnMiOnsiMjAyNCI6eyJuIjozMSwibGVrYXIiOjIuOSwibGVrYXJfdnMiOjkzLjMsInNlc3RyYSI6Mi45MDMsInNlc3RyYV92cyI6OTAuMywiY2Vsa292YSI6Mi44MzksImNlbGtvdmFfdnMiOjkwLjMsImNla2FuaSI6eyJsdCI6eyJuIjoyOCwicGN0Ijo5My4zfSwibSI6eyJuIjoxLCJwY3QiOjMuM30sImd0Ijp7Im4iOjEsInBjdCI6My4zfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MjMsInBjdCI6NzQuMn0sIkFLVVROSSI6eyJuIjo2LCJwY3QiOjE5LjR9LCJORSI6eyJuIjoyLCJwY3QiOjYuNX19fSwiMjAyNSI6eyJuIjo1LCJsZWthciI6Mi44LCJsZWthcl92cyI6ODAuMCwic2VzdHJhIjoyLjgsInNlc3RyYV92cyI6ODAuMCwiY2Vsa292YSI6Mi44LCJjZWxrb3ZhX3ZzIjo4MC4wLCJjZWthbmkiOnsibHQiOnsibiI6NCwicGN0Ijo4MC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjEsInBjdCI6MjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjMsInBjdCI6NjAuMH0sIkFLVVROSSI6eyJuIjoyLCJwY3QiOjQwLjB9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6ODguOSwiY2Vsa292YV9hdmdfYWxsIjoyLjgzMywiY2VrYW5pX2FsbCI6eyJsdCI6OTEuNCwibSI6Mi45LCJndCI6NS43fX0sIkthcmRpb2xvZ2lja8OhIGFtYnVsYW5jZSI6eyJ0b3RhbCI6NDAsInllYXJzIjp7IjIwMjQiOnsibiI6MjUsImxla2FyIjoyLjg4LCJsZWthcl92cyI6OTIuMCwic2VzdHJhIjoyLjkyLCJzZXN0cmFfdnMiOjkyLjAsImNlbGtvdmEiOjIuODgsImNlbGtvdmFfdnMiOjkyLjAsImNla2FuaSI6eyJsdCI6eyJuIjoyMywicGN0Ijo5NS44fSwibSI6eyJuIjoxLCJwY3QiOjQuMn0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MjUsInBjdCI6MTAwLjB9LCJBS1VUTkkiOnsibiI6MCwicGN0IjowLjB9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fSwiMjAyNSI6eyJuIjoxNSwibGVrYXIiOjIuODY3LCJsZWthcl92cyI6OTMuMywic2VzdHJhIjoyLjkzMywic2VzdHJhX3ZzIjo5My4zLCJjZWxrb3ZhIjoyLjg2NywiY2Vsa292YV92cyI6ODYuNywiY2VrYW5pIjp7Imx0Ijp7Im4iOjE1LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MTQsInBjdCI6OTMuM30sIkFLVVROSSI6eyJuIjoxLCJwY3QiOjYuN30sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo5MC4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuODc1LCJjZWthbmlfYWxsIjp7Imx0Ijo5Ny40LCJtIjoyLjYsImd0IjowLjB9fSwiTMOpa2HFmXNrw6EgcG9ob3Rvdm9zdCBwcm8gZG9zcMSbbMOpIjp7InRvdGFsIjoxMDMsInllYXJzIjp7IjIwMjQiOnsibiI6NDksImxla2FyIjoyLjYwNCwibGVrYXJfdnMiOjc5LjIsInNlc3RyYSI6Mi43NzEsInNlc3RyYV92cyI6ODUuNCwiY2Vsa292YSI6Mi41MSwiY2Vsa292YV92cyI6NzMuNSwiY2VrYW5pIjp7Imx0Ijp7Im4iOjM0LCJwY3QiOjczLjl9LCJtIjp7Im4iOjgsInBjdCI6MTcuNH0sImd0Ijp7Im4iOjQsInBjdCI6OC43fX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MCwicGN0IjowLjB9LCJBS1VUTkkiOnsibiI6NDAsInBjdCI6ODEuNn0sIk5FIjp7Im4iOjksInBjdCI6MTguNH19fSwiMjAyNSI6eyJuIjo1NCwibGVrYXIiOjIuNTkzLCJsZWthcl92cyI6NzcuOCwic2VzdHJhIjoyLjY2Nywic2VzdHJhX3ZzIjo3Ny44LCJjZWxrb3ZhIjoyLjU5MywiY2Vsa292YV92cyI6NzcuOCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjM3LCJwY3QiOjY5Ljh9LCJtIjp7Im4iOjE1LCJwY3QiOjI4LjN9LCJndCI6eyJuIjoxLCJwY3QiOjEuOX19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjAsInBjdCI6MC4wfSwiQUtVVE5JIjp7Im4iOjQ4LCJwY3QiOjg4Ljl9LCJORSI6eyJuIjo2LCJwY3QiOjExLjF9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjc1LjcsImNlbGtvdmFfYXZnX2FsbCI6Mi41NTMsImNla2FuaV9hbGwiOnsibHQiOjcxLjcsIm0iOjIzLjIsImd0Ijo1LjF9fSwiTWFnbmV0aWNrw6EgcmV6b25hbmNlLCBDVCI6eyJ0b3RhbCI6MTUsInllYXJzIjp7IjIwMjQiOnsibiI6MTAsImxla2FyIjoyLjYyNSwibGVrYXJfdnMiOjYyLjUsInNlc3RyYSI6Mi42NjcsInNlc3RyYV92cyI6NzcuOCwiY2Vsa292YSI6Mi44LCJjZWxrb3ZhX3ZzIjo4MC4wLCJjZWthbmkiOnsibHQiOnsibiI6NywicGN0Ijo3Ny44fSwibSI6eyJuIjoxLCJwY3QiOjExLjF9LCJndCI6eyJuIjoxLCJwY3QiOjExLjF9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoxMCwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19LCIyMDI1Ijp7Im4iOjUsImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjozLjAsInNlc3RyYV92cyI6MTAwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjozLCJwY3QiOjYwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MiwicGN0Ijo0MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MywicGN0Ijo2MC4wfSwiQUtVVE5JIjp7Im4iOjIsInBjdCI6NDAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo4Ni43LCJjZWxrb3ZhX2F2Z19hbGwiOjIuODY3LCJjZWthbmlfYWxsIjp7Imx0Ijo3MS40LCJtIjo3LjEsImd0IjoyMS40fX0sIk5ldXJvbG9naWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjo4MCwieWVhcnMiOnsiMjAyNCI6eyJuIjozNiwibGVrYXIiOjIuNjExLCJsZWthcl92cyI6NzUuMCwic2VzdHJhIjoyLjQ1Nywic2VzdHJhX3ZzIjo2NS43LCJjZWxrb3ZhIjoyLjU1NiwiY2Vsa292YV92cyI6NjkuNCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjI2LCJwY3QiOjc2LjV9LCJtIjp7Im4iOjUsInBjdCI6MTQuN30sImd0Ijp7Im4iOjMsInBjdCI6OC44fX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MTksInBjdCI6NTIuOH0sIkFLVVROSSI6eyJuIjoxMywicGN0IjozNi4xfSwiTkUiOnsibiI6NCwicGN0IjoxMS4xfX19LCIyMDI1Ijp7Im4iOjQ0LCJsZWthciI6Mi43ODYsImxla2FyX3ZzIjo4NS43LCJzZXN0cmEiOjIuNjI4LCJzZXN0cmFfdnMiOjc2LjcsImNlbGtvdmEiOjIuNjU5LCJjZWxrb3ZhX3ZzIjo3OS41LCJjZWthbmkiOnsibHQiOnsibiI6NDAsInBjdCI6OTAuOX0sIm0iOnsibiI6MCwicGN0IjowLjB9LCJndCI6eyJuIjo0LCJwY3QiOjkuMX19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjEzLCJwY3QiOjI5LjV9LCJBS1VUTkkiOnsibiI6MjUsInBjdCI6NTYuOH0sIk5FIjp7Im4iOjYsInBjdCI6MTMuNn19fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6NzUuMCwiY2Vsa292YV9hdmdfYWxsIjoyLjYxMiwiY2VrYW5pX2FsbCI6eyJsdCI6ODQuNiwibSI6Ni40LCJndCI6OS4wfX0sIk51a2xlw6FybsOtIG1lZGljw61uYSI6eyJ0b3RhbCI6NzUsInllYXJzIjp7IjIwMjQiOnsibiI6NjIsImxla2FyIjoyLjk4MywibGVrYXJfdnMiOjk4LjMsInNlc3RyYSI6My4wLCJzZXN0cmFfdnMiOjEwMC4wLCJjZWxrb3ZhIjoyLjk4NCwiY2Vsa292YV92cyI6OTguNCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjU0LCJwY3QiOjk4LjJ9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MSwicGN0IjoxLjh9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo1NiwicGN0Ijo5MS44fSwiQUtVVE5JIjp7Im4iOjEsInBjdCI6MS42fSwiTkUiOnsibiI6NCwicGN0Ijo2LjZ9fX0sIjIwMjUiOnsibiI6MTMsImxla2FyIjoyLjY5MiwibGVrYXJfdnMiOjc2LjksInNlc3RyYSI6Mi44NDYsInNlc3RyYV92cyI6ODQuNiwiY2Vsa292YSI6Mi44MzMsImNlbGtvdmFfdnMiOjkxLjcsImNla2FuaSI6eyJsdCI6eyJuIjoxMiwicGN0IjoxMDAuMH0sIm0iOnsibiI6MCwicGN0IjowLjB9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjExLCJwY3QiOjkxLjd9LCJBS1VUTkkiOnsibiI6MSwicGN0Ijo4LjN9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6OTcuMywiY2Vsa292YV9hdmdfYWxsIjoyLjk1OSwiY2VrYW5pX2FsbCI6eyJsdCI6OTguNSwibSI6MC4wLCJndCI6MS41fX0sIk/EjW7DrSBhbWJ1bGFuY2UiOnsidG90YWwiOjI1NiwieWVhcnMiOnsiMjAyNCI6eyJuIjoxMzUsImxla2FyIjoyLjg1NywibGVrYXJfdnMiOjg4LjcsInNlc3RyYSI6Mi44NDgsInNlc3RyYV92cyI6ODcuOSwiY2Vsa292YSI6Mi44NTksImNlbGtvdmFfdnMiOjg4LjEsImNla2FuaSI6eyJsdCI6eyJuIjo5MiwicGN0Ijo2OS4yfSwibSI6eyJuIjoyNSwicGN0IjoxOC44fSwiZ3QiOnsibiI6MTYsInBjdCI6MTIuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjg4LCJwY3QiOjY1Ljd9LCJBS1VUTkkiOnsibiI6MzQsInBjdCI6MjUuNH0sIk5FIjp7Im4iOjEyLCJwY3QiOjkuMH19fSwiMjAyNSI6eyJuIjoxMjEsImxla2FyIjoyLjkzMywibGVrYXJfdnMiOjk1LjgsInNlc3RyYSI6Mi45MDgsInNlc3RyYV92cyI6OTEuNiwiY2Vsa292YSI6Mi45MTcsImNlbGtvdmFfdnMiOjkxLjcsImNla2FuaSI6eyJsdCI6eyJuIjo4NywicGN0Ijo3Mi41fSwibSI6eyJuIjoyMSwicGN0IjoxNy41fSwiZ3QiOnsibiI6MTIsInBjdCI6MTAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjU1LCJwY3QiOjQ2LjJ9LCJBS1VUTkkiOnsibiI6NDQsInBjdCI6MzcuMH0sIk5FIjp7Im4iOjIwLCJwY3QiOjE2Ljh9fX19LCJwZXJpb2RzIjp7IjIwMjQtSDEiOnsibiI6NjYsImxla2FyIjoyLjc2OSwibGVrYXJfdnMiOjgzLjEsInNlc3RyYSI6Mi44LCJzZXN0cmFfdnMiOjgzLjEsImNlbGtvdmEiOjIuNzg4LCJjZWxrb3ZhX3ZzIjo4My4zfSwiMjAyNC1IMiI6eyJuIjo2OCwibGVrYXIiOjIuOTQsImxla2FyX3ZzIjo5NC4wLCJzZXN0cmEiOjIuODk0LCJzZXN0cmFfdnMiOjkyLjQsImNlbGtvdmEiOjIuOTI2LCJjZWxrb3ZhX3ZzIjo5Mi42fSwiMjAyNS1IMSI6eyJuIjo2MCwibGVrYXIiOjIuOTMzLCJsZWthcl92cyI6OTYuNywic2VzdHJhIjoyLjkxNywic2VzdHJhX3ZzIjo5MS43LCJjZWxrb3ZhIjoyLjkzMywiY2Vsa292YV92cyI6OTMuM30sIjIwMjUtSDIiOnsibiI6NjEsImxla2FyIjoyLjkzMiwibGVrYXJfdnMiOjk0LjksInNlc3RyYSI6Mi44OTgsInNlc3RyYV92cyI6OTEuNSwiY2Vsa292YSI6Mi45MDIsImNlbGtvdmFfdnMiOjkwLjJ9fSwiY2Vsa292YV92c19hbGwiOjg5LjgsImNlbGtvdmFfYXZnX2FsbCI6Mi44ODcsImNla2FuaV9hbGwiOnsibHQiOjcwLjgsIm0iOjE4LjIsImd0IjoxMS4xfX0sIk9STCBhbWJ1bGFuY2UiOnsidG90YWwiOjMxLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjI0LCJsZWthciI6Mi42NjcsImxla2FyX3ZzIjo3OS4yLCJzZXN0cmEiOjIuODc1LCJzZXN0cmFfdnMiOjg3LjUsImNlbGtvdmEiOjIuNzkyLCJjZWxrb3ZhX3ZzIjo4My4zLCJjZWthbmkiOnsibHQiOnsibiI6MTksInBjdCI6NzkuMn0sIm0iOnsibiI6NSwicGN0IjoyMC44fSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoxNCwicGN0Ijo1OC4zfSwiQUtVVE5JIjp7Im4iOjEwLCJwY3QiOjQxLjd9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fSwiMjAyNSI6eyJuIjo3LCJsZWthciI6My4wLCJsZWthcl92cyI6MTAwLjAsInNlc3RyYSI6My4wLCJzZXN0cmFfdnMiOjEwMC4wLCJjZWxrb3ZhIjoyLjcxNCwiY2Vsa292YV92cyI6NzEuNCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjcsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoyLCJwY3QiOjI4LjZ9LCJBS1VUTkkiOnsibiI6MywicGN0Ijo0Mi45fSwiTkUiOnsibiI6MiwicGN0IjoyOC42fX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo4MC42LCJjZWxrb3ZhX2F2Z19hbGwiOjIuNzc0LCJjZWthbmlfYWxsIjp7Imx0Ijo4My45LCJtIjoxNi4xLCJndCI6MC4wfX0sIk9ydG9wZWRpY2vDoSBhbWJ1bGFuY2UiOnsidG90YWwiOjE1OCwieWVhcnMiOnsiMjAyNCI6eyJuIjo4OSwibGVrYXIiOjIuODE4LCJsZWthcl92cyI6ODguNiwic2VzdHJhIjoyLjc2MSwic2VzdHJhX3ZzIjo4MS44LCJjZWxrb3ZhIjoyLjc0MiwiY2Vsa292YV92cyI6ODAuOSwiY2VrYW5pIjp7Imx0Ijp7Im4iOjY4LCJwY3QiOjc3LjN9LCJtIjp7Im4iOjIwLCJwY3QiOjIyLjd9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjgyLCJwY3QiOjkyLjF9LCJBS1VUTkkiOnsibiI6MSwicGN0IjoxLjF9LCJORSI6eyJuIjo2LCJwY3QiOjYuN319fSwiMjAyNSI6eyJuIjo2OSwibGVrYXIiOjIuODk3LCJsZWthcl92cyI6OTIuNiwic2VzdHJhIjoyLjg1Mywic2VzdHJhX3ZzIjo4OC4yLCJjZWxrb3ZhIjoyLjg4NCwiY2Vsa292YV92cyI6ODkuOSwiY2VrYW5pIjp7Imx0Ijp7Im4iOjYxLCJwY3QiOjkxLjB9LCJtIjp7Im4iOjIsInBjdCI6My4wfSwiZ3QiOnsibiI6NCwicGN0Ijo2LjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo1NywicGN0Ijo4Ni40fSwiQUtVVE5JIjp7Im4iOjQsInBjdCI6Ni4xfSwiTkUiOnsibiI6NSwicGN0Ijo3LjZ9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjg0LjgsImNlbGtvdmFfYXZnX2FsbCI6Mi44MDQsImNla2FuaV9hbGwiOnsibHQiOjgzLjIsIm0iOjE0LjIsImd0IjoyLjZ9fSwiUGxpY27DrSBhbWJ1bGFuY2UiOnsidG90YWwiOjE3LCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjExLCJsZWthciI6Mi44MTgsImxla2FyX3ZzIjo5MC45LCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6Mi44MTgsImNlbGtvdmFfdnMiOjkwLjksImNla2FuaSI6eyJsdCI6eyJuIjoxMCwicGN0IjoxMDAuMH0sIm0iOnsibiI6MCwicGN0IjowLjB9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjExLCJwY3QiOjEwMC4wfSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX0sIjIwMjUiOnsibiI6NiwibGVrYXIiOjIuNjY3LCJsZWthcl92cyI6ODMuMywic2VzdHJhIjoyLjY2Nywic2VzdHJhX3ZzIjo4My4zLCJjZWxrb3ZhIjoyLjY2NywiY2Vsa292YV92cyI6ODMuMywiY2VrYW5pIjp7Imx0Ijp7Im4iOjYsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo2LCJwY3QiOjEwMC4wfSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjg4LjIsImNlbGtvdmFfYXZnX2FsbCI6Mi43NjUsImNla2FuaV9hbGwiOnsibHQiOjEwMC4wLCJtIjowLjAsImd0IjowLjB9fSwiUG9yYWRuYSBrw71sbsOtIjp7InRvdGFsIjozLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjIsImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjozLjAsInNlc3RyYV92cyI6MTAwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjoyLCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MiwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19LCIyMDI1Ijp7Im4iOjEsImNla2FuaSI6eyJsdCI6eyJuIjoxLCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MSwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjoxMDAuMCwiY2Vsa292YV9hdmdfYWxsIjozLjAsImNla2FuaV9hbGwiOnsibHQiOjEwMC4wLCJtIjowLjAsImd0IjowLjB9fSwiUG9yYWRuYSBzdG9taWNrw6EiOnsidG90YWwiOjB9LCJQb3JhZG5hIGhvamVuw60gcmFuIjp7InRvdGFsIjoyLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjIsImxla2FyIjoyLjAsImxla2FyX3ZzIjo1MC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6Mi4wLCJjZWxrb3ZhX3ZzIjo1MC4wLCJjZWthbmkiOnsibHQiOnsibiI6MiwicGN0IjoxMDAuMH0sIm0iOnsibiI6MCwicGN0IjowLjB9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjEsInBjdCI6NTAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjEsInBjdCI6NTAuMH19fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6NTAuMCwiY2Vsa292YV9hdmdfYWxsIjoyLjAsImNla2FuaV9hbGwiOnsibHQiOjEwMC4wLCJtIjowLjAsImd0IjowLjB9fSwiUG9yYWRuYSBjw6l2bsOtIjp7InRvdGFsIjoyMCwieWVhcnMiOnsiMjAyNCI6eyJuIjoxMiwibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjExLCJwY3QiOjkxLjd9LCJtIjp7Im4iOjEsInBjdCI6OC4zfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoxMSwicGN0Ijo5MS43fSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MSwicGN0Ijo4LjN9fX0sIjIwMjUiOnsibiI6OCwibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6Mi44NzUsImNlbGtvdmFfdnMiOjg3LjUsImNla2FuaSI6eyJsdCI6eyJuIjo3LCJwY3QiOjg3LjV9LCJtIjp7Im4iOjEsInBjdCI6MTIuNX0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6OCwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo5NS4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuOTUsImNla2FuaV9hbGwiOnsibHQiOjkwLjAsIm0iOjEwLjAsImd0IjowLjB9fSwiUG9yYWRuYSBtYW3DoXJuw60iOnsidG90YWwiOjQsInllYXJzIjp7IjIwMjQiOnsibiI6NCwibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjMsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo0LCJwY3QiOjEwMC4wfSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX19LCJwZXJpb2RzIjp7fSwiY2Vsa292YV92c19hbGwiOjEwMC4wLCJjZWxrb3ZhX2F2Z19hbGwiOjMuMCwiY2VrYW5pX2FsbCI6eyJsdCI6MTAwLjAsIm0iOjAuMCwiZ3QiOjAuMH19LCJQcmFjb3ZpxaF0xJsga2xpbmlja8OpIG9ua29sb2dpZSwgb25rb2xvZ2lja8O9IHN0YWNpb27DocWZIjp7InRvdGFsIjoxNywieWVhcnMiOnsiMjAyNCI6eyJuIjoxMSwibGVrYXIiOjIuOCwibGVrYXJfdnMiOjkwLjAsInNlc3RyYSI6Mi44MTgsInNlc3RyYV92cyI6ODEuOCwiY2Vsa292YSI6Mi42MzYsImNlbGtvdmFfdnMiOjcyLjcsImNla2FuaSI6eyJsdCI6eyJuIjo4LCJwY3QiOjcyLjd9LCJtIjp7Im4iOjMsInBjdCI6MjcuM30sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MTEsInBjdCI6MTAwLjB9LCJBS1VUTkkiOnsibiI6MCwicGN0IjowLjB9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fSwiMjAyNSI6eyJuIjo2LCJsZWthciI6Mi42NjcsImxla2FyX3ZzIjo4My4zLCJzZXN0cmEiOjIuOCwic2VzdHJhX3ZzIjo4MC4wLCJjZWxrb3ZhIjoyLjYsImNlbGtvdmFfdnMiOjgwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo0LCJwY3QiOjY2Ljd9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MiwicGN0IjozMy4zfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NiwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo3NS4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuNjI1LCJjZWthbmlfYWxsIjp7Imx0Ijo3MC42LCJtIjoxNy42LCJndCI6MTEuOH19LCJQcmFrdGlja8O9IGzDqWthxZkgcHJvIGTEm3RpIGEgZG9yb3N0Ijp7InRvdGFsIjoxNCwieWVhcnMiOnsiMjAyNCI6eyJuIjo3LCJsZWthciI6My4wLCJsZWthcl92cyI6MTAwLjAsInNlc3RyYSI6Mi44NTcsInNlc3RyYV92cyI6ODUuNywiY2Vsa292YSI6Mi43MTQsImNlbGtvdmFfdnMiOjg1LjcsImNla2FuaSI6eyJsdCI6eyJuIjo3LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NCwicGN0Ijo1Ny4xfSwiQUtVVE5JIjp7Im4iOjEsInBjdCI6MTQuM30sIk5FIjp7Im4iOjIsInBjdCI6MjguNn19fSwiMjAyNSI6eyJuIjo3LCJsZWthciI6My4wLCJsZWthcl92cyI6MTAwLjAsInNlc3RyYSI6Mi44NTcsInNlc3RyYV92cyI6ODUuNywiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjcsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjoxLCJwY3QiOjE2Ljd9LCJBS1VUTkkiOnsibiI6MiwicGN0IjozMy4zfSwiTkUiOnsibiI6MywicGN0Ijo1MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo5Mi45LCJjZWxrb3ZhX2F2Z19hbGwiOjIuODU3LCJjZWthbmlfYWxsIjp7Imx0IjoxMDAuMCwibSI6MC4wLCJndCI6MC4wfX0sIlByZW5hdMOhbG7DrSBwb3JhZG5hIjp7InRvdGFsIjowfSwiUHJva3RvbG9naWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjoxMCwieWVhcnMiOnsiMjAyNCI6eyJuIjo0LCJsZWthciI6MS43NSwibGVrYXJfdnMiOjI1LjAsInNlc3RyYSI6Mi43NSwic2VzdHJhX3ZzIjo3NS4wLCJjZWxrb3ZhIjoyLjAsImNlbGtvdmFfdnMiOjUwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo0LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NCwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19LCIyMDI1Ijp7Im4iOjYsImxla2FyIjoxLjY2NywibGVrYXJfdnMiOjMzLjMsInNlc3RyYSI6Mi4wLCJzZXN0cmFfdnMiOjUwLjAsImNlbGtvdmEiOjEuNjY3LCJjZWxrb3ZhX3ZzIjozMy4zLCJjZWthbmkiOnsibHQiOnsibiI6NSwicGN0Ijo4My4zfSwibSI6eyJuIjoxLCJwY3QiOjE2Ljd9LCJndCI6eyJuIjowLCJwY3QiOjAuMH19LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjYsInBjdCI6MTAwLjB9LCJBS1VUTkkiOnsibiI6MCwicGN0IjowLjB9LCJORSI6eyJuIjowLCJwY3QiOjAuMH19fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6NDAuMCwiY2Vsa292YV9hdmdfYWxsIjoxLjgsImNla2FuaV9hbGwiOnsibHQiOjkwLjAsIm0iOjEwLjAsImd0IjowLjB9fSwiUmVoYWJpbGl0YWNlIOKAkyBjdmnEjWVuw60gKGZ5emlvdGVyYXBldXQpIjp7InRvdGFsIjoxMCwieWVhcnMiOnsiMjAyNCI6eyJuIjo2LCJsZWthciI6Mi40LCJsZWthcl92cyI6NjAuMCwic2VzdHJhIjoyLjAsInNlc3RyYV92cyI6MjUuMCwiY2Vsa292YSI6Mi4zMzMsImNlbGtvdmFfdnMiOjUwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo0LCJwY3QiOjgwLjB9LCJtIjp7Im4iOjEsInBjdCI6MjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NCwicGN0Ijo2Ni43fSwiQUtVVE5JIjp7Im4iOjAsInBjdCI6MC4wfSwiTkUiOnsibiI6MiwicGN0IjozMy4zfX19LCIyMDI1Ijp7Im4iOjQsImxla2FyIjoyLjc1LCJsZWthcl92cyI6NzUuMCwic2VzdHJhIjoyLjc1LCJzZXN0cmFfdnMiOjc1LjAsImNlbGtvdmEiOjIuNzUsImNlbGtvdmFfdnMiOjc1LjAsImNla2FuaSI6eyJsdCI6eyJuIjozLCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NCwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo2MC4wLCJjZWxrb3ZhX2F2Z19hbGwiOjIuNSwiY2VrYW5pX2FsbCI6eyJsdCI6ODcuNSwibSI6MTIuNSwiZ3QiOjAuMH19LCJSVEciOnsidG90YWwiOjEzLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjcsImxla2FyIjoyLjI4NiwibGVrYXJfdnMiOjU3LjEsInNlc3RyYSI6Mi4xNDMsInNlc3RyYV92cyI6MjguNiwiY2Vsa292YSI6Mi4wLCJjZWxrb3ZhX3ZzIjo0Mi45LCJjZWthbmkiOnsibHQiOnsibiI6NSwicGN0Ijo3MS40fSwibSI6eyJuIjoxLCJwY3QiOjE0LjN9LCJndCI6eyJuIjoxLCJwY3QiOjE0LjN9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo1LCJwY3QiOjcxLjR9LCJBS1VUTkkiOnsibiI6MiwicGN0IjoyOC42fSwiTkUiOnsibiI6MCwicGN0IjowLjB9fX0sIjIwMjUiOnsibiI6NiwibGVrYXIiOjMuMCwibGVrYXJfdnMiOjEwMC4wLCJzZXN0cmEiOjMuMCwic2VzdHJhX3ZzIjoxMDAuMCwiY2Vsa292YSI6My4wLCJjZWxrb3ZhX3ZzIjoxMDAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjYsInBjdCI6MTAwLjB9LCJtIjp7Im4iOjAsInBjdCI6MC4wfSwiZ3QiOnsibiI6MCwicGN0IjowLjB9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjozLCJwY3QiOjUwLjB9LCJBS1VUTkkiOnsibiI6MiwicGN0IjozMy4zfSwiTkUiOnsibiI6MSwicGN0IjoxNi43fX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjo2OS4yLCJjZWxrb3ZhX2F2Z19hbGwiOjIuNDYyLCJjZWthbmlfYWxsIjp7Imx0Ijo4NC42LCJtIjo3LjcsImd0Ijo3Ljd9fSwiVXJvbG9naWNrw6EgYW1idWxhbmNlIjp7InRvdGFsIjoxNTAsInllYXJzIjp7IjIwMjQiOnsibiI6NzUsImxla2FyIjoyLjk0NywibGVrYXJfdnMiOjk0LjcsInNlc3RyYSI6Mi45MDUsInNlc3RyYV92cyI6OTEuOSwiY2Vsa292YSI6Mi45MzMsImNlbGtvdmFfdnMiOjkzLjMsImNla2FuaSI6eyJsdCI6eyJuIjo2NSwicGN0Ijo4Ni43fSwibSI6eyJuIjo4LCJwY3QiOjEwLjd9LCJndCI6eyJuIjoyLCJwY3QiOjIuN319LCJvYmplZG5hbmkiOnsiQU5PIjp7Im4iOjU1LCJwY3QiOjczLjN9LCJBS1VUTkkiOnsibiI6MTUsInBjdCI6MjAuMH0sIk5FIjp7Im4iOjUsInBjdCI6Ni43fX19LCIyMDI1Ijp7Im4iOjc1LCJsZWthciI6Mi45MDcsImxla2FyX3ZzIjo5NC43LCJzZXN0cmEiOjIuOTQ2LCJzZXN0cmFfdnMiOjk0LjYsImNlbGtvdmEiOjIuOTIsImNlbGtvdmFfdnMiOjk0LjcsImNla2FuaSI6eyJsdCI6eyJuIjo3MCwicGN0Ijo5NC42fSwibSI6eyJuIjo0LCJwY3QiOjUuNH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NTYsInBjdCI6NzQuN30sIkFLVVROSSI6eyJuIjoxNSwicGN0IjoyMC4wfSwiTkUiOnsibiI6NCwicGN0Ijo1LjN9fX19LCJwZXJpb2RzIjp7IjIwMjQtSDEiOnsibiI6MzYsImxla2FyIjoyLjk0NCwibGVrYXJfdnMiOjk0LjQsInNlc3RyYSI6Mi45NzIsInNlc3RyYV92cyI6OTcuMiwiY2Vsa292YSI6Mi45NDQsImNlbGtvdmFfdnMiOjk0LjR9LCIyMDI0LUgyIjp7Im4iOjM4LCJsZWthciI6Mi45NDcsImxla2FyX3ZzIjo5NC43LCJzZXN0cmEiOjIuODY1LCJzZXN0cmFfdnMiOjg5LjIsImNlbGtvdmEiOjIuOTQ3LCJjZWxrb3ZhX3ZzIjo5NC43fSwiMjAyNS1IMSI6eyJuIjo0MywibGVrYXIiOjIuODM3LCJsZWthcl92cyI6OTAuNywic2VzdHJhIjoyLjk3Niwic2VzdHJhX3ZzIjo5Ny42LCJjZWxrb3ZhIjoyLjg4NCwiY2Vsa292YV92cyI6OTMuMH0sIjIwMjUtSDIiOnsibiI6MzIsImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjoyLjkwNiwic2VzdHJhX3ZzIjo5MC42LCJjZWxrb3ZhIjoyLjk2OSwiY2Vsa292YV92cyI6OTYuOX19LCJjZWxrb3ZhX3ZzX2FsbCI6OTQuMCwiY2Vsa292YV9hdmdfYWxsIjoyLjkyNywiY2VrYW5pX2FsbCI6eyJsdCI6OTAuNiwibSI6OC4xLCJndCI6MS4zfX0sIlbFoWVvYmVjbsOhIGNoaXJ1cmdpY2vDoSBhbWJ1bGFuY2UiOnsidG90YWwiOjMwLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjE1LCJsZWthciI6Mi45MzMsImxla2FyX3ZzIjo5My4zLCJzZXN0cmEiOjIuODY3LCJzZXN0cmFfdnMiOjkzLjMsImNlbGtvdmEiOjIuODY3LCJjZWxrb3ZhX3ZzIjo5My4zLCJjZWthbmkiOnsibHQiOnsibiI6MTIsInBjdCI6ODAuMH0sIm0iOnsibiI6MiwicGN0IjoxMy4zfSwiZ3QiOnsibiI6MSwicGN0Ijo2Ljd9fSwib2JqZWRuYW5pIjp7IkFOTyI6eyJuIjo5LCJwY3QiOjYwLjB9LCJBS1VUTkkiOnsibiI6MSwicGN0Ijo2Ljd9LCJORSI6eyJuIjo1LCJwY3QiOjMzLjN9fX0sIjIwMjUiOnsibiI6MTUsImxla2FyIjoyLjYsImxla2FyX3ZzIjo4MC4wLCJzZXN0cmEiOjIuNjY3LCJzZXN0cmFfdnMiOjczLjMsImNlbGtvdmEiOjIuNiwiY2Vsa292YV92cyI6ODAuMCwiY2VrYW5pIjp7Imx0Ijp7Im4iOjEzLCJwY3QiOjg2Ljd9LCJtIjp7Im4iOjIsInBjdCI6MTMuM30sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MTAsInBjdCI6NjYuN30sIkFLVVROSSI6eyJuIjo0LCJwY3QiOjI2Ljd9LCJORSI6eyJuIjoxLCJwY3QiOjYuN319fX0sInBlcmlvZHMiOnt9LCJjZWxrb3ZhX3ZzX2FsbCI6ODYuNywiY2Vsa292YV9hdmdfYWxsIjoyLjczMywiY2VrYW5pX2FsbCI6eyJsdCI6ODMuMywibSI6MTMuMywiZ3QiOjMuM319LCJWxaFlb2JlY27DoSBpbnRlcm7DrSBhbWJ1bGFuY2UiOnsidG90YWwiOjE1LCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjksImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjozLjAsInNlc3RyYV92cyI6MTAwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo5LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6OSwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19LCIyMDI1Ijp7Im4iOjYsImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjozLjAsInNlc3RyYV92cyI6MTAwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjo1LCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6NiwicGN0IjoxMDAuMH0sIkFLVVROSSI6eyJuIjowLCJwY3QiOjAuMH0sIk5FIjp7Im4iOjAsInBjdCI6MC4wfX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjoxMDAuMCwiY2Vsa292YV9hdmdfYWxsIjozLjAsImNla2FuaV9hbGwiOnsibHQiOjEwMC4wLCJtIjowLjAsImd0IjowLjB9fSwiVsWhZW9iZWNuw70gcHJha3RpY2vDvSBsw6lrYcWZIjp7InRvdGFsIjozLCJ5ZWFycyI6eyIyMDI0Ijp7Im4iOjMsImxla2FyIjozLjAsImxla2FyX3ZzIjoxMDAuMCwic2VzdHJhIjozLjAsInNlc3RyYV92cyI6MTAwLjAsImNlbGtvdmEiOjMuMCwiY2Vsa292YV92cyI6MTAwLjAsImNla2FuaSI6eyJsdCI6eyJuIjozLCJwY3QiOjEwMC4wfSwibSI6eyJuIjowLCJwY3QiOjAuMH0sImd0Ijp7Im4iOjAsInBjdCI6MC4wfX0sIm9iamVkbmFuaSI6eyJBTk8iOnsibiI6MCwicGN0IjowLjB9LCJBS1VUTkkiOnsibiI6MSwicGN0IjozMy4zfSwiTkUiOnsibiI6MiwicGN0Ijo2Ni43fX19fSwicGVyaW9kcyI6e30sImNlbGtvdmFfdnNfYWxsIjoxMDAuMCwiY2Vsa292YV9hdmdfYWxsIjozLjAsImNla2FuaV9hbGwiOnsibHQiOjEwMC4wLCJtIjowLjAsImd0IjowLjB9fX0sImhvc3AiOnsieWVhcnMiOnsiMjAyNCI6eyJsZWthciI6eyJ2cyI6ODUuMCwiYXZnIjoyLjc2NSwibiI6MTEwN30sInNlc3RyYSI6eyJ2cyI6ODUuNiwiYXZnIjoyLjgwNywibiI6MTExM30sImNlbGtvdmEiOnsidnMiOjgyLjUsImF2ZyI6Mi43NCwibiI6MTE0Mn19LCIyMDI1Ijp7Imxla2FyIjp7InZzIjo4Ny4wLCJhdmciOjIuNzg1LCJuIjo5MzR9LCJzZXN0cmEiOnsidnMiOjg2LjYsImF2ZyI6Mi44MTQsIm4iOjkzM30sImNlbGtvdmEiOnsidnMiOjg1LjcsImF2ZyI6Mi43OCwibiI6OTQyfX19LCJwZXJpb2RzIjp7IjIwMjQtSDEiOnsibGVrYXIiOnsidnMiOjg0LjMsImF2ZyI6Mi43NTUsIm4iOjUyN30sInNlc3RyYSI6eyJ2cyI6ODQuMywiYXZnIjoyLjc5NywibiI6NTI4fSwiY2Vsa292YSI6eyJ2cyI6ODEuMywiYXZnIjoyLjczMywibiI6NTM2fX0sIjIwMjQtSDIiOnsibGVrYXIiOnsidnMiOjg2LjMsImF2ZyI6Mi43OCwibiI6NTMxfSwic2VzdHJhIjp7InZzIjo4Ny4yLCJhdmciOjIuODIsIm4iOjUzM30sImNlbGtvdmEiOnsidnMiOjgzLjksImF2ZyI6Mi43NDcsIm4iOjU1M319LCIyMDI1LUgxIjp7Imxla2FyIjp7InZzIjo4Ny44LCJhdmciOjIuNzkxLCJuIjo0OTh9LCJzZXN0cmEiOnsidnMiOjg4LjksImF2ZyI6Mi44NDMsIm4iOjQ5Nn0sImNlbGtvdmEiOnsidnMiOjg2LjEsImF2ZyI6Mi43ODUsIm4iOjUwM319LCIyMDI1LUgyIjp7Imxla2FyIjp7InZzIjo4Ni4yLCJhdmciOjIuNzc4LCJuIjo0MzZ9LCJzZXN0cmEiOnsidnMiOjg0LjAsImF2ZyI6Mi43OCwibiI6NDM3fSwiY2Vsa292YSI6eyJ2cyI6ODUuMiwiYXZnIjoyLjc3NCwibiI6NDM5fX19LCJkaXN0ciI6eyIyMDI0Ijp7InZzIjo5NDIsInByIjoxMDMsIm5lIjo5N30sIjIwMjUiOnsidnMiOjgwNywicHIiOjYzLCJuZSI6NzJ9fSwiY2VrIjp7IjIwMjQiOnsibHQiOjkwMSwibSI6MTQxLCJndCI6NjR9LCIyMDI1Ijp7Imx0Ijo3OTEsIm0iOjkzLCJndCI6NDN9fSwib2IiOnsiMjAyNCI6eyJBTk8iOjYzNCwiQUtVVE5JIjozNzEsIk5FIjoxMjV9LCIyMDI1Ijp7IkFOTyI6NDAwLCJBS1VUTkkiOjQxMSwiTkUiOjEyM319LCJzbXMiOnsiMjAyNCI6eyJBTk8iOjE5MSwiTkUiOjM3Mn0sIjIwMjUiOnsiQU5PIjoxNjYsIk5FIjoxOTd9fSwiem4iOnsiMjAyNCI6eyJBTk8iOjEwMzYsIk5FIjo2M30sIjIwMjUiOnsiQU5PIjo4NjYsIk5FIjozOX19LCJyZWNlcGNlX3llYXJzIjp7IjIwMjQiOnsidnMiOjc5LjEsImF2ZyI6Mi43NDMsIm4iOjg0NH0sIjIwMjUiOnsidnMiOjc5LjcsImF2ZyI6Mi43NjEsIm4iOjcyOH19LCJyZWNlcGNlX3BlcmlvZHMiOnsiMjAyNC1IMSI6eyJ2cyI6NzkuMywiYXZnIjoyLjc0NiwibiI6Mzg2fSwiMjAyNC1IMiI6eyJ2cyI6NzguOCwiYXZnIjoyLjczNiwibiI6NDE2fSwiMjAyNS1IMSI6eyJ2cyI6NzguMCwiYXZnIjoyLjczOCwibiI6MzgyfSwiMjAyNS1IMiI6eyJ2cyI6ODEuNSwiYXZnIjoyLjc4NiwibiI6MzQ2fX19fQ==";
+var _d=JSON.parse(decodeURIComponent(escape(atob(_b))));
+var AMB=_d.amb; var HOSP=_d.hosp;
+
+var OFFICIAL=Object.keys(AMB);
+var YEARS=['2024','2025'];
+var PERIODS=['2024-H1','2024-H2','2025-H1','2025-H2'];
+var POLOLETNI=['Akutn\u00ed ortopedick\u00e1 ambulance','Akutn\u00ed chirurgick\u00e1 ambulance','O\u010dn\u00ed ambulance','Urologick\u00e1 ambulance'];
+var PAL=['#2c6e8a','#e8a045','#5caa7f','#c94040','#7b5ea7','#3aa8a8','#d9611e','#467c3a','#a04070','#1a6060','#2c6e8a','#e8a045'];
+var GC='#e0ddd6';
+var BF={family:"'DM Sans',sans-serif"};
+var gran='rok';
+var selAmbs=['Akutn\u00ed ortopedick\u00e1 ambulance','O\u010dn\u00ed ambulance','Gastroenterologie'];
+var CH={};
+
+function dc(id){if(CH[id]){CH[id].destroy();delete CH[id];}}
+function sk(id,v,s){var e=document.getElementById('kk-'+id),es=document.getElementById('ks-'+id);if(e)e.textContent=v;if(es)es.textContent=s||'';}
+function bdg(v,n){
+  var s=v!=null?v.toFixed(1)+' %':'--';
+  if(v==null||n<5)return'<span class="bg bgx">'+s+'</span>';
+  if(v>=88)return'<span class="bg bgg">'+s+'</span>';
+  if(v>=72)return'<span class="bg bgy">'+s+'</span>';
+  return'<span class="bg bgr">'+s+'</span>';
+}
+
+function getStats(rok){
+  return OFFICIAL.map(function(name){
+    var d=AMB[name];
+    if(!d||d.total===0)return{name:name,n:0};
+    var wsL=0,wsS=0,wsC=0,wvsL=0,wvsS=0,wvsC=0,wnL=0,wnS=0,wnC=0;
+    var tot=0,clt=0,cm=0,cgt=0,ctot=0,oA=0,oK=0,oN=0,ot=0;
+    var roks=rok==='all'?YEARS:[rok];
+    roks.forEach(function(y){
+      var yd=d.years&&d.years[y];if(!yd)return;
+      tot+=yd.n;
+      if(yd.lekar!=null){wsL+=yd.lekar*yd.n;wvsL+=(yd.lekar_vs||0)*yd.n;wnL+=yd.n;}
+      if(yd.sestra!=null){wsS+=yd.sestra*yd.n;wvsS+=(yd.sestra_vs||0)*yd.n;wnS+=yd.n;}
+      if(yd.celkova!=null){wsC+=yd.celkova*yd.n;wvsC+=(yd.celkova_vs||0)*yd.n;wnC+=yd.n;}
+      if(yd.cekani){clt+=(yd.cekani.lt&&yd.cekani.lt.n)||0;cm+=(yd.cekani.m&&yd.cekani.m.n)||0;cgt+=(yd.cekani.gt&&yd.cekani.gt.n)||0;}
+      if(yd.objednani){oA+=(yd.objednani.ANO&&yd.objednani.ANO.n)||0;oK+=(yd.objednani.AKUTNI&&yd.objednani.AKUTNI.n)||0;oN+=(yd.objednani.NE&&yd.objednani.NE.n)||0;}
+    });
+    ctot=clt+cm+cgt;ot=oA+oK+oN;
+    return{name:name,n:tot,
+      lekar:wnL?wsL/wnL:null,lekar_vs:wnL?wvsL/wnL:null,
+      sestra:wnS?wsS/wnS:null,sestra_vs:wnS?wvsS/wnS:null,
+      celkova:wnC?wsC/wnC:null,celkova_vs:wnC?wvsC/wnC:null,
+      cek:{lt:clt,m:cm,gt:cgt,tot:ctot,ltP:ctot?clt/ctot*100:null,mP:ctot?cm/ctot*100:null,gtP:ctot?cgt/ctot*100:null},
+      ob:{A:oA,K:oK,N:oN,tot:ot,AP:ot?oA/ot*100:null,KP:ot?oK/ot*100:null,NP:ot?oN/ot*100:null}
+    };
+  });
+}
+
+// ── PŘEHLED ──────────────────────────────────────────────────────────────
+function rPrehled(){
+  var h=HOSP.years;
+  sk('celk',((h['2024'].celkova.vs*h['2024'].celkova.n+h['2025'].celkova.vs*h['2025'].celkova.n)/(h['2024'].celkova.n+h['2025'].celkova.n)).toFixed(1)+' %','2024: '+h['2024'].celkova.vs.toFixed(1)+'% | 2025: '+h['2025'].celkova.vs.toFixed(1)+'%');
+  sk('lekar',((h['2024'].lekar.vs*h['2024'].lekar.n+h['2025'].lekar.vs*h['2025'].lekar.n)/(h['2024'].lekar.n+h['2025'].lekar.n)).toFixed(1)+' %','2024: '+h['2024'].lekar.vs.toFixed(1)+'% | 2025: '+h['2025'].lekar.vs.toFixed(1)+'%');
+  sk('sestra',((h['2024'].sestra.vs*h['2024'].sestra.n+h['2025'].sestra.vs*h['2025'].sestra.n)/(h['2024'].sestra.n+h['2025'].sestra.n)).toFixed(1)+' %','2024: '+h['2024'].sestra.vs.toFixed(1)+'% | 2025: '+h['2025'].sestra.vs.toFixed(1)+'%');
+  var r=HOSP.recepce_years;
+  sk('recepce',((r['2024'].vs*r['2024'].n+r['2025'].vs*r['2025'].n)/(r['2024'].n+r['2025'].n)).toFixed(1)+' %','2024: '+r['2024'].vs.toFixed(1)+'% | 2025: '+r['2025'].vs.toFixed(1)+'%');
+
+  dc('celkBar');
+  var d24=HOSP.distr['2024'],d25=HOSP.distr['2025'];
+  var t24=d24.vs+d24.pr+d24.ne,t25=d25.vs+d25.pr+d25.ne;
+  CH.celkBar=new Chart(document.getElementById('cCelkBar'),{type:'bar',
+    data:{labels:['Velmi spokojen/a','Pr\u016fm\u011brn\u011b','Nespokojen/a'],
+      datasets:[
+        {label:'2024',data:[+(d24.vs/t24*100).toFixed(1),+(d24.pr/t24*100).toFixed(1),+(d24.ne/t24*100).toFixed(1)],backgroundColor:'#2c6e8a',borderRadius:7,borderSkipped:false},
+        {label:'2025',data:[+(d25.vs/t25*100).toFixed(1),+(d25.pr/t25*100).toFixed(1),+(d25.ne/t25*100).toFixed(1)],backgroundColor:'#e8a045',borderRadius:7,borderSkipped:false}
+      ]},
+    options:{scales:{y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+
+  dc('trend');
+  var tC=[{k:'celkova',l:'Celkov\u00e1',c:'#2c6e8a'},{k:'lekar',l:'L\u00e9ka\u0159',c:'#5caa7f'},{k:'sestra',l:'Sestra',c:'#e8a045'}];
+  CH.trend=new Chart(document.getElementById('cTrend'),{type:'line',
+    data:{labels:['2024','2025'],datasets:tC.map(function(t){
+      return{label:t.l,data:YEARS.map(function(y){return HOSP.years[y][t.k].vs;}),
+        borderColor:t.c,backgroundColor:t.c+'22',tension:.3,pointRadius:7,fill:false,borderWidth:2.5};})},
+    options:{scales:{y:{min:70,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+
+  dc('kat');
+  CH.kat=new Chart(document.getElementById('cKat'),{type:'bar',
+    data:{labels:['Celkov\u00e1','L\u00e9ka\u0159','Sestra','Recepce'],
+      datasets:[
+        {label:'2024',data:['celkova','lekar','sestra'].map(function(c){return HOSP.years['2024'][c].vs;}).concat([HOSP.recepce_years['2024'].vs]),backgroundColor:'#2c6e8a',borderRadius:7,borderSkipped:false},
+        {label:'2025',data:['celkova','lekar','sestra'].map(function(c){return HOSP.years['2025'][c].vs;}).concat([HOSP.recepce_years['2025'].vs]),backgroundColor:'#e8a045',borderRadius:7,borderSkipped:false}
+      ]},
+    options:{scales:{y:{min:65,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+
+  dc('polo');
+  var pC=[{k:'celkova',l:'Celkov\u00e1',c:'#2c6e8a'},{k:'lekar',l:'L\u00e9ka\u0159',c:'#5caa7f'},{k:'sestra',l:'Sestra',c:'#e8a045'}];
+  CH.polo=new Chart(document.getElementById('cPolo'),{type:'line',
+    data:{labels:PERIODS,datasets:pC.map(function(t){
+      return{label:t.l,data:PERIODS.map(function(p){return HOSP.periods[p]?HOSP.periods[p][t.k].vs:null;}),
+        borderColor:t.c,backgroundColor:t.c+'22',tension:.3,pointRadius:5,fill:false,borderWidth:2};})},
+    options:{scales:{y:{min:65,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+}
+
+// ── SPOKOJENOST ───────────────────────────────────────────────────────────
+function rSpok(){
+  var rok=document.getElementById('rokSpok').value;
+  var srtKey=document.getElementById('srtSpok').value;
+  var stats=getStats(rok).filter(function(d){return d.n>0;});
+  stats.sort(function(a,b){var va=srtKey==='n'?a.n:(a[srtKey]!=null?a[srtKey]:-1),vb=srtKey==='n'?b.n:(b[srtKey]!=null?b[srtKey]:-1);return vb-va;});
+  dc('spokAmb');
+  var cats=[{k:'celkova',l:'Celkov\u00e1',c:'#2c6e8a'},{k:'lekar',l:'L\u00e9ka\u0159',c:'#5caa7f'},{k:'sestra',l:'Sestra',c:'#e8a045'}];
+  CH.spokAmb=new Chart(document.getElementById('cSpokAmb'),{type:'bar',
+    data:{labels:stats.map(function(d){return d.name.length>32?d.name.substring(0,30)+'...':d.name;}),
+      datasets:cats.map(function(t){return{label:t.l,data:stats.map(function(d){var v=d[t.k+'_vs'];return v!=null?+v.toFixed(2):null;}),backgroundColor:t.c,borderRadius:4};})},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{grid:{display:false},ticks:{font:{family:"'DM Sans',sans-serif",size:10}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){var v=c.parsed.x;return ' '+c.dataset.label+': '+(v!=null?v.toFixed(1)+' %':'--');}}}}}});
+  var all=[].concat(getStats(rok));
+  all.sort(function(a,b){var va=a.celkova_vs!=null?a.celkova_vs:-1,vb=b.celkova_vs!=null?b.celkova_vs:-1;return vb-va;});
+  var rows='';
+  all.forEach(function(d){
+    if(d.n===0){rows+='<tr style="opacity:.4"><td>'+d.name+'</td><td colspan="5" style="color:#aaa;font-size:.75rem">&#381;\u00e1dn\u00e1 data</td></tr>';return;}
+    var v=d.celkova_vs,bw=v?v.toFixed(0):0,bc=v>=88?'#5caa7f':v>=72?'#e8a045':'#c94040';
+    rows+='<tr><td><strong>'+d.name+'</strong></td><td style="text-align:center">'+d.n+'</td>'
+      +'<td>'+(d.lekar?d.lekar.toFixed(2):'--')+'</td><td>'+(d.sestra?d.sestra.toFixed(2):'--')+'</td>'
+      +'<td>'+(d.celkova?d.celkova.toFixed(2):'--')+'</td>'
+      +'<td><div class="brow">'+bdg(v,d.n)+'<div class="bbar"><div class="bfill" style="width:'+bw+'%;background:'+bc+'"></div></div></div></td></tr>';
+  });
+  document.getElementById('tSpok').innerHTML='<table><thead><tr><th>Ambulance</th><th>Odpov\u011bd\u00ed</th><th>L\u00e9ka\u0159 &#8960;</th><th>Sestra &#8960;</th><th>Celkem &#8960;</th><th>% Velmi spokojen/a</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+// ── ČEKÁNÍ ────────────────────────────────────────────────────────────────
+function rCekani(){
+  var stats=getStats('all');
+  var c1=HOSP.cek['2024'].lt+HOSP.cek['2025'].lt;
+  var c2=HOSP.cek['2024'].m+HOSP.cek['2025'].m;
+  var c3=HOSP.cek['2024'].gt+HOSP.cek['2025'].gt;
+  var ct=c1+c2+c3;
+  sk('c1',(c1/ct*100).toFixed(1)+' %','z '+ct.toLocaleString('cs-CZ')+' odpov\u011bd\u00ed');
+  sk('c2',(c2/ct*100).toFixed(1)+' %','');sk('c3',(c3/ct*100).toFixed(1)+' %','');
+  var cd=stats.filter(function(d){return d.n>0&&d.cek.tot>0;});
+  cd.sort(function(a,b){return((b.cek.mP||0)+(b.cek.gtP||0))-((a.cek.mP||0)+(a.cek.gtP||0));});
+  dc('cekAmb');
+  CH.cekAmb=new Chart(document.getElementById('cCekAmb'),{type:'bar',
+    data:{labels:cd.map(function(d){return d.name.length>32?d.name.substring(0,30)+'...':d.name;}),
+      datasets:[
+        {label:'M\u00e9n\u011b ne\u017e 1 hod',data:cd.map(function(d){return d.cek.ltP!=null?+d.cek.ltP.toFixed(1):null;}),backgroundColor:'#5caa7f',borderRadius:3},
+        {label:'1-2 hodiny',data:cd.map(function(d){return d.cek.mP!=null?+d.cek.mP.toFixed(1):null;}),backgroundColor:'#e8a045',borderRadius:3},
+        {label:'V\u00edce ne\u017e 2 hod',data:cd.map(function(d){return d.cek.gtP!=null?+d.cek.gtP.toFixed(1):null;}),backgroundColor:'#c94040',borderRadius:3}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{stacked:true,min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{stacked:true,grid:{display:false},ticks:{font:{family:"'DM Sans',sans-serif",size:10}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.x!=null?c.parsed.x.toFixed(1)+' %':'--');}}}}}});
+  dc('cekSpok');
+  CH.cekSpok=new Chart(document.getElementById('cCekSpok'),{type:'bar',
+    data:{labels:['M\u00e9n\u011b ne\u017e 1 hod','1-2 hodiny','V\u00edce ne\u017e 2 hod'],
+      datasets:[{label:'% velmi spokojench',data:[89.8,65.7,37.4],backgroundColor:['#5caa7f','#e8a045','#c94040'],borderRadius:7,borderSkipped:false}]},
+    options:{scales:{y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{display:false}}}});
+  dc('cekRok');
+  CH.cekRok=new Chart(document.getElementById('cCekRok'),{type:'bar',
+    data:{labels:['2024','2025'],datasets:[
+      {label:'M\u00e9n\u011b ne\u017e 1 hod',data:YEARS.map(function(y){return HOSP.cek[y].lt;}),backgroundColor:'#5caa7f',borderRadius:4},
+      {label:'1-2 hodiny',data:YEARS.map(function(y){return HOSP.cek[y].m;}),backgroundColor:'#e8a045',borderRadius:4},
+      {label:'V\u00edce ne\u017e 2 hod',data:YEARS.map(function(y){return HOSP.cek[y].gt;}),backgroundColor:'#c94040',borderRadius:4}
+    ]},
+    options:{scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+  var rows='';
+  stats.sort(function(a,b){return((b.cek&&b.cek.mP||0)+(b.cek&&b.cek.gtP||0))-((a.cek&&a.cek.mP||0)+(a.cek&&a.cek.gtP||0));});
+  stats.forEach(function(d){
+    if(d.n===0||!d.cek||d.cek.tot===0){rows+='<tr style="opacity:.4"><td>'+d.name+'</td><td colspan="5" style="color:#aaa;font-size:.75rem">&#381;\u00e1dn\u00e1 data</td></tr>';return;}
+    var bad=(d.cek.mP||0)+(d.cek.gtP||0),bc=bad>20?'#c94040':bad>10?'#e8a045':'#5caa7f';
+    rows+='<tr><td><strong>'+d.name+'</strong></td><td style="text-align:center">'+d.cek.tot+'</td>'
+      +'<td>'+(d.cek.ltP!=null?d.cek.ltP.toFixed(1):'--')+' %</td>'
+      +'<td>'+(d.cek.mP!=null?d.cek.mP.toFixed(1):'--')+' %</td>'
+      +'<td style="'+(bad>15?'color:#c94040;font-weight:600':'')+'">'+(d.cek.gtP!=null?d.cek.gtP.toFixed(1):'--')+' %</td>'
+      +'<td><div class="brow"><div class="bbar" style="height:8px"><div class="bfill" style="width:'+(100-bad).toFixed(0)+'%;height:8px;background:'+bc+'"></div></div>'
+      +'<span style="font-size:.7rem;color:var(--mu);white-space:nowrap">'+bad.toFixed(0)+'% nad 1h</span></div></td></tr>';
+  });
+  document.getElementById('tCekani').innerHTML='<table><thead><tr><th>Ambulance</th><th>Celkem</th><th>% &lt; 1 hod</th><th>% 1-2 hod</th><th>% &gt; 2 hod</th><th>Pod\u00edl \u010dek\u00e1n\u00ed nad 1h</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+// ── OBJEDNÁVÁNÍ ───────────────────────────────────────────────────────────
+function rObj(){
+  var stats=getStats('all');
+  var oA=HOSP.ob['2024'].ANO+HOSP.ob['2025'].ANO;
+  var oK=HOSP.ob['2024'].AKUTNI+HOSP.ob['2025'].AKUTNI;
+  var oN=HOSP.ob['2024'].NE+HOSP.ob['2025'].NE;
+  dc('obBar');
+  CH.obBar=new Chart(document.getElementById('cObBar'),{type:'bar',
+    data:{labels:['Objednan\u00fd','Akutn\u00ed','Bez objedn.'],
+      datasets:[
+        {label:'2024',data:[HOSP.ob['2024'].ANO,HOSP.ob['2024'].AKUTNI,HOSP.ob['2024'].NE],backgroundColor:'#2c6e8a',borderRadius:7,borderSkipped:false},
+        {label:'2025',data:[HOSP.ob['2025'].ANO,HOSP.ob['2025'].AKUTNI,HOSP.ob['2025'].NE],backgroundColor:'#e8a045',borderRadius:7,borderSkipped:false}
+      ]},
+    options:{scales:{y:{grid:{color:GC},ticks:{font:BF}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+  var sA=HOSP.sms['2024'].ANO+HOSP.sms['2025'].ANO, sN=HOSP.sms['2024'].NE+HOSP.sms['2025'].NE, st=sA+sN;
+  dc('sms');
+  CH.sms=new Chart(document.getElementById('cSms'),{type:'doughnut',
+    data:{labels:['SMS obdr\u017eeli','SMS NEobdr\u017eeli'],datasets:[{data:[sA,sN],backgroundColor:['#2c6e8a','#e0ddd6'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+c.parsed+' ('+(c.parsed/st*100).toFixed(1)+' %)';}}}}}}); 
+  var zA=HOSP.zn['2024'].ANO+HOSP.zn['2025'].ANO, zN=HOSP.zn['2024'].NE+HOSP.zn['2025'].NE, zt=zA+zN;
+  dc('zn');
+  CH.zn=new Chart(document.getElementById('cZn'),{type:'doughnut',
+    data:{labels:['Dobr\u00e9 zna\u010den\u00ed','\u0160patn\u00e9 zna\u010den\u00ed'],datasets:[{data:[zA,zN],backgroundColor:['#5caa7f','#c94040'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+c.parsed+' ('+(c.parsed/zt*100).toFixed(1)+' %)';}}}}}}); 
+  var od=stats.filter(function(d){return d.n>0&&d.ob.tot>0;});
+  od.sort(function(a,b){return(b.ob.KP||0)-(a.ob.KP||0);});
+  dc('obAmb');
+  CH.obAmb=new Chart(document.getElementById('cObAmb'),{type:'bar',
+    data:{labels:od.map(function(d){return d.name.length>32?d.name.substring(0,30)+'...':d.name;}),
+      datasets:[
+        {label:'Objednan\u00fd',data:od.map(function(d){return d.ob.AP!=null?+d.ob.AP.toFixed(1):null;}),backgroundColor:'#2c6e8a',borderRadius:3},
+        {label:'Akutn\u00ed',data:od.map(function(d){return d.ob.KP!=null?+d.ob.KP.toFixed(1):null;}),backgroundColor:'#c94040',borderRadius:3},
+        {label:'Bez obj.',data:od.map(function(d){return d.ob.NP!=null?+d.ob.NP.toFixed(1):null;}),backgroundColor:'#e8a045',borderRadius:3}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{stacked:true,min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{stacked:true,grid:{display:false},ticks:{font:{family:"'DM Sans',sans-serif",size:10}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.x!=null?c.parsed.x.toFixed(1)+' %':'--');}}}}}});
+  var rows='';
+  stats.sort(function(a,b){return(b.ob&&b.ob.KP||0)-(a.ob&&a.ob.KP||0);});
+  stats.forEach(function(d){
+    if(d.n===0||!d.ob||d.ob.tot===0){rows+='<tr style="opacity:.4"><td>'+d.name+'</td><td colspan="4" style="color:#aaa;font-size:.75rem">&#381;\u00e1dn\u00e1 data</td></tr>';return;}
+    rows+='<tr><td><strong>'+d.name+'</strong></td><td style="text-align:center">'+d.ob.tot+'</td>'
+      +'<td>'+(d.ob.AP!=null?d.ob.AP.toFixed(1):'--')+' %</td>'
+      +'<td style="'+((d.ob.KP||0)>70?'color:#c94040;font-weight:600':'')+'">'+(d.ob.KP!=null?d.ob.KP.toFixed(1):'--')+' %</td>'
+      +'<td>'+(d.ob.NP!=null?d.ob.NP.toFixed(1):'--')+' %</td></tr>';
+  });
+  document.getElementById('tObj').innerHTML='<table><thead><tr><th>Ambulance</th><th>Celkem</th><th>% Objednan\u00fd</th><th>% Akutn\u00ed</th><th>% Bez obj.</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+// ── RECEPCE ───────────────────────────────────────────────────────────────
+function rRecepce(){
+  var r=HOSP.recepce_years;
+  var diff=r['2025'].vs-r['2024'].vs;
+  sk('r24',r['2024'].vs.toFixed(1)+' %','n = '+r['2024'].n.toLocaleString('cs-CZ'));
+  sk('r25',r['2025'].vs.toFixed(1)+' %','n = '+r['2025'].n.toLocaleString('cs-CZ'));
+  sk('rdiff',(diff>=0?'+':'')+diff.toFixed(1)+' %',diff>=0?'Zlep\u0161en\u00ed':'Zhor\u0161en\u00ed');
+
+  dc('recBar');
+  CH.recBar=new Chart(document.getElementById('cRecBar'),{type:'bar',
+    data:{labels:['2024','2025'],
+      datasets:[
+        {label:'Velmi spokojen/a',data:[r['2024'].vs,r['2025'].vs],backgroundColor:'#5caa7f',borderRadius:7,borderSkipped:false},
+        {label:'Pr\u016fm\u011brn\u011b / nespokojen',data:[100-r['2024'].vs,100-r['2025'].vs],backgroundColor:'#e0ddd6',borderRadius:7,borderSkipped:false}
+      ]},
+    options:{scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+
+  dc('recPolo');
+  var rp=HOSP.recepce_periods;
+  CH.recPolo=new Chart(document.getElementById('cRecPolo'),{type:'line',
+    data:{labels:PERIODS,
+      datasets:[{label:'Recepce',data:PERIODS.map(function(p){return rp[p]?rp[p].vs:null;}),
+        borderColor:'#7b5ea7',backgroundColor:'#7b5ea7'+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2.5}]},
+    options:{scales:{y:{min:65,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},tooltip:{callbacks:{label:function(c){return ' Recepce: '+c.parsed.y.toFixed(1)+' %';}}}}}}); 
+
+  dc('recKontext');
+  var h=HOSP.years;
+  CH.recKontext=new Chart(document.getElementById('cRecKontext'),{type:'bar',
+    data:{labels:['Celkov\u00e1 spok.','L\u00e9ka\u0159','Sestra','Recepce'],
+      datasets:[
+        {label:'2024',data:[h['2024'].celkova.vs,h['2024'].lekar.vs,h['2024'].sestra.vs,r['2024'].vs],backgroundColor:'#2c6e8a',borderRadius:7,borderSkipped:false},
+        {label:'2025',data:[h['2025'].celkova.vs,h['2025'].lekar.vs,h['2025'].sestra.vs,r['2025'].vs],backgroundColor:'#e8a045',borderRadius:7,borderSkipped:false}
+      ]},
+    options:{scales:{y:{min:65,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+}
+
+// ── DETAIL ────────────────────────────────────────────────────────────────
+function buildDet(){
+  var sel=document.getElementById('detAmb');
+  var opts='';
+  OFFICIAL.forEach(function(a){opts+='<option value="'+a+'">'+a+(AMB[a]&&AMB[a].total===0?' (bez dat)':'')+'</option>';});
+  sel.innerHTML=opts;
+  sel.onchange=function(){rDet(sel.value);};
+  rDet(sel.value);
+}
+
+function rDet(amb){
+  var d=AMB[amb],el=document.getElementById('detContent');
+  if(!d||d.total===0){el.innerHTML='<div class="note">Pro tuto ambulanci nebyla zaznamen\u00e1na \u017e\u00e1dn\u00e1 data.</div>';return;}
+  var yrs2=YEARS.filter(function(y){return d.years&&d.years[y];});
+  el.innerHTML='<div class="gr g1" style="margin-bottom:14px;"><div class="cc" style="background:#f8f7f4"><h3>'+amb+'</h3>'
+    +'<div class="cs">Celkem odpov\u011bd\u00ed: <strong>'+d.total+'</strong>'
+    +(d.celkova_avg_all?' &middot; Pr\u016fm\u011brn\u00e9 sk\u00f3re: <strong>'+d.celkova_avg_all.toFixed(2)+'</strong>':'')
+    +(d.celkova_vs_all?' &middot; % velmi spokojench: <strong>'+d.celkova_vs_all.toFixed(1)+' %</strong>':'')
+    +'<br><em style="color:var(--mu);font-size:.72rem">Recepce nen\u00ed zobrazena na \u00farovni ambulance &#8212; je sledov\u00e1na spole\u010dn\u011b za celou nemocnici.</em>'
+    +'</div></div></div>'
+    +'<div class="gr g2">'
+    +'<div class="cc"><h3>Pr\u016fm\u011brn\u00e9 sk\u00f3re</h3><div class="cs">L\u00e9ka\u0159, sestra, celkov\u00e1 spokojenost</div><canvas id="dSpok" height="250"></canvas></div>'
+    +'<div class="cc"><h3>% Velmi spokojench</h3><div class="cs">Trend hodnocen\u00ed</div><canvas id="dVs" height="250"></canvas></div>'
+    +'</div>'
+    +'<div class="gr g2">'
+    +'<div class="cc"><h3>&#268;ekac\u00ed doby</h3><div class="cs">Po\u010dty pacient\u016f</div><canvas id="dCek" height="220"></canvas></div>'
+    +'<div class="cc"><h3>Zp\u016fsob n\u00e1v\u0161t\u011bvy</h3><div class="cs">Objednan\u00fd / akutn\u00ed / bez objedn\u00e1n\u00ed</div><canvas id="dOb" height="220"></canvas></div>'
+    +'</div>';
+  setTimeout(function(){
+    dc('dSpok');dc('dVs');dc('dCek');dc('dOb');
+    var tC=[{k:'celkova',l:'Celkov\u00e1',c:'#2c6e8a'},{k:'lekar',l:'L\u00e9ka\u0159',c:'#5caa7f'},{k:'sestra',l:'Sestra',c:'#e8a045'}];
+    CH.dSpok=new Chart(document.getElementById('dSpok'),{type:'line',
+      data:{labels:yrs2,datasets:tC.map(function(t){return{label:t.l,data:yrs2.map(function(y){return d.years[y]&&d.years[y][t.k]!=null?d.years[y][t.k]:null;}),borderColor:t.c,backgroundColor:t.c+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2.5,spanGaps:true};})},
+      options:{scales:{y:{min:1,max:3,grid:{color:GC},ticks:{font:BF,callback:function(v){return v.toFixed(1);}}},x:{grid:{display:false},ticks:{font:BF}}},plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+    CH.dVs=new Chart(document.getElementById('dVs'),{type:'line',
+      data:{labels:yrs2,datasets:tC.map(function(t){return{label:t.l,data:yrs2.map(function(y){var vs=t.k+'_vs';return d.years[y]&&d.years[y][vs]!=null?d.years[y][vs]:null;}),borderColor:t.c,backgroundColor:t.c+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2.5,spanGaps:true};})},
+      options:{scales:{y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+    CH.dCek=new Chart(document.getElementById('dCek'),{type:'bar',
+      data:{labels:yrs2,datasets:[
+        {label:'< 1 hod',data:yrs2.map(function(y){return d.years[y]&&d.years[y].cekani&&d.years[y].cekani.lt?d.years[y].cekani.lt.n:0;}),backgroundColor:'#5caa7f',borderRadius:4},
+        {label:'1-2 hod',data:yrs2.map(function(y){return d.years[y]&&d.years[y].cekani&&d.years[y].cekani.m?d.years[y].cekani.m.n:0;}),backgroundColor:'#e8a045',borderRadius:4},
+        {label:'> 2 hod',data:yrs2.map(function(y){return d.years[y]&&d.years[y].cekani&&d.years[y].cekani.gt?d.years[y].cekani.gt.n:0;}),backgroundColor:'#c94040',borderRadius:4}
+      ]},
+      options:{scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+    CH.dOb=new Chart(document.getElementById('dOb'),{type:'bar',
+      data:{labels:yrs2,datasets:[
+        {label:'Objednan\u00fd',data:yrs2.map(function(y){return d.years[y]&&d.years[y].objednani&&d.years[y].objednani.ANO?d.years[y].objednani.ANO.n:0;}),backgroundColor:'#2c6e8a',borderRadius:4},
+        {label:'Akutn\u00ed',data:yrs2.map(function(y){return d.years[y]&&d.years[y].objednani&&d.years[y].objednani.AKUTNI?d.years[y].objednani.AKUTNI.n:0;}),backgroundColor:'#c94040',borderRadius:4},
+        {label:'Bez obj.',data:yrs2.map(function(y){return d.years[y]&&d.years[y].objednani&&d.years[y].objednani.NE?d.years[y].objednani.NE.n:0;}),backgroundColor:'#e8a045',borderRadius:4}
+      ]},
+      options:{scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+  },80);
+}
+
+// ── VÝVOJ ─────────────────────────────────────────────────────────────────
+function setGran(g){
+  gran=g;
+  document.getElementById('btnRok').classList.toggle('on',g==='rok');
+  document.getElementById('btnPolo').classList.toggle('on',g==='polo');
+  rVyvoj();
+}
+
+function rAS(){
+  var el=document.getElementById('ambSel');
+  var btns='';
+  OFFICIAL.forEach(function(a){
+    if(AMB[a]&&AMB[a].total>0){
+      var isPolo=POLOLETNI.indexOf(a)>=0;
+      btns+='<button class="ac'+(selAmbs.indexOf(a)>=0?' on':'')+'" data-a="'+a+'">'+a+(isPolo?' <span class="pbadge">H</span>':'')+'</button>';
+    }
+  });
+  el.innerHTML=btns;
+  el.querySelectorAll('.ac').forEach(function(b){
+    b.onclick=function(){
+      var a=b.dataset.a,idx=selAmbs.indexOf(a);
+      if(idx>=0){if(selAmbs.length>1)selAmbs.splice(idx,1);}else selAmbs.push(a);
+      rAS();rVyvoj();
+    };
+  });
+}
+
+function rVyvoj(){
+  dc('vyvoj');
+  var m=document.getElementById('trM').value;
+  var disp=document.getElementById('trD').value;
+  var key=m+(disp==='vs'?'_vs':'');
+  var usePolo=gran==='polo';
+  var labels=usePolo?PERIODS:YEARS;
+  var datasets=selAmbs.map(function(a,i){
+    var hasPolo=POLOLETNI.indexOf(a)>=0;
+    var pts;
+    if(usePolo&&hasPolo){
+      pts=PERIODS.map(function(p){return AMB[a].periods&&AMB[a].periods[p]&&AMB[a].periods[p][key]!=null?AMB[a].periods[p][key]:null;});
+    } else if(usePolo&&!hasPolo){
+      // Map yearly data to period midpoints (show only 2 points at H1 positions)
+      pts=PERIODS.map(function(p,pi){
+        var y=p.substring(0,4);
+        return pi%2===0&&AMB[a].years&&AMB[a].years[y]&&AMB[a].years[y][key]!=null?AMB[a].years[y][key]:null;
+      });
+    } else {
+      pts=YEARS.map(function(y){return AMB[a].years&&AMB[a].years[y]&&AMB[a].years[y][key]!=null?AMB[a].years[y][key]:null;});
+    }
+    return{label:a+(usePolo&&!POLOLETNI.includes(a)?' (ro\u010dn\u00ed)':''),
+      data:pts,borderColor:PAL[i%PAL.length],backgroundColor:PAL[i%PAL.length]+'22',
+      tension:.3,pointRadius:usePolo&&!hasPolo?4:6,
+      borderDash:usePolo&&!hasPolo?[5,4]:[],
+      fill:false,borderWidth:2.5,spanGaps:true};
+  });
+  CH.vyvoj=new Chart(document.getElementById('cVyvoj'),{type:'line',
+    data:{labels:labels,datasets:datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{y:{min:disp==='vs'?0:1,max:disp==='vs'?100:3,grid:{color:GC},ticks:{font:BF,callback:function(v){return disp==='vs'?v+' %':v.toFixed(2);}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){var v=c.parsed.y;return ' '+c.dataset.label+': '+(v!=null?(disp==='vs'?v.toFixed(1)+' %':v.toFixed(2)):'--');}}}}}}); 
+
+  dc('hospPolo');
+  var pC=[{k:'celkova',l:'Celkov\u00e1',c:'#2c6e8a'},{k:'lekar',l:'L\u00e9ka\u0159',c:'#5caa7f'},{k:'sestra',l:'Sestra',c:'#e8a045'}];
+  var recD=HOSP.recepce_periods;
+  var allDS=pC.map(function(t){
+    return{label:t.l,data:PERIODS.map(function(p){return HOSP.periods[p]?HOSP.periods[p][t.k].vs:null;}),
+      borderColor:t.c,backgroundColor:t.c+'22',tension:.3,pointRadius:5,fill:false,borderWidth:2};
+  });
+  allDS.push({label:'Recepce',data:PERIODS.map(function(p){return recD[p]?recD[p].vs:null;}),
+    borderColor:'#7b5ea7',backgroundColor:'#7b5ea7'+'22',tension:.3,pointRadius:5,fill:false,borderWidth:2,borderDash:[4,3]});
+  CH.hospPolo=new Chart(document.getElementById('cHospPolo'),{type:'line',
+    data:{labels:PERIODS,datasets:allDS},
+    options:{scales:{y:{min:65,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+}
+
+// ── TABS & INIT ────────────────────────────────────────────────────────────
+document.querySelectorAll('.tb').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('.tb').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.sec').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+    if(b.dataset.tab==='detail') buildDet();
+    if(b.dataset.tab==='vyvoj'){rAS();rVyvoj();}
+    if(b.dataset.tab==='recepce') rRecepce();
+  };
+});
+document.getElementById('srtSpok').onchange=function(){rSpok();};
+document.getElementById('rokSpok').onchange=function(){rSpok();};
+document.getElementById('trM').onchange=function(){rVyvoj();};
+document.getElementById('trD').onchange=function(){rVyvoj();};
+
+rPrehled(); rSpok(); rCekani(); rObj();
+
+</script></body></html>
