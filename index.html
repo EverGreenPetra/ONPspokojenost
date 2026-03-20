@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Spokojenost pacientů — ONP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#f2f0eb;color:#1a1a2e;min-height:100vh;display:flex;flex-direction:column;}
+header{background:#1a1a2e;color:#fff;padding:32px 40px;}
+header h1{font-family:'DM Serif Display',serif;font-size:1.8rem;font-weight:400;line-height:1.2;}
+header h1 em{color:#e8a045;font-style:italic;}
+header p{font-size:.85rem;color:#aaa;margin-top:6px;}
+main{flex:1;padding:48px 40px;max-width:900px;margin:0 auto;width:100%;}
+h2{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#6b7080;margin-bottom:24px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.card{background:#fff;border-radius:16px;border:1px solid #e0ddd6;padding:28px 24px;text-decoration:none;color:#1a1a2e;transition:box-shadow .2s,transform .15s;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;}
+.card.amb::before{background:#2c6e8a;}
+.card.hosp::before{background:#5caa7f;}
+.card.deti::before{background:#e8a045;}
+.card:hover{box-shadow:0 8px 32px rgba(0,0,0,.10);transform:translateY(-2px);}
+.card-icon{font-size:2rem;line-height:1;}
+.card-title{font-family:'DM Serif Display',serif;font-size:1.25rem;font-weight:400;line-height:1.3;}
+.card-desc{font-size:.82rem;color:#6b7080;line-height:1.5;}
+.card-arrow{margin-top:auto;padding-top:12px;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px;}
+.card.amb .card-arrow{color:#2c6e8a;}
+.card.hosp .card-arrow{color:#5caa7f;}
+.card.deti .card-arrow{color:#e8a045;}
+.card-arrow::after{content:'→';transition:transform .15s;}
+.card:hover .card-arrow::after{transform:translateX(4px);}
+footer{padding:20px 40px;border-top:1px solid #e0ddd6;font-size:.75rem;color:#6b7080;text-align:center;}
+@media(max-width:600px){header,main,footer{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Spokojenost pacientů <em>2024–2025</em></h1>
+  <p>Interaktivní dashboardy &middot; Oblastní nemocnice Příbram</p>
+</header>
+<main>
+  <h2>Vyberte průzkum</h2>
+  <div class="cards">
+    <a class="card amb" href="ambulance.html">
+      <div class="card-icon">🏥</div>
+      <div class="card-title">Ambulantní pacienti</div>
+      <div class="card-desc">Spokojenost s péčí v ambulancích &middot; 2 088 odpovědí &middot; 35 ambulancí &middot; roční srovnání 2024 vs 2025</div>
+      <div class="card-arrow">Otevřít dashboard</div>
+    </a>
+    <a class="card hosp" href="hospitalizovani.html">
+      <div class="card-icon">🛏️</div>
+      <div class="card-title">Hospitalizovaní pacienti</div>
+      <div class="card-desc">Spokojenost s péčí na lůžkových odděleních &middot; srovnání oddělení &middot; roční trend</div>
+      <div class="card-arrow">Otevřít dashboard</div>
+    </a>
+    <a class="card deti" href="deti.html">
+      <div class="card-icon">👶</div>
+      <div class="card-title">Dětští hospitalizovaní</div>
+      <div class="card-desc">Spokojenost s péčí o dětské pacienty &middot; hodnocení rodiči &middot; srovnání</div>
+      <div class="card-arrow">Otevřít dashboard</div>
+    </a>
+  </div>
+</main>
+<footer>Dotazníkový průzkum spokojenosti pacientů &middot; 2024–2025 &middot; Oblastní nemocnice Příbram</footer>
+</body>
+</html>
