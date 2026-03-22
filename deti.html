@@ -141,7 +141,7 @@ tr:hover td{background:#fafaf8;}
     <button class="sb" onclick="setOddRok('2024')">2024</button>
     <button class="sb" onclick="setOddRok('all')">Obě</button>
   </div></div>
-  <div class="note-warn">&#9888; Oddělení s méně než 5 odpověďmi jsou označena šedě.</div>
+  <div class="note-warn">&#9888; Oddělení s méně než 5 odpověďmi jsou zobrazena šedě jako <em>orientační</em> — jejich data jsou zahrnuta v celkovém součtu, proto jsou viditelná. Interpretujte je opatrně.</div>
   <div class="gr" style="grid-template-columns:1fr">
     <div class="card"><div class="ct">Doporučení nemocnice dle oddělení <span class="cs" id="oddDopCs"></span></div><div class="ch ch250"><canvas id="cOddDopor"></canvas></div></div>
   </div>
@@ -505,26 +505,37 @@ function setOddRok(r){
 
 function rOddeleni(){
   var odds=oddNames(),rok=oddRok;
-  function getV(n,c){var r=wAvg(n,rok,c);return r&&r.n>=MIN_N?r.v:null;}
+  // getV nyní vrací hodnotu i pro n<MIN_N (zobrazíme šedě)
+  function getV(o,c){var r=wAvg(o,rok,c);return r&&r.n>0?r.v:null;}
   function getN(n){return totN(n,rok);}
   var ns=odds.map(function(o){return getN(o);});
 
   function oddChart(cid,col,csid){
     var vs=odds.map(function(o){return getV(o,col);});
-    var clrs=vs.map(function(v,i){return ns[i]<MIN_N?'#ccc':(v==null?'#ccc':v>=90?'#5caa7f':v>=75?'#e8a045':'#c94040');});
-    if(csid)document.getElementById(csid).textContent='rok '+rok;
+    // Barva: n<MIN_N → šedá tečkovaná (simulujeme světle šedou), jinak barevná
+    var clrs=vs.map(function(v,i){
+      if(ns[i]<MIN_N)return '#bbb';
+      return v==null?'#bbb':v>=90?'#5caa7f':v>=75?'#e8a045':'#c94040';
+    });
+    var borders=vs.map(function(v,i){return ns[i]<MIN_N?'#999':'transparent';});
+    if(csid)document.getElementById(csid).textContent='rok '+rok+' · šedá = n<'+MIN_N+' (orientační, zahrnuto v součtu)';
     dc(cid);
     CH[cid]=new Chart(document.getElementById(cid),{
-      type:'bar',data:{labels:odds,datasets:[{data:vs.map(function(v){return v||0;}),backgroundColor:clrs,borderRadius:4,maxBarThickness:50}]},
+      type:'bar',data:{labels:odds,datasets:[{
+        data:vs.map(function(v){return v!=null?v:0;}),
+        backgroundColor:clrs,borderColor:borders,borderWidth:vs.map(function(v,i){return ns[i]<MIN_N?2:0;}),
+        borderRadius:4,maxBarThickness:50
+      }]},
       options:{responsive:true,maintainAspectRatio:false,
         scales:{x:{grid:{display:false},ticks:{font:BF}},y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}},
         plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){
           var o=odds[c.dataIndex],n=getN(o);
-          return n<MIN_N?' n='+n+' (nedostatek dat)':' '+c.parsed.y.toFixed(1)+' % (n='+n+')';
+          var warn=n<MIN_N?' · orientační, n='+n+', zahrnuto v globálním součtu':'';
+          return n>0?' '+c.parsed.y.toFixed(1)+' % (n='+n+')'+warn:' žádná data';
         }}}}}});
   }
 
-  document.getElementById('oddDopCs').textContent='rok '+rok+' · šedá = n<'+MIN_N;
+  document.getElementById('oddDopCs').textContent='rok '+rok+' · šedá = n<'+MIN_N+' (orientační)';
   oddChart('cOddDopor','q_doporuceni',null);
   oddChart('cOddLekar','q_duvera_lekar','oddLekCs');
   oddChart('cOddSestry','q_sestry_jednani','oddSesCs');
@@ -533,13 +544,16 @@ function rOddeleni(){
   var th='<thead><tr><th>Oddělení</th><th>n</th>'+cols.map(function(c){return '<th>'+QM[c]+'</th>';}).join('')+'</tr></thead>';
   var tb='<tbody>'+odds.map(function(o){
     var n=getN(o);
-    return '<tr><td><strong>'+o+'</strong></td><td>'+nLabel(n)+'</td>'+cols.map(function(c){
+    var smallN=n>0&&n<MIN_N;
+    var rowStyle=smallN?' style="opacity:.75;background:#fafaf6"':'';
+    return '<tr'+rowStyle+'><td><strong>'+o+'</strong>'+(smallN?' <span class="pill pill-gray">n='+n+' · orientační</span>':'')+'</td><td>'+nLabel(n)+'</td>'+cols.map(function(c){
       var r=wAvg(o,rok,c);
-      var v=r&&r.n>=MIN_N?r.v:null;
-      // get effective n for this col across selected years
+      var v=r&&r.n>0?r.v:null;
       var nEff=0;
       var roks=rok==='all'?YEARS:[rok];
       roks.forEach(function(y){var d=ODD[o][y];if(d)nEff+=d[c+'_n']||0;});
+      // Pro small-n zobrazíme hodnotu ale šedě
+      if(smallN)return '<td><span class="bg bgx" title="n<5 · orientační">'+(v!=null?v.toFixed(1)+' %':'--')+'</span></td>';
       return '<td>'+fmt(v,n,nEff&&nEff<n?nEff:null)+'</td>';
     }).join('')+'</tr>';
   }).join('')+'</tbody>';
@@ -660,13 +674,18 @@ function rDetail(){
   document.getElementById('detailCs').textContent=o;
   document.getElementById('detailTrendCs').textContent=o;
 
-  var nOk24=d24&&d24.n>=MIN_N,nOk25=d25&&d25.n>=MIN_N;
+  var nOk24=d24&&d24.n>0,nOk25=d25&&d25.n>0;
+  var smallN24=d24&&d24.n>0&&d24.n<MIN_N,smallN25=d25&&d25.n>0&&d25.n<MIN_N;
   dc('cDetailMetriky');
   CH.cDetailMetriky=new Chart(document.getElementById('cDetailMetriky'),{
     type:'bar',data:{labels:YN.map(function(k){return QM[k];}),datasets:[
-      {label:'2024'+(nOk24?'':' (n<5)'),data:YN.map(function(k){return nOk24?d24[k]:null;}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:18},
-      {label:'2025'+(nOk25?'':' (n<5)'),data:YN.map(function(k){return nOk25?d25[k]:null;}),
-        backgroundColor:YN.map(function(k){return nOk25&&nOk24&&(d25[k]||0)<(d24[k]||0)?'#c94040':'#e8a045';}),borderRadius:4,maxBarThickness:18}
+      {label:'2024'+(smallN24?' (n='+d24.n+' · orientační)':''),data:YN.map(function(k){return nOk24?d24[k]:null;}),
+        backgroundColor:smallN24?'#ccc':'#2c6e8a',borderRadius:4,maxBarThickness:18},
+      {label:'2025'+(smallN25?' (n='+d25.n+' · orientační)':''),data:YN.map(function(k){return nOk25?d25[k]:null;}),
+        backgroundColor:YN.map(function(k){
+          if(smallN25)return '#bbb';
+          return nOk25&&nOk24&&(d25[k]||0)<(d24[k]||0)?'#c94040':'#e8a045';
+        }),borderRadius:4,maxBarThickness:18}
     ]},
     options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
       scales:{x:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{grid:{display:false},ticks:{font:BF}}},
@@ -679,7 +698,7 @@ function rDetail(){
     {key:'q_pritomnost',label:'Přítomnost rodiče',color:'#c94040'}
   ];
   mkLine('cDetailTrend',YEARS,trendM.map(function(m){
-    return{label:m.label,data:YEARS.map(function(y){var d=ODD[o][y];return d&&d.n>=MIN_N?d[m.key]:null;}),
+    return{label:m.label,data:YEARS.map(function(y){var d=ODD[o][y];return d&&d.n>0?d[m.key]:null;}),
       borderColor:m.color,backgroundColor:m.color+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2,spanGaps:true};
   }),30,100);
 
@@ -688,11 +707,14 @@ function rDetail(){
   var th='<thead><tr><th>Metrika</th>'+YEARS.map(function(y){return '<th>'+o+' '+y+'</th><th>Průměr '+y+'</th><th>&#916; '+y+'</th>';}).join('')+'</tr></thead>';
   var tb='<tbody>'+cc.map(function(col){
     return '<tr><td>'+QM[col]+'</td>'+YEARS.map(function(y){
-      var d=ODD[o][y],nOk=d&&d.n>=MIN_N,dv=nOk?d[col]:null,av=G[y][col];
+      var d=ODD[o][y],hasData=d&&d.n>0,smallN=d&&d.n>0&&d.n<MIN_N;
+      var dv=hasData?d[col]:null;
+      var av=G[y][col];
       var dnEff=d&&d[col+'_n']?d[col+'_n']:null;
       var gnEff=G[y][col+'_n']||null;
       var delta=dv!=null&&av!=null?+(dv-av).toFixed(1):null;
-      return '<td>'+fmt(dv,nOk?d.n:0,dnEff&&dnEff<d.n?dnEff:null)+'</td>'+
+      var dvCell=smallN?'<span class="bg bgx" title="n='+d.n+' · orientační">'+(dv!=null?dv.toFixed(1)+' %':'--')+'</span>':fmt(dv,hasData?d.n:0,dnEff&&dnEff<d.n?dnEff:null);
+      return '<td>'+dvCell+'</td>'+
              '<td>'+fmt(av,G[y].n,gnEff&&gnEff<G[y].n?gnEff:null)+'</td>'+
              '<td>'+(delta==null?'—':'<span class="delta '+(delta>=0?'delta-up':'delta-dn')+'">'+(delta>0?'+':'')+delta+' pb</span>')+'</td>';
     }).join('')+'</tr>';
