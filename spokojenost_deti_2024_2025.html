@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Spokojenost dětských hospitalizovaných pacientů 2024–2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{--bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--mu:#6b7080;--a1:#2c6e8a;--a2:#e8a045;--a3:#5caa7f;--a4:#c94040;--a5:#7b5ea7;--bd:#e0ddd6;--tag:#eef4f7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);}
+header{background:var(--ink);color:#fff;padding:20px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+header h1{font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;line-height:1.2;}
+header h1 em{color:var(--a2);font-style:italic;}
+.hm{font-size:.75rem;color:#aaa;margin-top:3px;}
+.badge{background:#2c6e8a22;border:1px solid #2c6e8a55;color:#7ec8e3;border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:500;margin-left:auto;}
+.tabs{background:var(--ink);padding:0 32px;display:flex;gap:2px;flex-wrap:wrap;border-top:1px solid #2e2e44;overflow-x:auto;}
+.tb{background:none;border:none;color:#999;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;padding:10px 13px;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.tb:hover{color:#fff;}.tb.active{color:var(--a2);border-bottom-color:var(--a2);}
+main{padding:22px 32px;max-width:1500px;margin:0 auto;}
+.sec{display:none;}.sec.active{display:block;}
+.ctr{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.ctr label{font-size:.78rem;color:var(--mu);font-weight:500;}
+select{padding:5px 9px;border:1.5px solid var(--bd);border-radius:7px;background:var(--card);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink);cursor:pointer;outline:none;}
+.seg{display:flex;gap:6px;flex-wrap:wrap;}
+.sb{padding:4px 12px;border-radius:20px;border:1.5px solid var(--bd);background:var(--card);font-size:.76rem;font-weight:500;cursor:pointer;color:var(--mu);transition:all .15s;}
+.sb.on{background:var(--a1);border-color:var(--a1);color:#fff;}
+.ks{display:grid;gap:12px;margin-bottom:18px;}
+.k4{grid-template-columns:repeat(4,1fr);}.k3{grid-template-columns:repeat(3,1fr);}
+.kpi{background:var(--card);border-radius:11px;padding:15px 17px;border:1px solid var(--bd);position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.kpi.c1::before{background:var(--a1);}.kpi.c2::before{background:var(--a3);}
+.kpi.c3::before{background:var(--a2);}.kpi.c4::before{background:var(--a4);}.kpi.c5::before{background:var(--a5);}
+.kl{font-size:.7rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.kv{font-family:'DM Serif Display',serif;font-size:1.9rem;line-height:1;}
+.ks2{font-size:.72rem;color:var(--mu);margin-top:4px;}
+.gr{display:grid;gap:16px;margin-bottom:18px;}
+.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr 1fr;}
+.card{background:var(--card);border-radius:11px;padding:18px;border:1px solid var(--bd);}
+.ct{font-size:.8rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.cs{font-size:.72rem;color:var(--mu);font-weight:400;text-transform:none;letter-spacing:0;}
+.ch{position:relative;}
+.ch200{height:200px;}.ch250{height:250px;}.ch300{height:300px;}.ch320{height:320px;}.ch350{height:350px;}.ch380{height:380px;}.ch400{height:400px;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+th{font-size:.72rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;padding:7px 10px;border-bottom:2px solid var(--bd);text-align:left;}
+td{padding:7px 10px;border-bottom:1px solid var(--bd);}
+tr:hover td{background:#fafaf8;}
+.bg{display:inline-block;padding:2px 8px;border-radius:5px;font-weight:500;font-size:.8rem;}
+.bgg{background:#e8f5ee;color:#2a7a4e;}.bgy{background:#fef5e7;color:#b07800;}.bgr{background:#fdeaea;color:#a83232;}.bgx{background:#f5f5f5;color:#999;}
+.pill{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.72rem;font-weight:500;}
+.pill-gray{background:#ececec;color:#888;}
+.note-small{font-size:.72rem;color:var(--mu);margin-top:8px;font-style:italic;}
+.note-warn{background:#fff8e8;border:1px solid #f5d78e;border-radius:8px;padding:10px 14px;font-size:.78rem;color:#7a5c00;margin-bottom:14px;}
+.stat-ctx{margin-top:10px;padding:9px 13px;background:#f9f8f5;border-left:3px solid #c8c4bb;border-radius:0 6px 6px 0;font-size:.73rem;color:#6b7080;line-height:1.5;}
+.stat-ctx strong{color:#4a4a5a;}
+.stat-banner{background:#f5f3ee;border:1.5px solid #d9d5cc;border-radius:9px;padding:11px 16px;display:flex;align-items:flex-start;gap:10px;font-size:.78rem;color:#4a4a5a;line-height:1.5;}
+.stat-banner strong{color:#1a1a2e;}
+.delta{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 6px;border-radius:4px;margin-left:4px;}
+.delta-up{background:#e8f5ee;color:#2a7a4e;}.delta-dn{background:#fdeaea;color:#a83232;}
+@media(max-width:900px){.k4{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}main{padding:14px 12px;}header{padding:14px 12px;}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>&#127973; Spokojenost dětských hospitalizovaných pacientů <em>2024&#8211;2025</em></h1>
+    <div class="hm">Hodnocení rodiči / zákonnými zástupci &middot; Datum hospitalizace pro přiřazení k pololetím &middot; n&lt;5 = šedé &middot; <span style="color:#e8c07a;font-weight:600;">2024: n=61 &middot; 2025: n=49 &mdash; výsledky jsou orientační</span></div>
+  </div>
+  <div class="badge">&#128106; Dětská oddělení</div>
+</header>
+<div class="tabs">
+  <button class="tb active" onclick="goTab('prehled',this)">&#127968; Přehled</button>
+  <button class="tb" onclick="goTab('kategorie',this)">&#11088; Kategorie péče</button>
+  <button class="tb" onclick="goTab('oddeleni',this)">&#127968; Oddělení</button>
+  <button class="tb" onclick="goTab('prijeti',this)">&#9201; Přijetí</button>
+  <button class="tb" onclick="goTab('demografie',this)">&#128101; Demografie</button>
+  <button class="tb" onclick="goTab('detail',this)">&#128269; Detail oddělení</button>
+  <button class="tb" onclick="goTab('picker',this)">&#127919; Picker dimenze</button>
+  <button class="tb" onclick="goTab('pocty',this)">&#128202; Počty po pololetích</button>
+</div>
+<main>
+
+<div class="sec active" id="tab-prehled">
+  <div class="ks k4">
+    <div class="kpi c1"><div class="kl">Doporučení nemocnice</div><div class="kv" id="kk-dopor">—</div><div class="ks2" id="ks-dopor"></div></div>
+    <div class="kpi c2"><div class="kl">Důvěra lékaři</div><div class="kv" id="kk-lekar">—</div><div class="ks2" id="ks-lekar"></div></div>
+    <div class="kpi c3"><div class="kl">Jednání sester</div><div class="kv" id="kk-sestra">—</div><div class="ks2" id="ks-sestra"></div></div>
+    <div class="kpi c4"><div class="kl">Pohoda oddělení</div><div class="kv" id="kk-pohoda">—</div><div class="ks2" id="ks-pohoda"></div></div>
+  </div>
+  <div class="ks" style="grid-template-columns:1fr 3fr;margin-bottom:18px">
+    <div class="kpi c5"><div class="kl">Celkem odpovědí</div><div class="kv" id="kk-total">—</div><div class="ks2" id="ks-total"></div></div>
+    <div class="stat-banner"><div style="font-size:1.1rem;flex-shrink:0">&#128202;</div><div id="prehled-stat-note"></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="card">
+      <div class="ct">Klíčové metriky 2024 vs 2025 <span class="cs">červená = pokles</span></div>
+      <div class="ch ch350"><canvas id="cKlic"></canvas></div>
+      <div class="stat-ctx">2024: <strong>n=61</strong>, 2025: <strong>n=49</strong> &middot; 1 pb &asymp; 0,5 respondenta &middot; najeďte myší pro počty</div>
+    </div>
+    <div class="card">
+      <div class="ct">Vývoj spokojenosti <span class="cs" id="trendCs"></span></div>
+      <div class="ctr"><div class="seg">
+        <button class="sb on" onclick="setTrendGran('rok')">Po rocích</button>
+        <button class="sb" onclick="setTrendGran('polo')">Po pololetích</button>
+      </div></div>
+      <div class="ch ch300"><canvas id="cTrend"></canvas></div>
+    </div>
+  </div>
+  <div class="gr g3">
+    <div class="card"><div class="ct">Délka procesu přijetí</div><div class="ch ch250"><canvas id="cDelkaP"></canvas></div></div>
+    <div class="card"><div class="ct">Urgentní příjem — spokojenost</div><div class="ch ch250"><canvas id="cUrgP"></canvas></div></div>
+    <div class="card"><div class="ct">Počty po pololetích</div><div class="ch ch250"><canvas id="cPoctyPrehled"></canvas></div></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-kategorie">
+  <div class="ctr"><div class="seg" id="katRokSeg">
+    <button class="sb on" onclick="setKatRok('all')">Obě období</button>
+    <button class="sb" onclick="setKatRok('2024')">2024</button>
+    <button class="sb" onclick="setKatRok('2025')">2025</button>
+  </div></div>
+  <div class="gr" style="grid-template-columns:1fr">
+    <div class="card">
+      <div class="ct">Všechny metriky <span class="cs" id="vsechnyCs"></span></div>
+      <div class="ch ch400"><canvas id="cVsechny"></canvas></div>
+      <div id="deltaLcNote" class="stat-ctx" style="display:none"></div>
+    </div>
+  </div>
+  <div class="gr g2">
+    <div class="card"><div class="ct" style="color:#2c6e8a">Lékaři</div><div class="ch" style="height:280px"><canvas id="cGrpLekar"></canvas></div><div id="cGrpLekarCtx" class="stat-ctx" style="display:none"></div></div>
+    <div class="card"><div class="ct" style="color:#5caa7f">Sestry</div><div class="ch" style="height:280px"><canvas id="cGrpSestry"></canvas></div><div id="cGrpSestryCtx" class="stat-ctx" style="display:none"></div></div>
+    <div class="card"><div class="ct" style="color:#e8a045">Prostředí</div><div class="ch" style="height:280px"><canvas id="cGrpProstredi"></canvas></div><div id="cGrpProstrediCtx" class="stat-ctx" style="display:none"></div></div>
+    <div class="card"><div class="ct" style="color:#7b5ea7">Informace</div><div class="ch" style="height:280px"><canvas id="cGrpInfo"></canvas></div><div id="cGrpInfoCtx" class="stat-ctx" style="display:none"></div></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-oddeleni">
+  <div class="ctr"><label>Rok:</label><div class="seg" id="oddRokSeg">
+    <button class="sb on" onclick="setOddRok('2025')">2025</button>
+    <button class="sb" onclick="setOddRok('2024')">2024</button>
+    <button class="sb" onclick="setOddRok('all')">Obě</button>
+  </div></div>
+  <div class="note-warn">&#9888; Oddělení s méně než 5 odpověďmi jsou označena šedě.</div>
+  <div class="gr" style="grid-template-columns:1fr">
+    <div class="card"><div class="ct">Doporučení nemocnice dle oddělení <span class="cs" id="oddDopCs"></span></div><div class="ch ch250"><canvas id="cOddDopor"></canvas></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="card"><div class="ct">Důvěra lékaři <span class="cs" id="oddLekCs"></span></div><div class="ch ch250"><canvas id="cOddLekar"></canvas></div></div>
+    <div class="card"><div class="ct">Jednání sester <span class="cs" id="oddSesCs"></span></div><div class="ch ch250"><canvas id="cOddSestry"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="ct">Přehledová tabulka <span class="cs" id="tblCs"></span></div>
+    <div style="overflow-x:auto"><table id="tOddeleni"></table></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-prijeti">
+  <div class="gr g2">
+    <div class="card"><div class="ct">Délka přijetí — počty</div><div class="ch ch300"><canvas id="cDelka"></canvas></div></div>
+    <div class="card"><div class="ct">Délka přijetí — podíl</div><div class="ch ch300"><canvas id="cDelkaPct"></canvas></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="card"><div class="ct">Urgentní příjem — spokojeni?</div><div class="ch ch300"><canvas id="cUrg"></canvas></div></div>
+    <div class="card"><div class="ct">Organizace přijetí dle oddělení</div><div class="ch ch300"><canvas id="cOrgPrijeti"></canvas></div></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-demografie">
+  <div class="ctr"><label>Rok:</label><div class="seg" id="demoRokSeg">
+    <button class="sb on" onclick="setDemoRok('all')">Obě</button>
+    <button class="sb" onclick="setDemoRok('2024')">2024</button>
+    <button class="sb" onclick="setDemoRok('2025')">2025</button>
+  </div></div>
+  <div class="ks k3" style="margin-bottom:16px">
+    <div class="kpi c1"><div class="kl">Průměrný věk</div><div class="kv" id="kk-vek">—</div><div class="ks2" id="ks-vek"></div></div>
+    <div class="kpi c2"><div class="kl">Dívky</div><div class="kv" id="kk-divky">—</div><div class="ks2" id="ks-divky"></div></div>
+    <div class="kpi c3"><div class="kl">Chlapci</div><div class="kv" id="kk-chlapci">—</div><div class="ks2" id="ks-chlapci"></div></div>
+  </div>
+  <div class="gr g2">
+    <div class="card"><div class="ct">Pohlaví pacienta</div><div class="ch ch300"><canvas id="cGender"></canvas></div></div>
+    <div class="card"><div class="ct">Věkové skupiny</div><div class="ch ch300"><canvas id="cVek"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="ct">Průměrný věk dle oddělení</div><div class="ch ch250"><canvas id="cVekOdd"></canvas></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-detail">
+  <div class="ctr"><label>Oddělení:</label><select id="selDetailOdd" onchange="rDetail()"></select></div>
+  <div class="ks k4" id="detailKpis" style="margin-bottom:16px"></div>
+  <div class="gr g2">
+    <div class="card"><div class="ct">Všechny metriky <span class="cs" id="detailCs"></span></div><div class="ch ch400"><canvas id="cDetailMetriky"></canvas></div></div>
+    <div class="card"><div class="ct">Vývoj klíčových metrik <span class="cs" id="detailTrendCs"></span></div><div class="ch ch400"><canvas id="cDetailTrend"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="ct">Srovnání s průměrem <span class="cs" id="detailSrovCs"></span></div>
+    <div style="overflow-x:auto"><table id="tDetailSrov"></table></div>
+  </div>
+</div>
+
+<div class="sec" id="tab-picker">
+  <div class="note-warn">&#127919; <strong>Pickerovy dimenze</strong> — mezinárodně uznávaný rámec kvality péče. Přizpůsobeno dětskému kontextu, přidána dimenze Podpora rodiče.</div>
+  <div class="ks k4" id="picker-kpi-row"></div>
+  <div class="gr g2">
+    <div class="card"><div class="ct">Skóre dimenzí 2024 vs 2025</div><div class="ch ch320"><canvas id="cPickerBar"></canvas></div></div>
+    <div class="card"><div class="ct">Změna 2024 → 2025 <span class="cs">tlumené barvy = malý soubor</span></div><div class="ch ch320"><canvas id="cPickerDiff"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px"><div class="ct">Radar — profil péče</div><div class="ch ch380"><canvas id="cPickerRadar"></canvas></div></div>
+  <div class="card"><div class="ct">Detail dimenzí <span class="cs">kliknutím rozbalíte</span></div><div id="pickerDetail"></div></div>
+</div>
+
+<div class="sec" id="tab-pocty">
+  <div class="ctr">
+    <label>Zobrazit:</label>
+    <div class="seg" id="poctyTypSeg">
+      <button class="sb on" onclick="setPoctyTyp('counts')">Počty</button>
+      <button class="sb" onclick="setPoctyTyp('metric')">Metrika</button>
+    </div>
+    <label id="poctyMetLabel" style="display:none;margin-left:12px">Metrika:</label>
+    <select id="selPoctyMetric" style="display:none" onchange="rPocty()"></select>
+  </div>
+  <div class="gr" style="grid-template-columns:1fr">
+    <div class="card"><div class="ct">Vývoj po pololetích <span class="cs" id="poctyCs"></span></div><div class="ch ch350"><canvas id="cPocty"></canvas></div></div>
+  </div>
+  <div class="card"><div class="ct">Tabulka počtů</div><div style="overflow-x:auto"><table id="tPocty"></table></div></div>
+</div>
+
+</main>
+<script>var _b="eyJnbG9iYWwiOiB7IjIwMjQiOiB7Im4iOiA2MSwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogOTguMywgInFfb3JnYW5pemFjZV9wcmlqZXRpX24iOiA2MCwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMSwgInFfdm5pdHJuaV9yYWQiOiA5Ni40LCAicV92bml0cm5pX3JhZF9uIjogNTYsICJxX3ZuaXRybmlfcmFkX25lIjogMiwgInFfdmlfbGVrYXIiOiA4Ni43LCAicV92aV9sZWthcl9uIjogNjAsICJxX3ZpX2xla2FyX25lIjogOCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogODUuMCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiA2MCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogOSwgInFfaW5mb3JtYWNlX2xlY2JhIjogODkuOCwgInFfaW5mb3JtYWNlX2xlY2JhX24iOiA1OSwgInFfaW5mb3JtYWNlX2xlY2JhX25lIjogNiwgInFfZHV2ZXJhX2xla2FyIjogMTAwLjAsICJxX2R1dmVyYV9sZWthcl9uIjogNjAsICJxX2R1dmVyYV9sZWthcl9uZSI6IDAsICJxX3Bvcm96dW1lbmlfbGVrYXIiOiA5OC40LCAicV9wb3JvenVtZW5pX2xla2FyX24iOiA2MSwgInFfcG9yb3p1bWVuaV9sZWthcl9uZSI6IDEsICJxX3Rpc2ljaV9sZWt5IjogOTguMywgInFfdGlzaWNpX2xla3lfbiI6IDYwLCAicV90aXNpY2lfbGVreV9uZSI6IDEsICJxX2tvbXVuaWthY2VfdmVrIjogOTguNCwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDYxLCAicV9rb211bmlrYWNlX3Zla19uZSI6IDEsICJxX3Nlc3RyeV9qZWRuYW5pIjogOTguMywgInFfc2VzdHJ5X2plZG5hbmlfbiI6IDYwLCAicV9zZXN0cnlfamVkbmFuaV9uZSI6IDEsICJxX3Nlc3RyeV9wb3JvenVtZW5pIjogOTguNCwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDYxLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDEsICJxX2RhbHNpX3BlcnNvbmFsIjogMTAwLjAsICJxX2RhbHNpX3BlcnNvbmFsX24iOiA2MCwgInFfZGFsc2lfcGVyc29uYWxfbmUiOiAwLCAicV9wc3ljaG9sb2ciOiA2NS41LCAicV9wc3ljaG9sb2dfbiI6IDI5LCAicV9wc3ljaG9sb2dfbmUiOiAxMCwgInFfaW50aW1pdGEiOiAxMDAuMCwgInFfaW50aW1pdGFfbiI6IDU4LCAicV9pbnRpbWl0YV9uZSI6IDAsICJxX3ByaXRvbW5vc3QiOiAxMDAuMCwgInFfcHJpdG9tbm9zdF9uIjogNTcsICJxX3ByaXRvbW5vc3RfbmUiOiAwLCAicV9jaXN0b3RhIjogOTguNCwgInFfY2lzdG90YV9uIjogNjEsICJxX2Npc3RvdGFfbmUiOiAxLCAicV9zdHJhdmEiOiA5NC44LCAicV9zdHJhdmFfbiI6IDU4LCAicV9zdHJhdmFfbmUiOiAzLCAicV9kZW5uaV9yZXppbSI6IDk1LjAsICJxX2Rlbm5pX3JlemltX24iOiA2MCwgInFfZGVubmlfcmV6aW1fbmUiOiAzLCAicV93aWZpIjogODcuNSwgInFfd2lmaV9uIjogNDgsICJxX3dpZmlfbmUiOiA2LCAicV9wb2hvZGEiOiAxMDAuMCwgInFfcG9ob2RhX24iOiA2MSwgInFfcG9ob2RhX25lIjogMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pIjogOTguMywgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiA1OSwgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMSwgInFfb21idWRzbWFuIjogNjMuOCwgInFfb21idWRzbWFuX24iOiA1OCwgInFfb21idWRzbWFuX25lIjogMjEsICJxX2RvcG9ydWNlbmkiOiA5OC4zLCAicV9kb3BvcnVjZW5pX24iOiA2MCwgInFfZG9wb3J1Y2VuaV9uZSI6IDEsICJkZWxrYSI6IHsibHQxIjogNDUsICIxdG8yIjogMTEsICJndDIiOiA1fSwgInVyZ2VudG5pIjogeyJBbm8iOiAyNSwgIk1pbW8iOiAyNSwgIk5lIjogNH0sICJnZW5kZXIiOiB7IkNobGFwZWMiOiAzNSwgIkTDrXZrYSI6IDI2fSwgImFnZV9tZWFuIjogNy41LCAiYWdlX2Rpc3QiOiB7IjctMTIiOiAxNywgIjEtMyI6IDE3LCAiNC02IjogMTQsICIxMysiOiAxMn19LCAiMjAyNSI6IHsibiI6IDQ5LCAicV9vcmdhbml6YWNlX3ByaWpldGkiOiA5My44LCAicV9vcmdhbml6YWNlX3ByaWpldGlfbiI6IDQ4LCAicV9vcmdhbml6YWNlX3ByaWpldGlfbmUiOiAzLCAicV92bml0cm5pX3JhZCI6IDgzLjMsICJxX3ZuaXRybmlfcmFkX24iOiA0OCwgInFfdm5pdHJuaV9yYWRfbmUiOiA4LCAicV92aV9sZWthciI6IDc5LjIsICJxX3ZpX2xla2FyX24iOiA0OCwgInFfdmlfbGVrYXJfbmUiOiAxMCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogNzguNywgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiA0NywgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogMTAsICJxX2luZm9ybWFjZV9sZWNiYSI6IDk1LjgsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogNDgsICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDIsICJxX2R1dmVyYV9sZWthciI6IDkzLjgsICJxX2R1dmVyYV9sZWthcl9uIjogNDgsICJxX2R1dmVyYV9sZWthcl9uZSI6IDMsICJxX3Bvcm96dW1lbmlfbGVrYXIiOiA5My44LCAicV9wb3JvenVtZW5pX2xla2FyX24iOiA0OCwgInFfcG9yb3p1bWVuaV9sZWthcl9uZSI6IDMsICJxX3Rpc2ljaV9sZWt5IjogOTUuOCwgInFfdGlzaWNpX2xla3lfbiI6IDQ4LCAicV90aXNpY2lfbGVreV9uZSI6IDIsICJxX2tvbXVuaWthY2VfdmVrIjogOTMuOCwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDQ4LCAicV9rb211bmlrYWNlX3Zla19uZSI6IDMsICJxX3Nlc3RyeV9qZWRuYW5pIjogOTcuOSwgInFfc2VzdHJ5X2plZG5hbmlfbiI6IDQ4LCAicV9zZXN0cnlfamVkbmFuaV9uZSI6IDEsICJxX3Nlc3RyeV9wb3JvenVtZW5pIjogOTUuOCwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDQ4LCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDIsICJxX2RhbHNpX3BlcnNvbmFsIjogOTMuOCwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDQ4LCAicV9kYWxzaV9wZXJzb25hbF9uZSI6IDMsICJxX3BzeWNob2xvZyI6IDQwLjksICJxX3BzeWNob2xvZ19uIjogMjIsICJxX3BzeWNob2xvZ19uZSI6IDEzLCAicV9pbnRpbWl0YSI6IDk3LjksICJxX2ludGltaXRhX24iOiA0OCwgInFfaW50aW1pdGFfbmUiOiAxLCAicV9wcml0b21ub3N0IjogOTcuOSwgInFfcHJpdG9tbm9zdF9uIjogNDgsICJxX3ByaXRvbW5vc3RfbmUiOiAxLCAicV9jaXN0b3RhIjogOTMuOCwgInFfY2lzdG90YV9uIjogNDgsICJxX2Npc3RvdGFfbmUiOiAzLCAicV9zdHJhdmEiOiA4NS40LCAicV9zdHJhdmFfbiI6IDQ4LCAicV9zdHJhdmFfbmUiOiA3LCAicV9kZW5uaV9yZXppbSI6IDkxLjcsICJxX2Rlbm5pX3JlemltX24iOiA0OCwgInFfZGVubmlfcmV6aW1fbmUiOiA0LCAicV93aWZpIjogOTcuNiwgInFfd2lmaV9uIjogNDIsICJxX3dpZmlfbmUiOiAxLCAicV9wb2hvZGEiOiA5NS44LCAicV9wb2hvZGFfbiI6IDQ4LCAicV9wb2hvZGFfbmUiOiAyLCAicV9pbmZvX3BvX3Byb3B1c3RlbmkiOiA5Ny45LCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbiI6IDQ3LCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbmUiOiAxLCAicV9vbWJ1ZHNtYW4iOiA2NC40LCAicV9vbWJ1ZHNtYW5fbiI6IDQ1LCAicV9vbWJ1ZHNtYW5fbmUiOiAxNiwgInFfZG9wb3J1Y2VuaSI6IDkxLjcsICJxX2RvcG9ydWNlbmlfbiI6IDQ4LCAicV9kb3BvcnVjZW5pX25lIjogNCwgImRlbGthIjogeyJsdDEiOiAzNSwgIjF0bzIiOiAxMn0sICJ1cmdlbnRuaSI6IHsiTWltbyI6IDI1LCAiQW5vIjogMTksICJOZSI6IDN9LCAiZ2VuZGVyIjogeyJEw612a2EiOiAyNSwgIkNobGFwZWMiOiAyM30sICJhZ2VfbWVhbiI6IDcuOCwgImFnZV9kaXN0IjogeyI0LTYiOiAxNCwgIjEtMyI6IDEyLCAiMTMrIjogMTEsICI3LTEyIjogMTB9fX0sICJvZGRlbGVuaSI6IHsiRMSbdHNrw6kgLSBsxa/FvmtvdsOpIjogeyIyMDI0IjogeyJuIjogNDEsICJxX29yZ2FuaXphY2VfcHJpamV0aSI6IDk3LjYsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uIjogNDEsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uZSI6IDEsICJxX3ZuaXRybmlfcmFkIjogOTQuNCwgInFfdm5pdHJuaV9yYWRfbiI6IDM2LCAicV92bml0cm5pX3JhZF9uZSI6IDIsICJxX3ZpX2xla2FyIjogOTAuMCwgInFfdmlfbGVrYXJfbiI6IDQwLCAicV92aV9sZWthcl9uZSI6IDQsICJxX3ByZWRzdGF2ZW5pX2xla2FyZSI6IDg1LjAsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uIjogNDAsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uZSI6IDYsICJxX2luZm9ybWFjZV9sZWNiYSI6IDg3LjIsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogMzksICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDUsICJxX2R1dmVyYV9sZWthciI6IDEwMC4wLCAicV9kdXZlcmFfbGVrYXJfbiI6IDQxLCAicV9kdXZlcmFfbGVrYXJfbmUiOiAwLCAicV9wb3JvenVtZW5pX2xla2FyIjogOTcuNiwgInFfcG9yb3p1bWVuaV9sZWthcl9uIjogNDEsICJxX3Bvcm96dW1lbmlfbGVrYXJfbmUiOiAxLCAicV90aXNpY2lfbGVreSI6IDk3LjUsICJxX3Rpc2ljaV9sZWt5X24iOiA0MCwgInFfdGlzaWNpX2xla3lfbmUiOiAxLCAicV9rb211bmlrYWNlX3ZlayI6IDk3LjYsICJxX2tvbXVuaWthY2VfdmVrX24iOiA0MSwgInFfa29tdW5pa2FjZV92ZWtfbmUiOiAxLCAicV9zZXN0cnlfamVkbmFuaSI6IDk3LjYsICJxX3Nlc3RyeV9qZWRuYW5pX24iOiA0MSwgInFfc2VzdHJ5X2plZG5hbmlfbmUiOiAxLCAicV9zZXN0cnlfcG9yb3p1bWVuaSI6IDk3LjYsICJxX3Nlc3RyeV9wb3JvenVtZW5pX24iOiA0MSwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbmUiOiAxLCAicV9kYWxzaV9wZXJzb25hbCI6IDEwMC4wLCAicV9kYWxzaV9wZXJzb25hbF9uIjogNDAsICJxX2RhbHNpX3BlcnNvbmFsX25lIjogMCwgInFfcHN5Y2hvbG9nIjogNzMuNywgInFfcHN5Y2hvbG9nX24iOiAxOSwgInFfcHN5Y2hvbG9nX25lIjogNSwgInFfaW50aW1pdGEiOiAxMDAuMCwgInFfaW50aW1pdGFfbiI6IDM5LCAicV9pbnRpbWl0YV9uZSI6IDAsICJxX3ByaXRvbW5vc3QiOiAxMDAuMCwgInFfcHJpdG9tbm9zdF9uIjogMzgsICJxX3ByaXRvbW5vc3RfbmUiOiAwLCAicV9jaXN0b3RhIjogMTAwLjAsICJxX2Npc3RvdGFfbiI6IDQxLCAicV9jaXN0b3RhX25lIjogMCwgInFfc3RyYXZhIjogOTQuOSwgInFfc3RyYXZhX24iOiAzOSwgInFfc3RyYXZhX25lIjogMiwgInFfZGVubmlfcmV6aW0iOiA5Mi41LCAicV9kZW5uaV9yZXppbV9uIjogNDAsICJxX2Rlbm5pX3JlemltX25lIjogMywgInFfd2lmaSI6IDg5LjcsICJxX3dpZmlfbiI6IDI5LCAicV93aWZpX25lIjogMywgInFfcG9ob2RhIjogMTAwLjAsICJxX3BvaG9kYV9uIjogNDEsICJxX3BvaG9kYV9uZSI6IDAsICJxX2luZm9fcG9fcHJvcHVzdGVuaSI6IDk3LjUsICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uIjogNDAsICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uZSI6IDEsICJxX29tYnVkc21hbiI6IDYxLjUsICJxX29tYnVkc21hbl9uIjogMzksICJxX29tYnVkc21hbl9uZSI6IDE1LCAicV9kb3BvcnVjZW5pIjogOTcuNSwgInFfZG9wb3J1Y2VuaV9uIjogNDAsICJxX2RvcG9ydWNlbmlfbmUiOiAxLCAiZGVsa2EiOiB7Imx0MSI6IDMxLCAiMXRvMiI6IDcsICJndDIiOiAzfSwgInVyZ2VudG5pIjogeyJNaW1vIjogMTcsICJBbm8iOiAxNiwgIk5lIjogM30sICJnZW5kZXIiOiB7IkNobGFwZWMiOiAyNywgIkTDrXZrYSI6IDE0fSwgImFnZV9tZWFuIjogNi44LCAiYWdlX2Rpc3QiOiB7IjEtMyI6IDE0LCAiNy0xMiI6IDExLCAiNC02IjogOSwgIjEzKyI6IDZ9fSwgIjIwMjUiOiB7Im4iOiAzMCwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogOTMuMywgInFfb3JnYW5pemFjZV9wcmlqZXRpX24iOiAzMCwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMiwgInFfdm5pdHJuaV9yYWQiOiA4MC4wLCAicV92bml0cm5pX3JhZF9uIjogMzAsICJxX3ZuaXRybmlfcmFkX25lIjogNiwgInFfdmlfbGVrYXIiOiA4MC4wLCAicV92aV9sZWthcl9uIjogMzAsICJxX3ZpX2xla2FyX25lIjogNiwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogNzIuNCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiAyOSwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogOCwgInFfaW5mb3JtYWNlX2xlY2JhIjogOTYuNywgInFfaW5mb3JtYWNlX2xlY2JhX24iOiAzMCwgInFfaW5mb3JtYWNlX2xlY2JhX25lIjogMSwgInFfZHV2ZXJhX2xla2FyIjogOTMuMywgInFfZHV2ZXJhX2xla2FyX24iOiAzMCwgInFfZHV2ZXJhX2xla2FyX25lIjogMiwgInFfcG9yb3p1bWVuaV9sZWthciI6IDkzLjMsICJxX3Bvcm96dW1lbmlfbGVrYXJfbiI6IDMwLCAicV9wb3JvenVtZW5pX2xla2FyX25lIjogMiwgInFfdGlzaWNpX2xla3kiOiA5Ni43LCAicV90aXNpY2lfbGVreV9uIjogMzAsICJxX3Rpc2ljaV9sZWt5X25lIjogMSwgInFfa29tdW5pa2FjZV92ZWsiOiA5My4zLCAicV9rb211bmlrYWNlX3Zla19uIjogMzAsICJxX2tvbXVuaWthY2VfdmVrX25lIjogMiwgInFfc2VzdHJ5X2plZG5hbmkiOiAxMDAuMCwgInFfc2VzdHJ5X2plZG5hbmlfbiI6IDMwLCAicV9zZXN0cnlfamVkbmFuaV9uZSI6IDAsICJxX3Nlc3RyeV9wb3JvenVtZW5pIjogOTYuNywgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDMwLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDEsICJxX2RhbHNpX3BlcnNvbmFsIjogOTMuMywgInFfZGFsc2lfcGVyc29uYWxfbiI6IDMwLCAicV9kYWxzaV9wZXJzb25hbF9uZSI6IDIsICJxX3BzeWNob2xvZyI6IDE1LjQsICJxX3BzeWNob2xvZ19uIjogMTMsICJxX3BzeWNob2xvZ19uZSI6IDExLCAicV9pbnRpbWl0YSI6IDEwMC4wLCAicV9pbnRpbWl0YV9uIjogMzAsICJxX2ludGltaXRhX25lIjogMCwgInFfcHJpdG9tbm9zdCI6IDEwMC4wLCAicV9wcml0b21ub3N0X24iOiAzMCwgInFfcHJpdG9tbm9zdF9uZSI6IDAsICJxX2Npc3RvdGEiOiA5Ni43LCAicV9jaXN0b3RhX24iOiAzMCwgInFfY2lzdG90YV9uZSI6IDEsICJxX3N0cmF2YSI6IDgzLjMsICJxX3N0cmF2YV9uIjogMzAsICJxX3N0cmF2YV9uZSI6IDUsICJxX2Rlbm5pX3JlemltIjogOTAuMCwgInFfZGVubmlfcmV6aW1fbiI6IDMwLCAicV9kZW5uaV9yZXppbV9uZSI6IDMsICJxX3dpZmkiOiAxMDAuMCwgInFfd2lmaV9uIjogMjYsICJxX3dpZmlfbmUiOiAwLCAicV9wb2hvZGEiOiA5Ni43LCAicV9wb2hvZGFfbiI6IDMwLCAicV9wb2hvZGFfbmUiOiAxLCAicV9pbmZvX3BvX3Byb3B1c3RlbmkiOiAxMDAuMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiAyOSwgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMCwgInFfb21idWRzbWFuIjogNjUuNSwgInFfb21idWRzbWFuX24iOiAyOSwgInFfb21idWRzbWFuX25lIjogMTAsICJxX2RvcG9ydWNlbmkiOiA5My4zLCAicV9kb3BvcnVjZW5pX24iOiAzMCwgInFfZG9wb3J1Y2VuaV9uZSI6IDIsICJkZWxrYSI6IHsibHQxIjogMjIsICIxdG8yIjogN30sICJ1cmdlbnRuaSI6IHsiTWltbyI6IDE2LCAiQW5vIjogMTAsICJOZSI6IDN9LCAiZ2VuZGVyIjogeyJEw612a2EiOiAxNywgIkNobGFwZWMiOiAxM30sICJhZ2VfbWVhbiI6IDcuMSwgImFnZV9kaXN0IjogeyI0LTYiOiAxMSwgIjEtMyI6IDksICIxMysiOiA3LCAiNy0xMiI6IDN9fX0sICJExJt0c2vDqSAtIG5vdm9yb3plbmNpIjogeyIyMDI0IjogeyJuIjogMiwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogMTAwLjAsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uIjogMiwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMCwgInFfdm5pdHJuaV9yYWQiOiAxMDAuMCwgInFfdm5pdHJuaV9yYWRfbiI6IDIsICJxX3ZuaXRybmlfcmFkX25lIjogMCwgInFfdmlfbGVrYXIiOiAxMDAuMCwgInFfdmlfbGVrYXJfbiI6IDIsICJxX3ZpX2xla2FyX25lIjogMCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogMTAwLjAsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uIjogMiwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogMCwgInFfaW5mb3JtYWNlX2xlY2JhIjogMTAwLjAsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogMiwgInFfaW5mb3JtYWNlX2xlY2JhX25lIjogMCwgInFfZHV2ZXJhX2xla2FyIjogMTAwLjAsICJxX2R1dmVyYV9sZWthcl9uIjogMiwgInFfZHV2ZXJhX2xla2FyX25lIjogMCwgInFfcG9yb3p1bWVuaV9sZWthciI6IDEwMC4wLCAicV9wb3JvenVtZW5pX2xla2FyX24iOiAyLCAicV9wb3JvenVtZW5pX2xla2FyX25lIjogMCwgInFfdGlzaWNpX2xla3kiOiAxMDAuMCwgInFfdGlzaWNpX2xla3lfbiI6IDIsICJxX3Rpc2ljaV9sZWt5X25lIjogMCwgInFfa29tdW5pa2FjZV92ZWsiOiAxMDAuMCwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDIsICJxX2tvbXVuaWthY2VfdmVrX25lIjogMCwgInFfc2VzdHJ5X2plZG5hbmkiOiAxMDAuMCwgInFfc2VzdHJ5X2plZG5hbmlfbiI6IDIsICJxX3Nlc3RyeV9qZWRuYW5pX25lIjogMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmkiOiAxMDAuMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDIsICJxX3Nlc3RyeV9wb3JvenVtZW5pX25lIjogMCwgInFfZGFsc2lfcGVyc29uYWwiOiAxMDAuMCwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDIsICJxX2RhbHNpX3BlcnNvbmFsX25lIjogMCwgInFfcHN5Y2hvbG9nIjogMTAwLjAsICJxX3BzeWNob2xvZ19uIjogMSwgInFfcHN5Y2hvbG9nX25lIjogMCwgInFfaW50aW1pdGEiOiAxMDAuMCwgInFfaW50aW1pdGFfbiI6IDIsICJxX2ludGltaXRhX25lIjogMCwgInFfcHJpdG9tbm9zdCI6IDEwMC4wLCAicV9wcml0b21ub3N0X24iOiAyLCAicV9wcml0b21ub3N0X25lIjogMCwgInFfY2lzdG90YSI6IDEwMC4wLCAicV9jaXN0b3RhX24iOiAyLCAicV9jaXN0b3RhX25lIjogMCwgInFfc3RyYXZhIjogMTAwLjAsICJxX3N0cmF2YV9uIjogMiwgInFfc3RyYXZhX25lIjogMCwgInFfZGVubmlfcmV6aW0iOiAxMDAuMCwgInFfZGVubmlfcmV6aW1fbiI6IDIsICJxX2Rlbm5pX3JlemltX25lIjogMCwgInFfd2lmaSI6IDEwMC4wLCAicV93aWZpX24iOiAyLCAicV93aWZpX25lIjogMCwgInFfcG9ob2RhIjogMTAwLjAsICJxX3BvaG9kYV9uIjogMiwgInFfcG9ob2RhX25lIjogMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pIjogMTAwLjAsICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uIjogMiwgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMCwgInFfb21idWRzbWFuIjogMTAwLjAsICJxX29tYnVkc21hbl9uIjogMiwgInFfb21idWRzbWFuX25lIjogMCwgInFfZG9wb3J1Y2VuaSI6IDEwMC4wLCAicV9kb3BvcnVjZW5pX24iOiAyLCAicV9kb3BvcnVjZW5pX25lIjogMCwgImRlbGthIjogeyIxdG8yIjogMn0sICJ1cmdlbnRuaSI6IHsiTWltbyI6IDEsICJBbm8iOiAxfSwgImdlbmRlciI6IHsiRMOtdmthIjogMSwgIkNobGFwZWMiOiAxfSwgImFnZV9tZWFuIjogOS4wLCAiYWdlX2Rpc3QiOiB7IjEzKyI6IDEsICIxLTMiOiAxfX0sICIyMDI1IjogeyJuIjogMiwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogNTAuMCwgInFfb3JnYW5pemFjZV9wcmlqZXRpX24iOiAyLCAicV9vcmdhbml6YWNlX3ByaWpldGlfbmUiOiAxLCAicV92bml0cm5pX3JhZCI6IDUwLjAsICJxX3ZuaXRybmlfcmFkX24iOiAyLCAicV92bml0cm5pX3JhZF9uZSI6IDEsICJxX3ZpX2xla2FyIjogNTAuMCwgInFfdmlfbGVrYXJfbiI6IDIsICJxX3ZpX2xla2FyX25lIjogMSwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogNTAuMCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiAyLCAicV9wcmVkc3RhdmVuaV9sZWthcmVfbmUiOiAxLCAicV9pbmZvcm1hY2VfbGVjYmEiOiA1MC4wLCAicV9pbmZvcm1hY2VfbGVjYmFfbiI6IDIsICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDEsICJxX2R1dmVyYV9sZWthciI6IDUwLjAsICJxX2R1dmVyYV9sZWthcl9uIjogMiwgInFfZHV2ZXJhX2xla2FyX25lIjogMSwgInFfcG9yb3p1bWVuaV9sZWthciI6IDUwLjAsICJxX3Bvcm96dW1lbmlfbGVrYXJfbiI6IDIsICJxX3Bvcm96dW1lbmlfbGVrYXJfbmUiOiAxLCAicV90aXNpY2lfbGVreSI6IDUwLjAsICJxX3Rpc2ljaV9sZWt5X24iOiAyLCAicV90aXNpY2lfbGVreV9uZSI6IDEsICJxX2tvbXVuaWthY2VfdmVrIjogNTAuMCwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDIsICJxX2tvbXVuaWthY2VfdmVrX25lIjogMSwgInFfc2VzdHJ5X2plZG5hbmkiOiA1MC4wLCAicV9zZXN0cnlfamVkbmFuaV9uIjogMiwgInFfc2VzdHJ5X2plZG5hbmlfbmUiOiAxLCAicV9zZXN0cnlfcG9yb3p1bWVuaSI6IDUwLjAsICJxX3Nlc3RyeV9wb3JvenVtZW5pX24iOiAyLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDEsICJxX2RhbHNpX3BlcnNvbmFsIjogNTAuMCwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDIsICJxX2RhbHNpX3BlcnNvbmFsX25lIjogMSwgInFfcHN5Y2hvbG9nIjogNTAuMCwgInFfcHN5Y2hvbG9nX24iOiAyLCAicV9wc3ljaG9sb2dfbmUiOiAxLCAicV9pbnRpbWl0YSI6IDUwLjAsICJxX2ludGltaXRhX24iOiAyLCAicV9pbnRpbWl0YV9uZSI6IDEsICJxX3ByaXRvbW5vc3QiOiA1MC4wLCAicV9wcml0b21ub3N0X24iOiAyLCAicV9wcml0b21ub3N0X25lIjogMSwgInFfY2lzdG90YSI6IDUwLjAsICJxX2Npc3RvdGFfbiI6IDIsICJxX2Npc3RvdGFfbmUiOiAxLCAicV9zdHJhdmEiOiA1MC4wLCAicV9zdHJhdmFfbiI6IDIsICJxX3N0cmF2YV9uZSI6IDEsICJxX2Rlbm5pX3JlemltIjogNTAuMCwgInFfZGVubmlfcmV6aW1fbiI6IDIsICJxX2Rlbm5pX3JlemltX25lIjogMSwgInFfd2lmaSI6IDAuMCwgInFfd2lmaV9uIjogMSwgInFfd2lmaV9uZSI6IDEsICJxX3BvaG9kYSI6IDUwLjAsICJxX3BvaG9kYV9uIjogMiwgInFfcG9ob2RhX25lIjogMSwgInFfaW5mb19wb19wcm9wdXN0ZW5pIjogNTAuMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiAyLCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbmUiOiAxLCAicV9vbWJ1ZHNtYW4iOiAwLjAsICJxX29tYnVkc21hbl9uIjogMiwgInFfb21idWRzbWFuX25lIjogMiwgInFfZG9wb3J1Y2VuaSI6IDUwLjAsICJxX2RvcG9ydWNlbmlfbiI6IDIsICJxX2RvcG9ydWNlbmlfbmUiOiAxLCAiZGVsa2EiOiB7Imx0MSI6IDJ9LCAidXJnZW50bmkiOiB7IkFubyI6IDJ9LCAiZ2VuZGVyIjogeyJEw612a2EiOiAxLCAiQ2hsYXBlYyI6IDF9LCAiYWdlX21lYW4iOiAxMC4wLCAiYWdlX2Rpc3QiOiB7IjQtNiI6IDEsICIxMysiOiAxfX19LCAiRMSbdHNrw6kgSklQIjogeyIyMDI0IjogeyJuIjogMTgsICJxX29yZ2FuaXphY2VfcHJpamV0aSI6IDEwMC4wLCAicV9vcmdhbml6YWNlX3ByaWpldGlfbiI6IDE3LCAicV9vcmdhbml6YWNlX3ByaWpldGlfbmUiOiAwLCAicV92bml0cm5pX3JhZCI6IDEwMC4wLCAicV92bml0cm5pX3JhZF9uIjogMTgsICJxX3ZuaXRybmlfcmFkX25lIjogMCwgInFfdmlfbGVrYXIiOiA3Ny44LCAicV92aV9sZWthcl9uIjogMTgsICJxX3ZpX2xla2FyX25lIjogNCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogODMuMywgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiAxOCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogMywgInFfaW5mb3JtYWNlX2xlY2JhIjogOTQuNCwgInFfaW5mb3JtYWNlX2xlY2JhX24iOiAxOCwgInFfaW5mb3JtYWNlX2xlY2JhX25lIjogMSwgInFfZHV2ZXJhX2xla2FyIjogMTAwLjAsICJxX2R1dmVyYV9sZWthcl9uIjogMTcsICJxX2R1dmVyYV9sZWthcl9uZSI6IDAsICJxX3Bvcm96dW1lbmlfbGVrYXIiOiAxMDAuMCwgInFfcG9yb3p1bWVuaV9sZWthcl9uIjogMTgsICJxX3Bvcm96dW1lbmlfbGVrYXJfbmUiOiAwLCAicV90aXNpY2lfbGVreSI6IDEwMC4wLCAicV90aXNpY2lfbGVreV9uIjogMTgsICJxX3Rpc2ljaV9sZWt5X25lIjogMCwgInFfa29tdW5pa2FjZV92ZWsiOiAxMDAuMCwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDE4LCAicV9rb211bmlrYWNlX3Zla19uZSI6IDAsICJxX3Nlc3RyeV9qZWRuYW5pIjogMTAwLjAsICJxX3Nlc3RyeV9qZWRuYW5pX24iOiAxNywgInFfc2VzdHJ5X2plZG5hbmlfbmUiOiAwLCAicV9zZXN0cnlfcG9yb3p1bWVuaSI6IDEwMC4wLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uIjogMTgsICJxX3Nlc3RyeV9wb3JvenVtZW5pX25lIjogMCwgInFfZGFsc2lfcGVyc29uYWwiOiAxMDAuMCwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDE4LCAicV9kYWxzaV9wZXJzb25hbF9uZSI6IDAsICJxX3BzeWNob2xvZyI6IDQ0LjQsICJxX3BzeWNob2xvZ19uIjogOSwgInFfcHN5Y2hvbG9nX25lIjogNSwgInFfaW50aW1pdGEiOiAxMDAuMCwgInFfaW50aW1pdGFfbiI6IDE3LCAicV9pbnRpbWl0YV9uZSI6IDAsICJxX3ByaXRvbW5vc3QiOiAxMDAuMCwgInFfcHJpdG9tbm9zdF9uIjogMTcsICJxX3ByaXRvbW5vc3RfbmUiOiAwLCAicV9jaXN0b3RhIjogOTQuNCwgInFfY2lzdG90YV9uIjogMTgsICJxX2Npc3RvdGFfbmUiOiAxLCAicV9zdHJhdmEiOiA5NC4xLCAicV9zdHJhdmFfbiI6IDE3LCAicV9zdHJhdmFfbmUiOiAxLCAicV9kZW5uaV9yZXppbSI6IDEwMC4wLCAicV9kZW5uaV9yZXppbV9uIjogMTgsICJxX2Rlbm5pX3JlemltX25lIjogMCwgInFfd2lmaSI6IDgyLjQsICJxX3dpZmlfbiI6IDE3LCAicV93aWZpX25lIjogMywgInFfcG9ob2RhIjogMTAwLjAsICJxX3BvaG9kYV9uIjogMTgsICJxX3BvaG9kYV9uZSI6IDAsICJxX2luZm9fcG9fcHJvcHVzdGVuaSI6IDEwMC4wLCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbiI6IDE3LCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbmUiOiAwLCAicV9vbWJ1ZHNtYW4iOiA2NC43LCAicV9vbWJ1ZHNtYW5fbiI6IDE3LCAicV9vbWJ1ZHNtYW5fbmUiOiA2LCAicV9kb3BvcnVjZW5pIjogMTAwLjAsICJxX2RvcG9ydWNlbmlfbiI6IDE4LCAicV9kb3BvcnVjZW5pX25lIjogMCwgImRlbGthIjogeyJsdDEiOiAxNCwgIjF0bzIiOiAyLCAiZ3QyIjogMn0sICJ1cmdlbnRuaSI6IHsiQW5vIjogOCwgIk1pbW8iOiA3LCAiTmUiOiAxfSwgImdlbmRlciI6IHsiRMOtdmthIjogMTEsICJDaGxhcGVjIjogN30sICJhZ2VfbWVhbiI6IDguOCwgImFnZV9kaXN0IjogeyI3LTEyIjogNiwgIjEzKyI6IDUsICI0LTYiOiA1LCAiMS0zIjogMn19LCAiMjAyNSI6IHsibiI6IDE2LCAicV9vcmdhbml6YWNlX3ByaWpldGkiOiAxMDAuMCwgInFfb3JnYW5pemFjZV9wcmlqZXRpX24iOiAxNiwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMCwgInFfdm5pdHJuaV9yYWQiOiA5My44LCAicV92bml0cm5pX3JhZF9uIjogMTYsICJxX3ZuaXRybmlfcmFkX25lIjogMSwgInFfdmlfbGVrYXIiOiA4MS4yLCAicV92aV9sZWthcl9uIjogMTYsICJxX3ZpX2xla2FyX25lIjogMywgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogOTMuOCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiAxNiwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogMSwgInFfaW5mb3JtYWNlX2xlY2JhIjogMTAwLjAsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogMTYsICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDAsICJxX2R1dmVyYV9sZWthciI6IDEwMC4wLCAicV9kdXZlcmFfbGVrYXJfbiI6IDE2LCAicV9kdXZlcmFfbGVrYXJfbmUiOiAwLCAicV9wb3JvenVtZW5pX2xla2FyIjogMTAwLjAsICJxX3Bvcm96dW1lbmlfbGVrYXJfbiI6IDE2LCAicV9wb3JvenVtZW5pX2xla2FyX25lIjogMCwgInFfdGlzaWNpX2xla3kiOiAxMDAuMCwgInFfdGlzaWNpX2xla3lfbiI6IDE2LCAicV90aXNpY2lfbGVreV9uZSI6IDAsICJxX2tvbXVuaWthY2VfdmVrIjogMTAwLjAsICJxX2tvbXVuaWthY2VfdmVrX24iOiAxNiwgInFfa29tdW5pa2FjZV92ZWtfbmUiOiAwLCAicV9zZXN0cnlfamVkbmFuaSI6IDEwMC4wLCAicV9zZXN0cnlfamVkbmFuaV9uIjogMTYsICJxX3Nlc3RyeV9qZWRuYW5pX25lIjogMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmkiOiAxMDAuMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDE2LCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDAsICJxX2RhbHNpX3BlcnNvbmFsIjogMTAwLjAsICJxX2RhbHNpX3BlcnNvbmFsX24iOiAxNiwgInFfZGFsc2lfcGVyc29uYWxfbmUiOiAwLCAicV9wc3ljaG9sb2ciOiA4NS43LCAicV9wc3ljaG9sb2dfbiI6IDcsICJxX3BzeWNob2xvZ19uZSI6IDEsICJxX2ludGltaXRhIjogMTAwLjAsICJxX2ludGltaXRhX24iOiAxNiwgInFfaW50aW1pdGFfbmUiOiAwLCAicV9wcml0b21ub3N0IjogMTAwLjAsICJxX3ByaXRvbW5vc3RfbiI6IDE2LCAicV9wcml0b21ub3N0X25lIjogMCwgInFfY2lzdG90YSI6IDkzLjgsICJxX2Npc3RvdGFfbiI6IDE2LCAicV9jaXN0b3RhX25lIjogMSwgInFfc3RyYXZhIjogOTMuOCwgInFfc3RyYXZhX24iOiAxNiwgInFfc3RyYXZhX25lIjogMSwgInFfZGVubmlfcmV6aW0iOiAxMDAuMCwgInFfZGVubmlfcmV6aW1fbiI6IDE2LCAicV9kZW5uaV9yZXppbV9uZSI6IDAsICJxX3dpZmkiOiAxMDAuMCwgInFfd2lmaV9uIjogMTUsICJxX3dpZmlfbmUiOiAwLCAicV9wb2hvZGEiOiAxMDAuMCwgInFfcG9ob2RhX24iOiAxNiwgInFfcG9ob2RhX25lIjogMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pIjogMTAwLjAsICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uIjogMTYsICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uZSI6IDAsICJxX29tYnVkc21hbiI6IDcxLjQsICJxX29tYnVkc21hbl9uIjogMTQsICJxX29tYnVkc21hbl9uZSI6IDQsICJxX2RvcG9ydWNlbmkiOiAxMDAuMCwgInFfZG9wb3J1Y2VuaV9uIjogMTUsICJxX2RvcG9ydWNlbmlfbmUiOiAwLCAiZGVsa2EiOiB7Imx0MSI6IDExLCAiMXRvMiI6IDV9LCAidXJnZW50bmkiOiB7Ik1pbW8iOiA5LCAiQW5vIjogN30sICJnZW5kZXIiOiB7IkNobGFwZWMiOiA5LCAiRMOtdmthIjogN30sICJhZ2VfbWVhbiI6IDguOSwgImFnZV9kaXN0IjogeyI3LTEyIjogNywgIjEzKyI6IDMsICIxLTMiOiAzLCAiNC02IjogMn19fX0sICJtZXRhIjogeyJ0b3RhbCI6IDExMCwgIm4yNCI6IDYxLCAibjI1IjogNDksICJuX29kZGVsZW5pIjogMywgInluX2NvbHMiOiBbInFfb3JnYW5pemFjZV9wcmlqZXRpIiwgInFfdm5pdHJuaV9yYWQiLCAicV92aV9sZWthciIsICJxX3ByZWRzdGF2ZW5pX2xla2FyZSIsICJxX2luZm9ybWFjZV9sZWNiYSIsICJxX2R1dmVyYV9sZWthciIsICJxX3Bvcm96dW1lbmlfbGVrYXIiLCAicV90aXNpY2lfbGVreSIsICJxX2tvbXVuaWthY2VfdmVrIiwgInFfc2VzdHJ5X2plZG5hbmkiLCAicV9zZXN0cnlfcG9yb3p1bWVuaSIsICJxX2RhbHNpX3BlcnNvbmFsIiwgInFfcHN5Y2hvbG9nIiwgInFfaW50aW1pdGEiLCAicV9wcml0b21ub3N0IiwgInFfY2lzdG90YSIsICJxX3N0cmF2YSIsICJxX2Rlbm5pX3JlemltIiwgInFfd2lmaSIsICJxX3BvaG9kYSIsICJxX2luZm9fcG9fcHJvcHVzdGVuaSIsICJxX29tYnVkc21hbiIsICJxX2RvcG9ydWNlbmkiXX0sICJwZXJpb2RzIjogeyIyMDI0LUgxIjogeyJuIjogOSwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogMTAwLjAsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uIjogOCwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMCwgInFfdm5pdHJuaV9yYWQiOiA4Ny41LCAicV92bml0cm5pX3JhZF9uIjogOCwgInFfdm5pdHJuaV9yYWRfbmUiOiAxLCAicV92aV9sZWthciI6IDc3LjgsICJxX3ZpX2xla2FyX24iOiA5LCAicV92aV9sZWthcl9uZSI6IDIsICJxX3ByZWRzdGF2ZW5pX2xla2FyZSI6IDg4LjksICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uIjogOSwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogMSwgInFfaW5mb3JtYWNlX2xlY2JhIjogNzcuOCwgInFfaW5mb3JtYWNlX2xlY2JhX24iOiA5LCAicV9pbmZvcm1hY2VfbGVjYmFfbmUiOiAyLCAicV9kdXZlcmFfbGVrYXIiOiAxMDAuMCwgInFfZHV2ZXJhX2xla2FyX24iOiA4LCAicV9kdXZlcmFfbGVrYXJfbmUiOiAwLCAicV9wb3JvenVtZW5pX2xla2FyIjogODguOSwgInFfcG9yb3p1bWVuaV9sZWthcl9uIjogOSwgInFfcG9yb3p1bWVuaV9sZWthcl9uZSI6IDEsICJxX3Rpc2ljaV9sZWt5IjogODguOSwgInFfdGlzaWNpX2xla3lfbiI6IDksICJxX3Rpc2ljaV9sZWt5X25lIjogMSwgInFfa29tdW5pa2FjZV92ZWsiOiA4OC45LCAicV9rb211bmlrYWNlX3Zla19uIjogOSwgInFfa29tdW5pa2FjZV92ZWtfbmUiOiAxLCAicV9zZXN0cnlfamVkbmFuaSI6IDg3LjUsICJxX3Nlc3RyeV9qZWRuYW5pX24iOiA4LCAicV9zZXN0cnlfamVkbmFuaV9uZSI6IDEsICJxX3Nlc3RyeV9wb3JvenVtZW5pIjogODguOSwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDksICJxX3Nlc3RyeV9wb3JvenVtZW5pX25lIjogMSwgInFfZGFsc2lfcGVyc29uYWwiOiAxMDAuMCwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDksICJxX2RhbHNpX3BlcnNvbmFsX25lIjogMCwgInFfcHN5Y2hvbG9nIjogMjUuMCwgInFfcHN5Y2hvbG9nX24iOiA0LCAicV9wc3ljaG9sb2dfbmUiOiAzLCAicV9pbnRpbWl0YSI6IDEwMC4wLCAicV9pbnRpbWl0YV9uIjogOCwgInFfaW50aW1pdGFfbmUiOiAwLCAicV9wcml0b21ub3N0IjogMTAwLjAsICJxX3ByaXRvbW5vc3RfbiI6IDksICJxX3ByaXRvbW5vc3RfbmUiOiAwLCAicV9jaXN0b3RhIjogMTAwLjAsICJxX2Npc3RvdGFfbiI6IDksICJxX2Npc3RvdGFfbmUiOiAwLCAicV9zdHJhdmEiOiA4OC45LCAicV9zdHJhdmFfbiI6IDksICJxX3N0cmF2YV9uZSI6IDEsICJxX2Rlbm5pX3JlemltIjogNzcuOCwgInFfZGVubmlfcmV6aW1fbiI6IDksICJxX2Rlbm5pX3JlemltX25lIjogMiwgInFfd2lmaSI6IDg1LjcsICJxX3dpZmlfbiI6IDcsICJxX3dpZmlfbmUiOiAxLCAicV9wb2hvZGEiOiAxMDAuMCwgInFfcG9ob2RhX24iOiA5LCAicV9wb2hvZGFfbmUiOiAwLCAicV9pbmZvX3BvX3Byb3B1c3RlbmkiOiA4OC45LCAicV9pbmZvX3BvX3Byb3B1c3RlbmlfbiI6IDksICJxX2luZm9fcG9fcHJvcHVzdGVuaV9uZSI6IDEsICJxX29tYnVkc21hbiI6IDU1LjYsICJxX29tYnVkc21hbl9uIjogOSwgInFfb21idWRzbWFuX25lIjogNCwgInFfZG9wb3J1Y2VuaSI6IDg4LjksICJxX2RvcG9ydWNlbmlfbiI6IDksICJxX2RvcG9ydWNlbmlfbmUiOiAxLCAiZGVsa2EiOiB7Imx0MSI6IDgsICIxdG8yIjogMX0sICJ1cmdlbnRuaSI6IHsiQW5vIjogNCwgIk5lIjogMSwgIk1pbW8iOiAxfSwgImdlbmRlciI6IHsiQ2hsYXBlYyI6IDUsICJEw612a2EiOiA0fSwgImFnZV9tZWFuIjogNi44LCAiYWdlX2Rpc3QiOiB7IjctMTIiOiA0LCAiNC02IjogMiwgIjEtMyI6IDIsICIxMysiOiAxfX0sICIyMDI0LUgyIjogeyJuIjogNTIsICJxX29yZ2FuaXphY2VfcHJpamV0aSI6IDk4LjEsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uIjogNTIsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uZSI6IDEsICJxX3ZuaXRybmlfcmFkIjogOTcuOSwgInFfdm5pdHJuaV9yYWRfbiI6IDQ4LCAicV92bml0cm5pX3JhZF9uZSI6IDEsICJxX3ZpX2xla2FyIjogODguMiwgInFfdmlfbGVrYXJfbiI6IDUxLCAicV92aV9sZWthcl9uZSI6IDYsICJxX3ByZWRzdGF2ZW5pX2xla2FyZSI6IDg0LjMsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uIjogNTEsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uZSI6IDgsICJxX2luZm9ybWFjZV9sZWNiYSI6IDkyLjAsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogNTAsICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDQsICJxX2R1dmVyYV9sZWthciI6IDEwMC4wLCAicV9kdXZlcmFfbGVrYXJfbiI6IDUyLCAicV9kdXZlcmFfbGVrYXJfbmUiOiAwLCAicV9wb3JvenVtZW5pX2xla2FyIjogMTAwLjAsICJxX3Bvcm96dW1lbmlfbGVrYXJfbiI6IDUyLCAicV9wb3JvenVtZW5pX2xla2FyX25lIjogMCwgInFfdGlzaWNpX2xla3kiOiAxMDAuMCwgInFfdGlzaWNpX2xla3lfbiI6IDUxLCAicV90aXNpY2lfbGVreV9uZSI6IDAsICJxX2tvbXVuaWthY2VfdmVrIjogMTAwLjAsICJxX2tvbXVuaWthY2VfdmVrX24iOiA1MiwgInFfa29tdW5pa2FjZV92ZWtfbmUiOiAwLCAicV9zZXN0cnlfamVkbmFuaSI6IDEwMC4wLCAicV9zZXN0cnlfamVkbmFuaV9uIjogNTIsICJxX3Nlc3RyeV9qZWRuYW5pX25lIjogMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmkiOiAxMDAuMCwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDUyLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDAsICJxX2RhbHNpX3BlcnNvbmFsIjogMTAwLjAsICJxX2RhbHNpX3BlcnNvbmFsX24iOiA1MSwgInFfZGFsc2lfcGVyc29uYWxfbmUiOiAwLCAicV9wc3ljaG9sb2ciOiA3Mi4wLCAicV9wc3ljaG9sb2dfbiI6IDI1LCAicV9wc3ljaG9sb2dfbmUiOiA3LCAicV9pbnRpbWl0YSI6IDEwMC4wLCAicV9pbnRpbWl0YV9uIjogNTAsICJxX2ludGltaXRhX25lIjogMCwgInFfcHJpdG9tbm9zdCI6IDEwMC4wLCAicV9wcml0b21ub3N0X24iOiA0OCwgInFfcHJpdG9tbm9zdF9uZSI6IDAsICJxX2Npc3RvdGEiOiA5OC4xLCAicV9jaXN0b3RhX24iOiA1MiwgInFfY2lzdG90YV9uZSI6IDEsICJxX3N0cmF2YSI6IDk1LjksICJxX3N0cmF2YV9uIjogNDksICJxX3N0cmF2YV9uZSI6IDIsICJxX2Rlbm5pX3JlemltIjogOTguMCwgInFfZGVubmlfcmV6aW1fbiI6IDUxLCAicV9kZW5uaV9yZXppbV9uZSI6IDEsICJxX3dpZmkiOiA4Ny44LCAicV93aWZpX24iOiA0MSwgInFfd2lmaV9uZSI6IDUsICJxX3BvaG9kYSI6IDEwMC4wLCAicV9wb2hvZGFfbiI6IDUyLCAicV9wb2hvZGFfbmUiOiAwLCAicV9pbmZvX3BvX3Byb3B1c3RlbmkiOiAxMDAuMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiA1MCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMCwgInFfb21idWRzbWFuIjogNjUuMywgInFfb21idWRzbWFuX24iOiA0OSwgInFfb21idWRzbWFuX25lIjogMTcsICJxX2RvcG9ydWNlbmkiOiAxMDAuMCwgInFfZG9wb3J1Y2VuaV9uIjogNTEsICJxX2RvcG9ydWNlbmlfbmUiOiAwLCAiZGVsa2EiOiB7Imx0MSI6IDM3LCAiMXRvMiI6IDEwLCAiZ3QyIjogNX0sICJ1cmdlbnRuaSI6IHsiTWltbyI6IDI0LCAiQW5vIjogMjEsICJOZSI6IDN9LCAiZ2VuZGVyIjogeyJDaGxhcGVjIjogMzAsICJEw612a2EiOiAyMn0sICJhZ2VfbWVhbiI6IDcuNiwgImFnZV9kaXN0IjogeyIxLTMiOiAxNSwgIjctMTIiOiAxMywgIjQtNiI6IDEyLCAiMTMrIjogMTF9fSwgIjIwMjUtSDEiOiB7Im4iOiAzNSwgInFfb3JnYW5pemFjZV9wcmlqZXRpIjogOTcuMSwgInFfb3JnYW5pemFjZV9wcmlqZXRpX24iOiAzNSwgInFfb3JnYW5pemFjZV9wcmlqZXRpX25lIjogMSwgInFfdm5pdHJuaV9yYWQiOiA4MC4wLCAicV92bml0cm5pX3JhZF9uIjogMzUsICJxX3ZuaXRybmlfcmFkX25lIjogNywgInFfdmlfbGVrYXIiOiA4MC4wLCAicV92aV9sZWthcl9uIjogMzUsICJxX3ZpX2xla2FyX25lIjogNywgInFfcHJlZHN0YXZlbmlfbGVrYXJlIjogNzYuNSwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX24iOiAzNCwgInFfcHJlZHN0YXZlbmlfbGVrYXJlX25lIjogOCwgInFfaW5mb3JtYWNlX2xlY2JhIjogOTcuMSwgInFfaW5mb3JtYWNlX2xlY2JhX24iOiAzNSwgInFfaW5mb3JtYWNlX2xlY2JhX25lIjogMSwgInFfZHV2ZXJhX2xla2FyIjogOTcuMSwgInFfZHV2ZXJhX2xla2FyX24iOiAzNSwgInFfZHV2ZXJhX2xla2FyX25lIjogMSwgInFfcG9yb3p1bWVuaV9sZWthciI6IDk3LjEsICJxX3Bvcm96dW1lbmlfbGVrYXJfbiI6IDM1LCAicV9wb3JvenVtZW5pX2xla2FyX25lIjogMSwgInFfdGlzaWNpX2xla3kiOiAxMDAuMCwgInFfdGlzaWNpX2xla3lfbiI6IDM1LCAicV90aXNpY2lfbGVreV9uZSI6IDAsICJxX2tvbXVuaWthY2VfdmVrIjogOTcuMSwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDM1LCAicV9rb211bmlrYWNlX3Zla19uZSI6IDEsICJxX3Nlc3RyeV9qZWRuYW5pIjogMTAwLjAsICJxX3Nlc3RyeV9qZWRuYW5pX24iOiAzNSwgInFfc2VzdHJ5X2plZG5hbmlfbmUiOiAwLCAicV9zZXN0cnlfcG9yb3p1bWVuaSI6IDEwMC4wLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uIjogMzUsICJxX3Nlc3RyeV9wb3JvenVtZW5pX25lIjogMCwgInFfZGFsc2lfcGVyc29uYWwiOiA5Ny4xLCAicV9kYWxzaV9wZXJzb25hbF9uIjogMzUsICJxX2RhbHNpX3BlcnNvbmFsX25lIjogMSwgInFfcHN5Y2hvbG9nIjogMzUuMywgInFfcHN5Y2hvbG9nX24iOiAxNywgInFfcHN5Y2hvbG9nX25lIjogMTEsICJxX2ludGltaXRhIjogMTAwLjAsICJxX2ludGltaXRhX24iOiAzNSwgInFfaW50aW1pdGFfbmUiOiAwLCAicV9wcml0b21ub3N0IjogMTAwLjAsICJxX3ByaXRvbW5vc3RfbiI6IDM1LCAicV9wcml0b21ub3N0X25lIjogMCwgInFfY2lzdG90YSI6IDk0LjMsICJxX2Npc3RvdGFfbiI6IDM1LCAicV9jaXN0b3RhX25lIjogMiwgInFfc3RyYXZhIjogODUuNywgInFfc3RyYXZhX24iOiAzNSwgInFfc3RyYXZhX25lIjogNSwgInFfZGVubmlfcmV6aW0iOiA5NC4zLCAicV9kZW5uaV9yZXppbV9uIjogMzUsICJxX2Rlbm5pX3JlemltX25lIjogMiwgInFfd2lmaSI6IDEwMC4wLCAicV93aWZpX24iOiAzMSwgInFfd2lmaV9uZSI6IDAsICJxX3BvaG9kYSI6IDEwMC4wLCAicV9wb2hvZGFfbiI6IDM1LCAicV9wb2hvZGFfbmUiOiAwLCAicV9pbmZvX3BvX3Byb3B1c3RlbmkiOiAxMDAuMCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiAzNCwgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMCwgInFfb21idWRzbWFuIjogNTguOCwgInFfb21idWRzbWFuX24iOiAzNCwgInFfb21idWRzbWFuX25lIjogMTQsICJxX2RvcG9ydWNlbmkiOiA5Ny4xLCAicV9kb3BvcnVjZW5pX24iOiAzNCwgInFfZG9wb3J1Y2VuaV9uZSI6IDEsICJkZWxrYSI6IHsibHQxIjogMjYsICIxdG8yIjogOX0sICJ1cmdlbnRuaSI6IHsiTWltbyI6IDIxLCAiQW5vIjogMTMsICJOZSI6IDF9LCAiZ2VuZGVyIjogeyJEw612a2EiOiAyMSwgIkNobGFwZWMiOiAxNH0sICJhZ2VfbWVhbiI6IDYuOSwgImFnZV9kaXN0IjogeyI0LTYiOiAxMiwgIjEtMyI6IDEwLCAiNy0xMiI6IDcsICIxMysiOiA2fX0sICIyMDI1LUgyIjogeyJuIjogMTQsICJxX29yZ2FuaXphY2VfcHJpamV0aSI6IDg0LjYsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uIjogMTMsICJxX29yZ2FuaXphY2VfcHJpamV0aV9uZSI6IDIsICJxX3ZuaXRybmlfcmFkIjogOTIuMywgInFfdm5pdHJuaV9yYWRfbiI6IDEzLCAicV92bml0cm5pX3JhZF9uZSI6IDEsICJxX3ZpX2xla2FyIjogNzYuOSwgInFfdmlfbGVrYXJfbiI6IDEzLCAicV92aV9sZWthcl9uZSI6IDMsICJxX3ByZWRzdGF2ZW5pX2xla2FyZSI6IDg0LjYsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uIjogMTMsICJxX3ByZWRzdGF2ZW5pX2xla2FyZV9uZSI6IDIsICJxX2luZm9ybWFjZV9sZWNiYSI6IDkyLjMsICJxX2luZm9ybWFjZV9sZWNiYV9uIjogMTMsICJxX2luZm9ybWFjZV9sZWNiYV9uZSI6IDEsICJxX2R1dmVyYV9sZWthciI6IDg0LjYsICJxX2R1dmVyYV9sZWthcl9uIjogMTMsICJxX2R1dmVyYV9sZWthcl9uZSI6IDIsICJxX3Bvcm96dW1lbmlfbGVrYXIiOiA4NC42LCAicV9wb3JvenVtZW5pX2xla2FyX24iOiAxMywgInFfcG9yb3p1bWVuaV9sZWthcl9uZSI6IDIsICJxX3Rpc2ljaV9sZWt5IjogODQuNiwgInFfdGlzaWNpX2xla3lfbiI6IDEzLCAicV90aXNpY2lfbGVreV9uZSI6IDIsICJxX2tvbXVuaWthY2VfdmVrIjogODQuNiwgInFfa29tdW5pa2FjZV92ZWtfbiI6IDEzLCAicV9rb211bmlrYWNlX3Zla19uZSI6IDIsICJxX3Nlc3RyeV9qZWRuYW5pIjogOTIuMywgInFfc2VzdHJ5X2plZG5hbmlfbiI6IDEzLCAicV9zZXN0cnlfamVkbmFuaV9uZSI6IDEsICJxX3Nlc3RyeV9wb3JvenVtZW5pIjogODQuNiwgInFfc2VzdHJ5X3Bvcm96dW1lbmlfbiI6IDEzLCAicV9zZXN0cnlfcG9yb3p1bWVuaV9uZSI6IDIsICJxX2RhbHNpX3BlcnNvbmFsIjogODQuNiwgInFfZGFsc2lfcGVyc29uYWxfbiI6IDEzLCAicV9kYWxzaV9wZXJzb25hbF9uZSI6IDIsICJxX3BzeWNob2xvZyI6IDYwLjAsICJxX3BzeWNob2xvZ19uIjogNSwgInFfcHN5Y2hvbG9nX25lIjogMiwgInFfaW50aW1pdGEiOiA5Mi4zLCAicV9pbnRpbWl0YV9uIjogMTMsICJxX2ludGltaXRhX25lIjogMSwgInFfcHJpdG9tbm9zdCI6IDkyLjMsICJxX3ByaXRvbW5vc3RfbiI6IDEzLCAicV9wcml0b21ub3N0X25lIjogMSwgInFfY2lzdG90YSI6IDkyLjMsICJxX2Npc3RvdGFfbiI6IDEzLCAicV9jaXN0b3RhX25lIjogMSwgInFfc3RyYXZhIjogODQuNiwgInFfc3RyYXZhX24iOiAxMywgInFfc3RyYXZhX25lIjogMiwgInFfZGVubmlfcmV6aW0iOiA4NC42LCAicV9kZW5uaV9yZXppbV9uIjogMTMsICJxX2Rlbm5pX3JlemltX25lIjogMiwgInFfd2lmaSI6IDkwLjksICJxX3dpZmlfbiI6IDExLCAicV93aWZpX25lIjogMSwgInFfcG9ob2RhIjogODQuNiwgInFfcG9ob2RhX24iOiAxMywgInFfcG9ob2RhX25lIjogMiwgInFfaW5mb19wb19wcm9wdXN0ZW5pIjogOTIuMywgInFfaW5mb19wb19wcm9wdXN0ZW5pX24iOiAxMywgInFfaW5mb19wb19wcm9wdXN0ZW5pX25lIjogMSwgInFfb21idWRzbWFuIjogODEuOCwgInFfb21idWRzbWFuX24iOiAxMSwgInFfb21idWRzbWFuX25lIjogMiwgInFfZG9wb3J1Y2VuaSI6IDc4LjYsICJxX2RvcG9ydWNlbmlfbiI6IDE0LCAicV9kb3BvcnVjZW5pX25lIjogMywgImRlbGthIjogeyJsdDEiOiA5LCAiMXRvMiI6IDN9LCAidXJnZW50bmkiOiB7IkFubyI6IDYsICJNaW1vIjogNCwgIk5lIjogMn0sICJnZW5kZXIiOiB7IkNobGFwZWMiOiA5LCAiRMOtdmthIjogNH0sICJhZ2VfbWVhbiI6IDEwLjQsICJhZ2VfZGlzdCI6IHsiMTMrIjogNSwgIjctMTIiOiAzLCAiNC02IjogMiwgIjEtMyI6IDJ9fX0sICJjb3VudHNfcG9sbyI6IHsiRMSbdHNrw6kgLSBsxa/FvmtvdsOpIjogeyIyMDI0LUgxIjogNSwgIjIwMjQtSDIiOiAzNiwgIjIwMjUtSDEiOiAyMiwgIjIwMjUtSDIiOiA4fSwgIkTEm3Rza8OpIC0gbm92b3JvemVuY2kiOiB7IjIwMjQtSDEiOiAwLCAiMjAyNC1IMiI6IDIsICIyMDI1LUgxIjogMSwgIjIwMjUtSDIiOiAxfSwgIkTEm3Rza8OpIEpJUCI6IHsiMjAyNC1IMSI6IDQsICIyMDI0LUgyIjogMTQsICIyMDI1LUgxIjogMTIsICIyMDI1LUgyIjogNH0sICJfX2dsb2JhbF9fIjogeyIyMDI0LUgxIjogOSwgIjIwMjQtSDIiOiA1MiwgIjIwMjUtSDEiOiAzNSwgIjIwMjUtSDIiOiAxNH19fQ==";
+var _d=JSON.parse(decodeURIComponent(atob(_b).split('').map(function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);}).join('')));
+var G=_d.global,ODD=_d.oddeleni,PER=_d.periods,CP=_d.counts_polo;
+var YEARS=['2024','2025'],PERKEYS=['2024-H1','2024-H2','2025-H1','2025-H2'];
+var GC='#e0ddd6',BF={family:"'DM Sans',sans-serif"},CH={},MIN_N=5;
+
+var QM={
+  q_organizace_prijeti:'Organizace přijetí',q_vnitrni_rad:'Vnitřní řád & práva',
+  q_vi_lekar:'Zná svého lékaře',q_predstaveni_lekare:'Představení lékaře',
+  q_informace_lecba:'Informace o léčbě',q_duvera_lekar:'Důvěra lékaři',
+  q_porozumeni_lekar:'Porozumění lékař',q_tisici_leky:'Citlivý přístup lékaře',
+  q_komunikace_vek:'Komunikace dle věku dítěte',q_sestry_jednani:'Jednání sester',
+  q_sestry_porozumeni:'Porozumění sester',q_dalsi_personal:'Další personál',
+  q_psycholog:'Psychol./duchovní podpora',q_intimita:'Ochrana intimity',
+  q_pritomnost:'Přítomnost rodiče u dítěte',q_cistota:'Čistota prostředí',
+  q_strava:'Strava dle věku/stavu',q_denni_rezim:'Denní režim',q_wifi:'WiFi',
+  q_pohoda:'Pohoda oddělení',q_info_po_propusteni:'Info po propuštění',
+  q_ombudsman:'Znalost ombudsmana',q_doporuceni:'Doporučení nemocnice'
+};
+var YN=Object.keys(QM);
+
+var GRPS={
+  lekar:{label:'Lékaři',cols:['q_vi_lekar','q_predstaveni_lekare','q_informace_lecba','q_duvera_lekar','q_porozumeni_lekar','q_tisici_leky','q_komunikace_vek'],color:'#2c6e8a'},
+  sestry:{label:'Sestry',cols:['q_sestry_jednani','q_sestry_porozumeni','q_dalsi_personal','q_psycholog','q_pritomnost'],color:'#5caa7f'},
+  prostredi:{label:'Prostředí',cols:['q_intimita','q_cistota','q_strava','q_denni_rezim','q_wifi'],color:'#e8a045'},
+  info:{label:'Informace',cols:['q_organizace_prijeti','q_vnitrni_rad','q_info_po_propusteni','q_ombudsman','q_doporuceni'],color:'#7b5ea7'}
+};
+
+var PICKER_DIMS=[
+  {key:'respekt',label:'Respekt a důstojnost',cols:['q_intimita','q_duvera_lekar','q_porozumeni_lekar','q_sestry_porozumeni'],color:'#2c6e8a'},
+  {key:'koordinace',label:'Koordinace péče',cols:['q_organizace_prijeti','q_vnitrni_rad','q_denni_rezim'],color:'#5caa7f'},
+  {key:'informace',label:'Informace a komunikace',cols:['q_vi_lekar','q_predstaveni_lekare','q_informace_lecba','q_info_po_propusteni','q_ombudsman'],color:'#e8a045'},
+  {key:'emoce',label:'Emocionální podpora',cols:['q_psycholog','q_pohoda','q_sestry_jednani'],color:'#7b5ea7'},
+  {key:'fyzicke',label:'Fyzické pohodlí',cols:['q_tisici_leky','q_cistota','q_strava','q_wifi'],color:'#c94040'},
+  {key:'rodic',label:'Podpora rodiče',cols:['q_pritomnost','q_komunikace_vek','q_psycholog'],color:'#3aa8a8'},
+  {key:'prechod',label:'Přechod a kontinuita',cols:['q_info_po_propusteni','q_doporuceni'],color:'#d9611e'}
+];
+
+function dc(id){if(CH[id]){CH[id].destroy();delete CH[id];}}
+function sk(id,v,s){var e=document.getElementById('kk-'+id),es=document.getElementById('ks-'+id);if(e)e.textContent=v;if(es&&s!=null)es.textContent=s;}
+// fmt: v=procento, nResp=počet respondentů celkem, nEff=kolik otázku zodpovědělo (volitelné)
+function fmt(v,nResp,nEff){
+  var n=nEff!=null?nEff:nResp;
+  var suffix=nEff!=null&&nEff<nResp?' <small style="color:#aaa">(n='+nEff+')</small>':'';
+  if(v==null||n<MIN_N)return '<span class="bg bgx">'+(v!=null?v.toFixed(1)+' %':'--')+'</span>'+suffix;
+  if(v>=90)return '<span class="bg bgg">'+v.toFixed(1)+' %</span>'+suffix;
+  if(v>=75)return '<span class="bg bgy">'+v.toFixed(1)+' %</span>'+suffix;
+  return '<span class="bg bgr">'+v.toFixed(1)+' %</span>'+suffix;
+}
+// Tooltip helper: returns lines for a given col+yr
+function tipLines(col,yr,v){
+  var nResp=G[yr].n,nEff=G[yr][col+'_n']||nResp,ne=G[yr][col+'_ne']||0;
+  var lines=[' '+yr+': '+v.toFixed(1)+' %',' '+ne+'x Ne z '+nEff+' odpovídajících'];
+  if(nEff<nResp)lines.push(' ('+( nResp-nEff)+' respondentů otázku přeskočilo)');
+  return lines;
+}
+function nLabel(n){return n<MIN_N?'<span class="pill pill-gray">n='+n+'</span>':'n='+n;}
+function wAvg(name,rok,col){
+  var d=ODD[name];if(!d)return null;
+  var roks=rok==='all'?YEARS:[rok],ws=0,wn=0;
+  roks.forEach(function(y){var yd=d[y];if(!yd||yd[col]==null)return;ws+=yd[col]*yd.n;wn+=yd.n;});
+  return wn>0?{v:ws/wn,n:wn}:null;
+}
+function totN(name,rok){
+  var d=ODD[name];if(!d)return 0;
+  var roks=rok==='all'?YEARS:[rok];
+  return roks.reduce(function(s,y){return s+(d[y]?d[y].n:0);},0);
+}
+function oddNames(){return Object.keys(ODD).sort();}
+function pickerAvg(yr,cols){var s=0,n=0;cols.forEach(function(c){if(G[yr][c]!=null){s+=G[yr][c];n++;}});return n?s/n:null;}
+
+function mkLine(id,labels,datasets,yMin,yMax){
+  dc(id);
+  CH[id]=new Chart(document.getElementById(id),{type:'line',data:{labels:labels,datasets:datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{y:{min:yMin||50,max:yMax||100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+}
+
+function goTab(id,btn){
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  var r={prehled:rPrehled,kategorie:rKategorie,oddeleni:rOddeleni,prijeti:rPrijeti,demografie:rDemografie,detail:rDetail,picker:rPicker,pocty:rPocty};
+  if(r[id])r[id]();
+}
+
+// ── PŘEHLED ──
+var trendGran='rok';
+function setTrendGran(g){
+  trendGran=g;
+  document.querySelectorAll('#tab-prehled .seg .sb').forEach(function(b){
+    b.classList.toggle('on',(g==='rok'&&b.textContent==='Po rocích')||(g==='polo'&&b.textContent==='Po pololetích'));
+  });
+  rTrend();
+}
+function rTrend(){
+  var metrics=[
+    {key:'q_doporuceni',label:'Doporučení',color:'#2c6e8a'},
+    {key:'q_duvera_lekar',label:'Důvěra lékaři',color:'#5caa7f'},
+    {key:'q_sestry_jednani',label:'Sestry',color:'#e8a045'},
+    {key:'q_pohoda',label:'Pohoda',color:'#7b5ea7'},
+    {key:'q_pritomnost',label:'Přítomnost rodiče',color:'#c94040'}
+  ];
+  var labels=trendGran==='rok'?YEARS:PERKEYS;
+  document.getElementById('trendCs').textContent=trendGran==='rok'?'2024 vs 2025':'po pololetích';
+  mkLine('cTrend',labels,metrics.map(function(m){
+    return{label:m.label,data:labels.map(function(l){return trendGran==='rok'?G[l][m.key]:(PER[l]?PER[l][m.key]:null);}),
+      borderColor:m.color,backgroundColor:m.color+'22',tension:.3,pointRadius:5,fill:false,borderWidth:2,spanGaps:true};
+  }),30,100);
+}
+
+function rPrehled(){
+  var g24=G['2024'],g25=G['2025'];
+  sk('dopor',g25.q_doporuceni.toFixed(1)+' %','2024: '+g24.q_doporuceni.toFixed(1)+' %');
+  sk('lekar',g25.q_duvera_lekar.toFixed(1)+' %','2024: '+g24.q_duvera_lekar.toFixed(1)+' %');
+  sk('sestra',g25.q_sestry_jednani.toFixed(1)+' %','2024: '+g24.q_sestry_jednani.toFixed(1)+' %');
+  sk('pohoda',g25.q_pohoda.toFixed(1)+' %','2024: '+g24.q_pohoda.toFixed(1)+' %');
+  sk('total',g24.n+g25.n,'2024: '+g24.n+' · 2025: '+g25.n);
+  document.getElementById('prehled-stat-note').innerHTML='<strong>Poznámka:</strong> Celkem n='+(g24.n+g25.n)+' (2024: '+g24.n+', 2025: '+g25.n+'). Změna o 1 pb ≈ <strong>0,5 respondenta</strong>. Psychologická podpora je podmíněná otázka — přeskočení znamená <em>nepotřeboval/a</em>, nikoli nespokojenost. Výsledky jsou <strong>orientační signál</strong>.';
+
+  var klic=['q_doporuceni','q_duvera_lekar','q_sestry_jednani','q_pohoda','q_cistota','q_strava','q_komunikace_vek','q_psycholog','q_pritomnost'];
+  dc('cKlic');
+  CH.cKlic=new Chart(document.getElementById('cKlic'),{
+    type:'bar',
+    data:{labels:klic.map(function(k){return QM[k];}),datasets:[
+      {label:'2024',data:klic.map(function(k){return g24[k];}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:18},
+      {label:'2025',data:klic.map(function(k){return g25[k];}),backgroundColor:klic.map(function(k){return g25[k]<g24[k]?'#c94040':'#e8a045';}),borderRadius:4,maxBarThickness:18}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{min:30,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){
+          var col=klic[c.dataIndex],yr=c.dataset.label==='2024'?'2024':'2025';
+          return tipLines(col,yr,c.parsed.x);
+        }}}}}});
+
+  rTrend();
+
+  dc('cDelkaP');
+  CH.cDelkaP=new Chart(document.getElementById('cDelkaP'),{
+    type:'bar',
+    data:{labels:YEARS,datasets:[
+      {label:'Do 1 hod',data:YEARS.map(function(y){return G[y].delka.lt1||0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:60},
+      {label:'1-2 hod',data:YEARS.map(function(y){return G[y].delka['1to2']||0;}),backgroundColor:'#e8a045',borderRadius:4,maxBarThickness:60},
+      {label:'>2 hod',data:YEARS.map(function(y){return G[y].delka.gt2||0;}),backgroundColor:'#c94040',borderRadius:4,maxBarThickness:60}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){
+          var d=G[c.label].delka,tot=(d.lt1||0)+(d['1to2']||0)+(d.gt2||0);
+          return ' '+c.dataset.label+': '+c.parsed.y+' ('+(tot?(c.parsed.y/tot*100).toFixed(1):0)+' %)';
+        }}}}}});
+
+  dc('cUrgP');
+  CH.cUrgP=new Chart(document.getElementById('cUrgP'),{
+    type:'bar',
+    data:{labels:YEARS,datasets:[
+      {label:'Spokojeni',data:YEARS.map(function(y){return G[y].urgentni.Ano||0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:60},
+      {label:'Nespokojeni',data:YEARS.map(function(y){return G[y].urgentni.Ne||0;}),backgroundColor:'#c94040',borderRadius:4,maxBarThickness:60}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){
+          var u=G[c.label].urgentni,tot=(u.Ano||0)+(u.Ne||0);
+          return ' '+c.dataset.label+': '+c.parsed.y+' ('+(tot?(c.parsed.y/tot*100).toFixed(1):0)+' %)';
+        }}}}}});
+
+  dc('cPoctyPrehled');
+  var cpg=CP['__global__']||{};
+  CH.cPoctyPrehled=new Chart(document.getElementById('cPoctyPrehled'),{
+    type:'bar',data:{labels:PERKEYS,datasets:[{label:'Počet',data:PERKEYS.map(function(p){return cpg[p]||0;}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:50}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},ticks:{font:BF}},y:{grid:{color:GC},ticks:{font:BF}}},plugins:{legend:{display:false}}}});
+}
+
+// ── KATEGORIE ──
+var katRok='all';
+function setKatRok(r){
+  katRok=r;
+  document.querySelectorAll('#katRokSeg .sb').forEach(function(b){
+    b.classList.toggle('on',(r==='all'&&b.textContent.indexOf('Ob')>=0)||(r===b.textContent));
+  });
+  rKategorie();
+}
+
+function rKategorie(){
+  var g24=G['2024'],g25=G['2025'],n24=g24.n,n25=g25.n,lowN=n24<50||n25<50;
+  dc('cVsechny');
+  if(katRok==='all'){
+    var dd=YN.map(function(k){return{k:k,d:+(((g25[k]||0)-(g24[k]||0)).toFixed(1)),v25:g25[k],v24:g24[k]};}).sort(function(a,b){return a.d-b.d;});
+    document.getElementById('vsechnyCs').textContent='Změna 2024 → 2025 (n24='+n24+', n25='+n25+')'+(lowN?' · 1 pb ≈ 0,5 resp. · orientační':'');
+    CH.cVsechny=new Chart(document.getElementById('cVsechny'),{
+      type:'bar',
+      data:{labels:dd.map(function(x){return QM[x.k];}),datasets:[{label:'Změna (pb)',data:dd.map(function(x){return x.d;}),
+        backgroundColor:dd.map(function(x){return lowN?(x.d>=0?'#9dc9b0':'#d9918f'):(x.d>=0?'#5caa7f':'#c94040');}),borderRadius:4,maxBarThickness:18}]},
+      options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+        scales:{x:{grid:{color:GC},ticks:{font:BF,callback:function(v){return (v>0?'+':'')+v+' pb';}},afterDataLimits:function(ax){if(ax.max<3)ax.max=3;if(ax.min>-3)ax.min=-3;}},y:{grid:{display:false},ticks:{font:BF}}},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){
+          var x=dd[c.dataIndex];
+          var n24e=g24[x.k+'_n']||n24,n25e=g25[x.k+'_n']||n25,ne24=g24[x.k+'_ne']||0,ne25=g25[x.k+'_ne']||0;
+          return [' 2024: '+(x.v24!=null?x.v24.toFixed(1)+' % ('+ne24+'x Ne z '+n24e+')':'--'),
+                  ' 2025: '+(x.v25!=null?x.v25.toFixed(1)+' % ('+ne25+'x Ne z '+n25e+')':'--'),
+                  ' Změna: '+(x.d>=0?'+':'')+x.d+' pb'];
+        }}}}}});
+    var ov=document.getElementById('deltaLcNote');
+    if(lowN){
+      ov.innerHTML='Upozornění: 1 pb ≈ 0,5 respondenta. Psychologická podpora: odpovědělo jen '+g24.q_psycholog_n+' / '+g25.q_psycholog_n+' respondentů — preskočení neznamená nespokojenost.';
+      ov.style.display='';
+    } else {
+      ov.style.display='none';
+    }
+  } else {
+    var gd=G[katRok];
+    var sorted=YN.slice().sort(function(a,b){return (gd[b]||0)-(gd[a]||0);});
+    document.getElementById('vsechnyCs').textContent='Seřazeno sestupně — '+katRok+', n='+gd.n;
+    document.getElementById('deltaLcNote').style.display='none';
+    CH.cVsechny=new Chart(document.getElementById('cVsechny'),{
+      type:'bar',
+      data:{labels:sorted.map(function(k){return QM[k];}),datasets:[{label:katRok,data:sorted.map(function(k){return gd[k];}),
+        backgroundColor:sorted.map(function(k){var v=gd[k]||0;return v>=90?'#5caa7f':v>=75?'#e8a045':'#c94040';}),borderRadius:4,maxBarThickness:18}]},
+      options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+        scales:{x:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{grid:{display:false},ticks:{font:BF}}},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' %';}}}}}}); 
+  }
+
+  // Group charts
+  var grpCtxMap={lekar:'cGrpLekarCtx',sestry:'cGrpSestryCtx',prostredi:'cGrpProstrediCtx',info:'cGrpInfoCtx'};
+  var grpCanvasMap={lekar:'cGrpLekar',sestry:'cGrpSestry',prostredi:'cGrpProstredi',info:'cGrpInfo'};
+  Object.keys(GRPS).forEach(function(gk){
+    var grp=GRPS[gk],cols=grp.cols.slice(),cid=grpCanvasMap[gk];
+    dc(cid);
+    var labels=cols.map(function(c){return QM[c];});
+    var ds=katRok==='all'?[
+      {label:'2024 (n='+n24+')',data:cols.map(function(c){return G['2024'][c];}),backgroundColor:grp.color+'bb',borderColor:grp.color,borderWidth:2,borderRadius:4,maxBarThickness:28},
+      {label:'2025 (n='+n25+')',data:cols.map(function(c){return G['2025'][c];}),backgroundColor:grp.color+'55',borderColor:grp.color+'99',borderWidth:2,borderRadius:4,maxBarThickness:28}
+    ]:[
+      {label:katRok+' (n='+G[katRok].n+')',data:cols.map(function(c){return G[katRok][c];}),backgroundColor:grp.color+'bb',borderColor:grp.color,borderWidth:2,borderRadius:4,maxBarThickness:40}
+    ];
+    var tipCols=cols;
+    CH[cid]=new Chart(document.getElementById(cid),{
+      type:'bar',data:{labels:labels,datasets:ds},
+      options:{responsive:true,maintainAspectRatio:false,
+        scales:{y:{min:40,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF,maxRotation:35,minRotation:25}}},
+        plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+          tooltip:{callbacks:{label:function(c){
+            var col=tipCols[c.dataIndex],yr=katRok==='all'?(c.datasetIndex===0?'2024':'2025'):katRok;
+            var nEff=G[yr][col+'_n']||G[yr].n,ne=G[yr][col+'_ne']||0,v=c.parsed.y;
+            var lines=[' '+c.dataset.label.split(' (')[0]+': '+v.toFixed(1)+' %',' '+ne+'x Ne z '+nEff+' odpovídajících'];
+            if(nEff<G[yr].n)lines.push(' ('+(G[yr].n-nEff)+' respondentů otázku přeskočilo)');
+            return lines;
+          }}}}}});
+    var ctxEl=document.getElementById(grpCtxMap[gk]);
+    if(katRok==='all'&&lowN){
+      var minN24=Math.min.apply(null,cols.map(function(c){return G['2024'][c+'_n']||n24;}));
+      var minN25=Math.min.apply(null,cols.map(function(c){return G['2025'][c+'_n']||n25;}));
+      var hasC=cols.some(function(c){return (G['2024'][c+'_n']||n24)<n24*0.8;});
+      ctxEl.innerHTML='1 pb ≈ <strong>'+((minN24+minN25)/2/100).toFixed(2)+' respondenta</strong>.'+(hasC?' Podmíněné otázky: přeskočení = netýkalo se mě.':'');
+      ctxEl.style.display='';
+    } else {
+      ctxEl.style.display='none';
+    }
+  });
+}
+
+// ── ODDĚLENÍ ──
+var oddRok='2025';
+function setOddRok(r){
+  oddRok=r;
+  document.querySelectorAll('#oddRokSeg .sb').forEach(function(b){b.classList.toggle('on',b.textContent===r||(r==='all'&&b.textContent==='Obě'));});
+  rOddeleni();
+}
+
+function rOddeleni(){
+  var odds=oddNames(),rok=oddRok;
+  function getV(n,c){var r=wAvg(n,rok,c);return r&&r.n>=MIN_N?r.v:null;}
+  function getN(n){return totN(n,rok);}
+  var ns=odds.map(function(o){return getN(o);});
+
+  function oddChart(cid,col,csid){
+    var vs=odds.map(function(o){return getV(o,col);});
+    var clrs=vs.map(function(v,i){return ns[i]<MIN_N?'#ccc':(v==null?'#ccc':v>=90?'#5caa7f':v>=75?'#e8a045':'#c94040');});
+    if(csid)document.getElementById(csid).textContent='rok '+rok;
+    dc(cid);
+    CH[cid]=new Chart(document.getElementById(cid),{
+      type:'bar',data:{labels:odds,datasets:[{data:vs.map(function(v){return v||0;}),backgroundColor:clrs,borderRadius:4,maxBarThickness:50}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        scales:{x:{grid:{display:false},ticks:{font:BF}},y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){
+          var o=odds[c.dataIndex],n=getN(o);
+          return n<MIN_N?' n='+n+' (nedostatek dat)':' '+c.parsed.y.toFixed(1)+' % (n='+n+')';
+        }}}}}});
+  }
+
+  document.getElementById('oddDopCs').textContent='rok '+rok+' · šedá = n<'+MIN_N;
+  oddChart('cOddDopor','q_doporuceni',null);
+  oddChart('cOddLekar','q_duvera_lekar','oddLekCs');
+  oddChart('cOddSestry','q_sestry_jednani','oddSesCs');
+  document.getElementById('tblCs').textContent='rok '+rok;
+  var cols=['q_doporuceni','q_duvera_lekar','q_sestry_jednani','q_pohoda','q_komunikace_vek','q_pritomnost','q_psycholog'];
+  var th='<thead><tr><th>Oddělení</th><th>n</th>'+cols.map(function(c){return '<th>'+QM[c]+'</th>';}).join('')+'</tr></thead>';
+  var tb='<tbody>'+odds.map(function(o){
+    var n=getN(o);
+    return '<tr><td><strong>'+o+'</strong></td><td>'+nLabel(n)+'</td>'+cols.map(function(c){
+      var r=wAvg(o,rok,c);
+      var v=r&&r.n>=MIN_N?r.v:null;
+      // get effective n for this col across selected years
+      var nEff=0;
+      var roks=rok==='all'?YEARS:[rok];
+      roks.forEach(function(y){var d=ODD[o][y];if(d)nEff+=d[c+'_n']||0;});
+      return '<td>'+fmt(v,n,nEff&&nEff<n?nEff:null)+'</td>';
+    }).join('')+'</tr>';
+  }).join('')+'</tbody>';
+  document.getElementById('tOddeleni').innerHTML=th+tb;
+}
+
+// ── PŘIJETÍ ──
+function rPrijeti(){
+  dc('cDelka');
+  CH.cDelka=new Chart(document.getElementById('cDelka'),{
+    type:'bar',data:{labels:YEARS,datasets:[
+      {label:'Do 1 hod',data:YEARS.map(function(y){return G[y].delka.lt1||0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:60},
+      {label:'1-2 hod',data:YEARS.map(function(y){return G[y].delka['1to2']||0;}),backgroundColor:'#e8a045',borderRadius:4,maxBarThickness:60},
+      {label:'>2 hod',data:YEARS.map(function(y){return G[y].delka.gt2||0;}),backgroundColor:'#c94040',borderRadius:4,maxBarThickness:60}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){
+          var d=G[c.label].delka,tot=(d.lt1||0)+(d['1to2']||0)+(d.gt2||0);
+          return ' '+c.dataset.label+': '+c.parsed.y+' ('+(tot?(c.parsed.y/tot*100).toFixed(1):0)+' %)';
+        }}}}}});
+
+  dc('cDelkaPct');
+  CH.cDelkaPct=new Chart(document.getElementById('cDelkaPct'),{
+    type:'bar',data:{labels:YEARS,datasets:[
+      {label:'Do 1 hod',data:YEARS.map(function(y){var d=G[y].delka,t=(d.lt1||0)+(d['1to2']||0)+(d.gt2||0);return t?+((d.lt1||0)/t*100).toFixed(1):0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:60},
+      {label:'1-2 hod',data:YEARS.map(function(y){var d=G[y].delka,t=(d.lt1||0)+(d['1to2']||0)+(d.gt2||0);return t?+((d['1to2']||0)/t*100).toFixed(1):0;}),backgroundColor:'#e8a045',borderRadius:4,maxBarThickness:60},
+      {label:'>2 hod',data:YEARS.map(function(y){var d=G[y].delka,t=(d.lt1||0)+(d['1to2']||0)+(d.gt2||0);return t?+((d.gt2||0)/t*100).toFixed(1):0;}),backgroundColor:'#c94040',borderRadius:4,maxBarThickness:60}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+
+  dc('cUrg');
+  CH.cUrg=new Chart(document.getElementById('cUrg'),{
+    type:'bar',data:{labels:YEARS,datasets:[
+      {label:'Spokojeni (Ano)',data:YEARS.map(function(y){return G[y].urgentni.Ano||0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:60},
+      {label:'Mimo urgentní',data:YEARS.map(function(y){return G[y].urgentni.Mimo||0;}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:60},
+      {label:'Nespokojeni (Ne)',data:YEARS.map(function(y){return G[y].urgentni.Ne||0;}),backgroundColor:'#c94040',borderRadius:4,maxBarThickness:60}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:BF}},y:{stacked:true,grid:{color:GC},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){
+          var u=G[c.label].urgentni,tot=(u.Ano||0)+(u.Mimo||0)+(u.Ne||0);
+          return ' '+c.dataset.label+': '+c.parsed.y+' ('+(tot?(c.parsed.y/tot*100).toFixed(1):0)+' %)';
+        }}}}}});
+
+  var odds=oddNames();
+  mkLine('cOrgPrijeti',YEARS,odds.map(function(o,i){
+    var clrs=['#2c6e8a','#5caa7f','#e8a045'];
+    return{label:o,data:YEARS.map(function(y){var d=ODD[o][y];return d&&d.n>=MIN_N?d.q_organizace_prijeti:null;}),
+      borderColor:clrs[i%3],backgroundColor:clrs[i%3]+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2,spanGaps:true};
+  }),50,100);
+}
+
+// ── DEMOGRAFIE ──
+var demoRok='all';
+function setDemoRok(r){
+  demoRok=r;
+  document.querySelectorAll('#demoRokSeg .sb').forEach(function(b){b.classList.toggle('on',b.textContent===r||(r==='all'&&b.textContent==='Obě'));});
+  rDemografie();
+}
+function rDemografie(){
+  var r=demoRok;
+  function mf(field){
+    if(r==='all'){var o={};YEARS.forEach(function(y){var d=G[y][field]||{};Object.keys(d).forEach(function(k){o[k]=(o[k]||0)+d[k];});});return o;}
+    return G[r][field]||{};
+  }
+  var ageM=r==='all'?((G['2024'].age_mean*G['2024'].n+G['2025'].age_mean*G['2025'].n)/(G['2024'].n+G['2025'].n)).toFixed(1):G[r].age_mean.toFixed(1);
+  sk('vek',ageM+' let',(r==='all'?G['2024'].n+G['2025'].n:G[r].n)+' odpovědí');
+  var gen=mf('gender'),divky=gen['Dívka']||0,chlapci=gen['Chlapec']||0,gt=divky+chlapci;
+  sk('divky',divky,gt?Math.round(divky/gt*100)+' %':'');
+  sk('chlapci',chlapci,gt?Math.round(chlapci/gt*100)+' %':'');
+
+  dc('cGender');
+  CH.cGender=new Chart(document.getElementById('cGender'),{
+    type:'doughnut',data:{labels:['Dívky','Chlapci'],datasets:[{data:[divky,chlapci],backgroundColor:['#e8a045','#2c6e8a'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:12,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){var tot=c.dataset.data.reduce(function(a,b){return a+b;},0);return ' '+c.label+': '+c.parsed+' ('+Math.round(c.parsed/tot*100)+' %)';}}}}}}); 
+
+  var ageDist=mf('age_dist'),bands=['<1','1-3','4-6','7-12','13+'];
+  dc('cVek');
+  CH.cVek=new Chart(document.getElementById('cVek'),{
+    type:'bar',data:{labels:bands,datasets:[{label:'Počet',data:bands.map(function(b){return ageDist[b]||0;}),backgroundColor:'#5caa7f',borderRadius:4,maxBarThickness:50}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},ticks:{font:BF}},y:{grid:{color:GC},ticks:{font:BF}}},plugins:{legend:{display:false}}}});
+
+  var odds=oddNames();
+  dc('cVekOdd');
+  CH.cVekOdd=new Chart(document.getElementById('cVekOdd'),{
+    type:'bar',
+    data:{labels:odds,datasets:YEARS.map(function(y,i){
+      return{label:y,data:odds.map(function(o){var d=ODD[o][y];return d&&d.n>=MIN_N&&d.age_mean!=null?d.age_mean:null;}),
+        backgroundColor:i===0?'#2c6e8a':'#5caa7f',borderRadius:4,maxBarThickness:30};
+    })},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{grid:{display:false},ticks:{font:BF}},y:{min:0,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' let';}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': průměr '+c.parsed.y.toFixed(1)+' let';}}}}}});
+}
+
+// ── DETAIL ──
+function initDetailSel(){
+  var s=document.getElementById('selDetailOdd');s.innerHTML='';
+  oddNames().forEach(function(o){var op=document.createElement('option');op.value=o;op.textContent=o;s.appendChild(op);});
+}
+function rDetail(){
+  var o=document.getElementById('selDetailOdd').value,d24=ODD[o]['2024'],d25=ODD[o]['2025'];
+  var kpis=[
+    {l:'n (2024)',v:d24?d24.n:0,s:'odpovědí',c:'c1'},
+    {l:'n (2025)',v:d25?d25.n:0,s:'odpovědí',c:'c2'},
+    {l:'Doporučení 2025',v:d25&&d25.n>=MIN_N&&d25.q_doporuceni!=null?d25.q_doporuceni.toFixed(1)+' %':'n<'+MIN_N,s:d24&&d24.n>=MIN_N?'2024: '+d24.q_doporuceni.toFixed(1)+' %':'',c:'c3'},
+    {l:'Pohoda 2025',v:d25&&d25.n>=MIN_N&&d25.q_pohoda!=null?d25.q_pohoda.toFixed(1)+' %':'n<'+MIN_N,s:'',c:'c4'}
+  ];
+  document.getElementById('detailKpis').innerHTML=kpis.map(function(k){return '<div class="kpi '+k.c+'"><div class="kl">'+k.l+'</div><div class="kv">'+k.v+'</div><div class="ks2">'+k.s+'</div></div>';}).join('');
+  document.getElementById('detailCs').textContent=o;
+  document.getElementById('detailTrendCs').textContent=o;
+
+  var nOk24=d24&&d24.n>=MIN_N,nOk25=d25&&d25.n>=MIN_N;
+  dc('cDetailMetriky');
+  CH.cDetailMetriky=new Chart(document.getElementById('cDetailMetriky'),{
+    type:'bar',data:{labels:YN.map(function(k){return QM[k];}),datasets:[
+      {label:'2024'+(nOk24?'':' (n<5)'),data:YN.map(function(k){return nOk24?d24[k]:null;}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:18},
+      {label:'2025'+(nOk25?'':' (n<5)'),data:YN.map(function(k){return nOk25?d25[k]:null;}),
+        backgroundColor:YN.map(function(k){return nOk25&&nOk24&&(d25[k]||0)<(d24[k]||0)?'#c94040':'#e8a045';}),borderRadius:4,maxBarThickness:18}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},y:{grid:{display:false},ticks:{font:BF}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){return c.parsed.x!=null?' '+c.dataset.label+': '+c.parsed.x.toFixed(1)+' %':' nedostatek dat';}}}}}});
+
+  var trendM=[
+    {key:'q_doporuceni',label:'Doporučení',color:'#2c6e8a'},{key:'q_duvera_lekar',label:'Důvěra lékaři',color:'#5caa7f'},
+    {key:'q_sestry_jednani',label:'Sestry',color:'#e8a045'},{key:'q_komunikace_vek',label:'Komunikace věk',color:'#7b5ea7'},
+    {key:'q_pritomnost',label:'Přítomnost rodiče',color:'#c94040'}
+  ];
+  mkLine('cDetailTrend',YEARS,trendM.map(function(m){
+    return{label:m.label,data:YEARS.map(function(y){var d=ODD[o][y];return d&&d.n>=MIN_N?d[m.key]:null;}),
+      borderColor:m.color,backgroundColor:m.color+'22',tension:.3,pointRadius:6,fill:false,borderWidth:2,spanGaps:true};
+  }),30,100);
+
+  document.getElementById('detailSrovCs').textContent=o+' vs průměr';
+  var cc=['q_doporuceni','q_duvera_lekar','q_sestry_jednani','q_pohoda','q_komunikace_vek','q_pritomnost','q_psycholog','q_ombudsman'];
+  var th='<thead><tr><th>Metrika</th>'+YEARS.map(function(y){return '<th>'+o+' '+y+'</th><th>Průměr '+y+'</th><th>&#916; '+y+'</th>';}).join('')+'</tr></thead>';
+  var tb='<tbody>'+cc.map(function(col){
+    return '<tr><td>'+QM[col]+'</td>'+YEARS.map(function(y){
+      var d=ODD[o][y],nOk=d&&d.n>=MIN_N,dv=nOk?d[col]:null,av=G[y][col];
+      var dnEff=d&&d[col+'_n']?d[col+'_n']:null;
+      var gnEff=G[y][col+'_n']||null;
+      var delta=dv!=null&&av!=null?+(dv-av).toFixed(1):null;
+      return '<td>'+fmt(dv,nOk?d.n:0,dnEff&&dnEff<d.n?dnEff:null)+'</td>'+
+             '<td>'+fmt(av,G[y].n,gnEff&&gnEff<G[y].n?gnEff:null)+'</td>'+
+             '<td>'+(delta==null?'—':'<span class="delta '+(delta>=0?'delta-up':'delta-dn')+'">'+(delta>0?'+':'')+delta+' pb</span>')+'</td>';
+    }).join('')+'</tr>';
+  }).join('')+'</tbody>';
+  document.getElementById('tDetailSrov').innerHTML=th+tb;
+}
+
+// ── PICKER ──
+function rPicker(){
+  var lowN=G['2024'].n<50||G['2025'].n<50;
+  var scores=PICKER_DIMS.map(function(d){return{label:d.label,v24:pickerAvg('2024',d.cols),v25:pickerAvg('2025',d.cols),color:d.color,cols:d.cols};});
+  var ov24=scores.reduce(function(s,d){return s+d.v24;},0)/scores.length;
+  var ov25=scores.reduce(function(s,d){return s+d.v25;},0)/scores.length;
+  var sorted=scores.slice().sort(function(a,b){return b.v25-a.v25;});
+  var biggest=scores.slice().sort(function(a,b){return (b.v25-b.v24)-(a.v25-a.v24);})[0];
+  var kpis=[
+    {l:'Celkový Picker index',v:ov25.toFixed(1)+' %',s:'2024: '+ov24.toFixed(1)+' %',c:'c1'},
+    {l:'Nejsilnější dimenze',v:sorted[0].label,s:'2025: '+sorted[0].v25.toFixed(1)+' %',c:'c2'},
+    {l:'Nejslabší dimenze',v:sorted[sorted.length-1].label,s:'2025: '+sorted[sorted.length-1].v25.toFixed(1)+' %',c:'c4'},
+    {l:'Největší pohyb',v:biggest.label,s:(biggest.v25-biggest.v24>=0?'+':'')+(biggest.v25-biggest.v24).toFixed(1)+' pb',c:'c3'}
+  ];
+  document.getElementById('picker-kpi-row').innerHTML=kpis.map(function(k){
+    return '<div class="kpi '+k.c+'"><div class="kl">'+k.l+'</div><div class="kv" style="font-family:\'DM Serif Display\',serif;font-size:1.1rem;line-height:1.3">'+k.v+'</div><div class="ks2">'+k.s+'</div></div>';
+  }).join('');
+
+  dc('cPickerBar');
+  CH.cPickerBar=new Chart(document.getElementById('cPickerBar'),{
+    type:'bar',
+    data:{labels:PICKER_DIMS.map(function(d){return d.label;}),datasets:[
+      {label:'2024 (n='+G['2024'].n+')',data:PICKER_DIMS.map(function(d){return +pickerAvg('2024',d.cols).toFixed(1);}),backgroundColor:'#2c6e8abb',borderColor:'#2c6e8a',borderWidth:2,borderRadius:5,maxBarThickness:28},
+      {label:'2025 (n='+G['2025'].n+')',data:PICKER_DIMS.map(function(d){return +pickerAvg('2025',d.cols).toFixed(1);}),backgroundColor:'#e8a045bb',borderColor:'#e8a045',borderWidth:2,borderRadius:5,maxBarThickness:28}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{y:{min:40,max:100,grace:2,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}},x:{grid:{display:false},ticks:{font:BF,maxRotation:30}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label.split(' (')[0]+': '+c.parsed.y.toFixed(1)+' %';}}}}}});
+
+  var diffs=PICKER_DIMS.map(function(d){return{label:d.label,diff:+(pickerAvg('2025',d.cols)-pickerAvg('2024',d.cols)).toFixed(1)};}).sort(function(a,b){return b.diff-a.diff;});
+  dc('cPickerDiff');
+  CH.cPickerDiff=new Chart(document.getElementById('cPickerDiff'),{
+    type:'bar',
+    data:{labels:diffs.map(function(x){return x.label;}),datasets:[{data:diffs.map(function(x){return x.diff;}),
+      backgroundColor:diffs.map(function(x){return lowN?(x.diff>=0?'#9dc9b0':'#d9918f'):(x.diff>=0?'#5caa7f':'#c94040');}),borderRadius:5,maxBarThickness:28}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+(c.parsed.x>=0?'+':'')+c.parsed.x.toFixed(1)+' pb';}}}},
+      scales:{x:{grid:{color:GC},ticks:{font:BF,callback:function(v){return (v>0?'+':'')+v+' pb';}},afterDataLimits:function(ax){if(ax.max<2)ax.max=2;if(ax.min>-2)ax.min=-2;}},y:{grid:{display:false},ticks:{font:BF}}}}});
+
+  dc('cPickerRadar');
+  CH.cPickerRadar=new Chart(document.getElementById('cPickerRadar'),{
+    type:'radar',
+    data:{labels:PICKER_DIMS.map(function(d){return d.label;}),datasets:[
+      {label:'2024',data:PICKER_DIMS.map(function(d){return +pickerAvg('2024',d.cols).toFixed(1);}),borderColor:'#2c6e8a',backgroundColor:'#2c6e8a22',pointBackgroundColor:'#2c6e8a',borderWidth:2,pointRadius:5},
+      {label:'2025',data:PICKER_DIMS.map(function(d){return +pickerAvg('2025',d.cols).toFixed(1);}),borderColor:'#e8a045',backgroundColor:'#e8a04533',pointBackgroundColor:'#e8a045',borderWidth:2,pointRadius:5}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{r:{min:40,max:102,ticks:{stepSize:10,font:{size:10},callback:function(v){return v<=100?v+' %':''}},grid:{color:GC},pointLabels:{font:{family:"'DM Sans',sans-serif",size:11}}}},
+      plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+
+  var html=lowN?'<div class="stat-ctx" style="margin-bottom:12px">Upozorneni: Maly soubor (n24='+G['2024'].n+', n25='+G['2025'].n+'). Zmeny jsou orientacni.</div>':'';
+  scores.forEach(function(d){
+    var diff=+(d.v25-d.v24).toFixed(1);
+    html+='<div style="border:1px solid var(--bd);border-radius:9px;margin-bottom:10px;overflow:hidden">';
+    html+='<div onclick="toggleDetail(this)" style="padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--tag)">';
+    html+='<div style="width:10px;height:10px;border-radius:50%;background:'+d.color+';flex-shrink:0"></div>';
+    html+='<strong style="flex:1;font-size:.85rem">'+d.label+'</strong>';
+    html+='<span style="font-size:.8rem;color:var(--mu);margin-right:6px">2024: '+d.v24.toFixed(1)+' %</span>';
+    html+='<span style="font-size:.8rem;font-weight:600;color:'+d.color+'">2025: '+d.v25.toFixed(1)+' %</span>';
+    html+='<span style="font-size:.75rem;font-weight:600;color:'+(diff>=0?'#257a50':'#9a2020')+';margin-left:8px">'+(diff>=0?'+':'')+diff+' pb</span>';
+    html+='<span style="color:var(--mu);font-size:.75rem;margin-left:8px">&#9660;</span></div>';
+    html+='<div style="display:none;padding:12px 16px"><table style="width:100%;font-size:.8rem;border-collapse:collapse"><thead><tr>';
+    html+='<th style="text-align:left;padding:5px 8px;color:var(--mu);font-size:.7rem;border-bottom:1px solid var(--bd)">Otázka</th>';
+    html+='<th style="padding:5px 8px;text-align:center;color:var(--mu);font-size:.7rem;border-bottom:1px solid var(--bd)">2024</th>';
+    html+='<th style="padding:5px 8px;text-align:center;color:var(--mu);font-size:.7rem;border-bottom:1px solid var(--bd)">2025</th>';
+    html+='<th style="padding:5px 8px;text-align:center;color:var(--mu);font-size:.7rem;border-bottom:1px solid var(--bd)">Delta</th>';
+    html+='</tr></thead><tbody>';
+    d.cols.forEach(function(c){
+      var q24=G['2024'][c],q25=G['2025'][c];
+      var n24e=G['2024'][c+'_n']||G['2024'].n,n25e=G['2025'][c+'_n']||G['2025'].n;
+      var n24t=G['2024'].n,n25t=G['2025'].n;
+      if(q24==null&&q25==null)return;
+      var qd=q24!=null&&q25!=null?+(q25-q24).toFixed(1):null;
+      html+='<tr style="border-bottom:1px solid var(--bd)"><td style="padding:6px 8px">'+QM[c]+'</td>';
+      html+='<td style="padding:6px 8px;text-align:center">'+(q24!=null?q24.toFixed(1)+' %':'—')+(n24e<n24t?' <small style="color:#aaa">n='+n24e+'</small>':'')+'</td>';
+      html+='<td style="padding:6px 8px;text-align:center;font-weight:600">'+(q25!=null?q25.toFixed(1)+' %':'—')+(n25e<n25t?' <small style="color:#aaa">n='+n25e+'</small>':'')+'</td>';
+      html+='<td style="padding:6px 8px;text-align:center;font-weight:600;color:'+(qd==null?'#6b7080':qd>=2?'#257a50':qd<=-2?'#9a2020':'#6b7080')+'">'+(qd!=null?(qd>=0?'+':'')+qd+' pb':'—')+'</td></tr>';
+    });
+    html+='</tbody></table></div></div>';
+  });
+  document.getElementById('pickerDetail').innerHTML=html;
+}
+
+function toggleDetail(el){
+  var next=el.nextElementSibling;
+  next.style.display=next.style.display==='none'?'block':'none';
+}
+
+// ── POČTY ──
+var poctyTyp='counts';
+function setPoctyTyp(t){
+  poctyTyp=t;
+  document.querySelectorAll('#poctyTypSeg .sb').forEach(function(b){b.classList.toggle('on',(t==='counts'&&b.textContent==='Počty')||(t==='metric'&&b.textContent==='Metrika'));});
+  var show=t==='metric';
+  document.getElementById('poctyMetLabel').style.display=show?'':'none';
+  document.getElementById('selPoctyMetric').style.display=show?'':'none';
+  rPocty();
+}
+function initPoctyMetric(){
+  var s=document.getElementById('selPoctyMetric');s.innerHTML='';
+  YN.forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=QM[k];if(k==='q_doporuceni')o.selected=true;s.appendChild(o);});
+}
+function rPocty(){
+  var odds=oddNames(),metric=document.getElementById('selPoctyMetric').value||'q_doporuceni';
+  document.getElementById('poctyCs').textContent=poctyTyp==='counts'?'počty odpovědí po pololetích':'metrika: '+QM[metric];
+  var colors=['#2c6e8a','#5caa7f','#e8a045','#c94040'];
+  dc('cPocty');
+  if(poctyTyp==='counts'){
+    var cpg=CP['__global__']||{};
+    CH.cPocty=new Chart(document.getElementById('cPocty'),{
+      type:'bar',
+      data:{labels:PERKEYS,datasets:[{label:'Celkem',data:PERKEYS.map(function(p){return cpg[p]||0;}),backgroundColor:'#2c6e8a',borderRadius:4,maxBarThickness:50}].concat(
+        odds.map(function(o,i){return{type:'line',label:o,data:PERKEYS.map(function(p){return CP[o]?CP[o][p]||0:0;}),borderColor:colors[i%4],backgroundColor:'transparent',tension:.3,pointRadius:4,borderWidth:2};})
+      )},
+      options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},ticks:{font:BF}},y:{grid:{color:GC},ticks:{font:BF}}},plugins:{legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}}}}});
+  } else {
+    mkLine('cPocty',PERKEYS,[{label:'Celkem',data:PERKEYS.map(function(p){return PER[p]&&PER[p].n>=MIN_N?PER[p][metric]:null;}),borderColor:'#1a1a2e',backgroundColor:'#1a1a2e22',tension:.3,pointRadius:6,fill:false,borderWidth:2.5,spanGaps:true}].concat(
+      odds.map(function(o,i){return{label:o,data:YEARS.map(function(y){var d=ODD[o][y];return d&&d.n>=MIN_N?d[metric]:null;}),borderColor:colors[i%4],backgroundColor:colors[i%4]+'22',tension:.3,pointRadius:4,fill:false,borderWidth:2,spanGaps:true};})),30,100);
+  }
+  var cpg2=CP['__global__']||{},gTot=PERKEYS.reduce(function(s,p){return s+(cpg2[p]||0);},0);
+  var th='<thead><tr><th>Oddělení</th>'+PERKEYS.map(function(p){return '<th>'+p+'</th>';}).join('')+'<th>Celkem</th></tr></thead>';
+  var tb='<tbody><tr><td><strong>Celkem</strong></td>'+PERKEYS.map(function(p){return '<td><strong>'+(cpg2[p]||0)+'</strong></td>';}).join('')+'<td><strong>'+gTot+'</strong></td></tr>';
+  odds.forEach(function(o){
+    var rowTot=PERKEYS.reduce(function(s,p){return s+(CP[o]?CP[o][p]||0:0);},0);
+    tb+='<tr><td>'+o+'</td>'+PERKEYS.map(function(p){var n=CP[o]?CP[o][p]||0:0;return '<td>'+(n<MIN_N&&n>0?'<span class="pill pill-gray">'+n+'</span>':n)+'</td>';}).join('')+'<td>'+rowTot+'</td></tr>';
+  });
+  tb+='</tbody>';
+  document.getElementById('tPocty').innerHTML=th+tb;
+}
+
+// ── INIT ──
+initDetailSel();
+initPoctyMetric();
+rPrehled();
+</script>
+</body>
+</html>
