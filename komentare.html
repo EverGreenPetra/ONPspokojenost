@@ -112,7 +112,13 @@ main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .ob-btn:hover{border-color:var(--a1);color:var(--a1);}
 .ob-btn.on{background:var(--ink);border-color:var(--ink);color:#fff;}
 
-.podnet-sekce{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px 18px;margin-bottom:10px;}
+.obor-group{margin-bottom:8px;}
+.obor-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1a1a2e;color:#fff;border-radius:10px;cursor:pointer;user-select:none;}
+.obor-header:hover{background:#242438;}
+.obor-name{font-weight:600;font-size:.88rem;letter-spacing:.02em;}
+.obor-meta{display:flex;align-items:center;gap:10px;flex-shrink:0;font-size:.75rem;color:#aaa;}
+.obor-body{padding:6px 0 0 16px;display:flex;flex-direction:column;gap:5px;}
+
 .podnet-sekce h4{font-size:.82rem;font-weight:600;margin-bottom:10px;border-bottom:1px solid var(--bd);padding-bottom:7px;}
 .podnet-item{padding:8px 0;border-bottom:1px solid #f0ede8;font-size:.83rem;line-height:1.5;}
 .podnet-item:last-child{border-bottom:none;}
@@ -169,7 +175,7 @@ footer{padding:12px 28px;border-top:1px solid var(--bd);font-size:.68rem;color:v
 
     <!-- PŘEHLED -->
     <div class="subsec active" id="sub-prehled">
-      <div id="debug-box" class="debug-box" style="display:none"></div>
+      
       <div class="ks k4">
         <div class="kpi c1"><div class="kl">Koment&#225;&#345;&#367; celkem</div><div class="kv" id="kpi-total">&#8212;</div><div class="ks2" id="kpi-total-sub"></div></div>
         <div class="kpi c2"><div class="kl">Pochvaly</div><div class="kv" id="kpi-pochvala">&#8212;</div><div class="ks2" id="kpi-pochvala-sub"></div></div>
@@ -232,29 +238,20 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    // idx30=text(779), idx33=katH, idx34=katV, idx1=datum, idx6=oddeleni
     iText: 30, iText2: -1, iDatum: 1, iOddeleni: 6, iKatH: 33, iKatV: 34,
     colText: '', colDatum: '', colOddeleni: '', colKatH: '', colKatV: ''
   },
   'Ambulantn\u00ed': {
     skupina: 'amb',
     gid: '0',
-    iText: 17, iDatum: 0, iOddeleni: 16, iKatH: 18, iKatV: 19,
-    colText:     'Pokud n\u00e1m chcete sd\u011blit n\u011bco v\u00edce (p\u0159ipom\u00ednky, pochvaly aj.), napi\u0161te n\u00e1m n\u00ed\u017ee:',
-    colDatum:    '\u010casov\u00e1 zna\u010dka',
-    colOddeleni: 'Jakou ambulanci/pracovi\u0161t\u011b jste nav\u0161t\u00edvili?',
-    colKatH:     'Hlavn\u00ed - Pochvala/p',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    iText: 15, iText2: -1, iDatum: 1, iOddeleni: 14, iKatH: 18, iKatV: 19,
+    colText: '', colDatum: '', colOddeleni: '', colKatH: '', colKatV: ''
   },
   'D\u011bti': {
     skupina: 'deti',
     gid: '1447672423',
-    iText: 33, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35,
-    colText:     'Cht\u011bli byste v nemocnici n\u011bco zlep\u0161it nebo n\u00e1m n\u011bco sd\u011blit?',
-    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
-    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m bylo Va\u0161e d\u00edt\u011b hospitalizov\u00e1no',
-    colKatH:     'Hlavn\u00ed - Pochvala / podn\u011bt / neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - /podn\u011bt'
+    iText: 32, iText2: -1, iDatum: 1, iOddeleni: 6, iKatH: 33, iKatV: 34,
+    colText: '', colDatum: '', colOddeleni: '', colKatH: '', colKatV: ''
   }
 };
 
@@ -400,23 +397,6 @@ function fetchAll() {
     .then(function(results) {
       allData = [];
       results.forEach(function(r) { allData = allData.concat(r); });
-
-      // DEBUG — zobrazit info
-      var unikKat = {};
-      allData.forEach(function(d){ unikKat[d.katH||'(prazdne)'] = (unikKat[d.katH||'(prazdne)']||0)+1; });
-      var unikPeriod = {};
-      allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
-      var d0 = allData[0] || {};
-      var dbg = document.getElementById('debug-box');
-      dbg.style.display = 'block';
-      var hospCount = allData.filter(function(d){return d.skupina==='hosp';}).length;
-      var hospKat = allData.filter(function(d){return d.skupina==='hosp'&&d.katH;}).length;
-      dbg.style.display = 'block';
-      dbg.textContent =
-        'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'HOSP celkem: ' + hospCount + ' | s kategorii: ' + hospKat + '\n' +
-        'obdobi: ' + JSON.stringify(unikPeriod);
-
       onDataReady();
     })
     .catch(function(err) {
@@ -578,41 +558,116 @@ function buildPie(id, data) {
   });
 }
 
+var NORM_HOSP = {'gynekologie - l\u016f\u017ekov\u00e9':'Gynekologie \u2013 l\u016f\u017ekov\u00e9','gynekologie- \u0161estined\u011bl\u00ed':'Gynekologie \u2013 \u0161estined\u011bl\u00ed','gynekologie \u2013 \u0161estined\u011bl\u00ed':'Gynekologie \u2013 \u0161estined\u011bl\u00ed','d\u011btsk\u00e9 jip':'D\u011btsk\u00e9 JIP','aro':'ARO','chirurgie jip':'Chirurgie JIP','interna jip':'Interna JIP','urgeutn\u00ed p\u0159\u00edjem - l\u016f\u017eka':'Urgeutn\u00ed p\u0159\u00edjem \u2013 l\u016f\u017eka','urgent\u00ed p\u0159\u00edjem - l\u016f\u017eka':'Urgeutn\u00ed p\u0159\u00edjem \u2013 l\u016f\u017eka'};
+var SKUPINY_HOSP = {'ARO':['ARO'],'Gynekologie / Porodnice':['Gynekologie \u2013 l\u016f\u017ekov\u00e9','Gynekologie \u2013 \u0161estined\u011bl\u00ed','D\u011btsk\u00e9 \u2013 novorozenci'],'D\u011btsk\u00e9':['D\u011btsk\u00e9 JIP','D\u011btsk\u00e9 l\u016f\u017ekov\u00e9'],'Chirurgie':['Chirurgie 1','Chirurgie 2','Chirurgie JIP','Odd\u011blen\u00ed opera\u010dn\u00edch obor\u016f (jednodn\u00ed chirurgie)'],'Interna':['Interna 1','Interna 2','Interna 3','Interna JIP'],'Neurologie':['Neurologie'],'Ortopedie':['Ortopedie 1','Ortopedie 2'],'Rehabilitace':['Rehabilitace akutn\u00ed','Rehabilitace n\u00e1sledn\u00e1'],'N\u00e1sledn\u00e1 p\u00e9\u010de':['LDN','O\u0160P','Paliativn\u00ed odd\u011blen\u00ed'],'Urgeutn\u00ed p\u0159\u00edjem':['Urgeutn\u00ed p\u0159\u00edjem \u2013 l\u016f\u017eka'],'Urologie':['Urologie']};
+var NORM_AMB = {'infek\u010dn\u00ed ambulance':'Infek\u010dn\u00ed ambulance','orl':'ORL ambulance','kontrolni ortopedick\u00e1 ambulance':'Kontroln\u00ed ortopedick\u00e1 ambulance','neurologick\u00e1 ambulance ( ambulance bolest\u00ed zad)':'Ambulance bolesti zad','oddeleni sestinedeli':'Gynekologick\u00e1 ambulance','neurologie':'Neurologick\u00e1 ambulance','urgeutn\u00ed p\u0159ijem':'Urgeutn\u00ed p\u0159\u00edjem','urgent\u00ed p\u0159ijem':'Urgeutn\u00ed p\u0159\u00edjem','t\u011blov\u00fdchovn\u00e9 l\u00e9ka\u0159st\u00ed':'T\u011blov\u00fdchovn\u00e9 l\u00e9ka\u0159stv\u00ed'};
+var SKUPINY_AMB = {'Gynekologie':['Gynekologick\u00e1 ambulance','Gynekologick\u00e1 ambulance a prenat\u00e1ln\u00ed poradna'],'Chirurgie':['Akutn\u00ed chirurgick\u00e1 ambulance','V\u0161eobecn\u00e1 chirurgick\u00e1 ambulance','Chirurgie odborn\u00e1 poradna','Proktologick\u00e1 ambulance','Poradna k\u00fdln\u00ed','Poradna hojeni ran'],'Interna':['Akutn\u00ed intern\u00ed ambulance','V\u0161eobecn\u00e1 intern\u00ed ambulance','Gastroenterologie','Plicn\u00ed ambulance','Kardiologick\u00e1 ambulance','Diabetologick\u00e1 ambulance','Endokrinologie','Revmatologick\u00e1 ambulance','Infek\u010dn\u00ed ambulance','Poradna c\u00e9vn\u00ed','Hematologie','Poradna mam\u00e1rn\u00ed'],'Neurologie':['Neurologick\u00e1 ambulance','Akutn\u00ed neurologick\u00e1 ambulance','Ambulance bolesti zad'],'O\u010dn\u00ed':['O\u010dn\u00ed ambulance'],'Onkologie':['Pracovi\u0161t\u011b klinick\u00e9 onkologie, onkologick\u00fd station\u00e1\u0159','Onkologie'],'ORL':['ORL ambulance'],'Ortopedie':['Ortopedick\u00e1 ambulance','Akutn\u00ed ortopedick\u00e1 ambulance','Kontroln\u00ed ortopedick\u00e1 ambulance'],'Psychiatrie / Psychologie':['Ambulance klinick\u00e9 psychologie a psychiatrie'],'Rehabilitace':['Ambulance rehabilitace a fyzik\u00e1ln\u00ed medic\u00edny (l\u00e9ka\u0159)','Rehabilitace - cvi\u010den\u00ed (fyzioterapeut)'],'D\u011btsk\u00e9':['Akutn\u00ed ambulance pro d\u011bti a dorost','D\u011btsk\u00e1 pohotovost','D\u011btsk\u00e1 v\u0161eobecn\u00e1 ambulance','D\u011btsk\u00e1 ambulance','Praktick\u00fd l\u00e9ka\u0159 pro d\u011bti a dorost','D\u011btsk\u00e1 neurologie','D\u011btsk\u00e1 nefr\u00e9ologie','D\u011btsk\u00e9 odborn\u00e9 poradny','T\u011blov\u00fdchovn\u00e9 l\u00e9ka\u0159stv\u00ed'],'OKB':['Odb\u011brov\u00e9 centrum','Odrinace klinick\u00e9 biochemie Zdabo\u0159'],'Zobrazovac\u00ed metody':['Magnetick\u00e1 rezonance, CT','RTG','Denzitometrie','Nukle\u00e1rn\u00ed medic\u00edna'],'Praktick\u00fd l\u00e9ka\u0159':['V\u0161eobecn\u00fd praktick\u00fd l\u00e9ka\u0159'],'Urgeutn\u00ed p\u0159\u00edjem':['Urgeutn\u00ed p\u0159\u00edjem','Akutn\u00ed ambulance','L\u00e9ka\u0159sk\u00e1 pohotovost pro dosp\u011bl\u00e9'],'Zubn\u00ed l\u00e9ka\u0159stv\u00ed':['Ambulance zubn\u00edch l\u00e9ka\u0159\u016f'],'Ostatn\u00ed':['Neuvedeno','ONP','Dopravn\u00ed slu\u017eba']};
+
+function normOddeleni(name, skupina) {
+  var n = (name||'').trim();
+  var nl = n.toLowerCase();
+  var norm = skupina==='hosp' ? NORM_HOSP : NORM_AMB;
+  return norm[nl] || n;
+}
+function getSkupina(name, skupina) {
+  var groups = skupina==='hosp' ? SKUPINY_HOSP : (skupina==='amb' ? SKUPINY_AMB : null);
+  if (!groups) return 'Ostatn\u00ed';
+  for (var g in groups) { if (groups[g].indexOf(name)>=0) return g; }
+  return 'Ostatn\u00ed';
+}
+
 function buildOddeleni() {
   var data = skupinaData();
-  var oddMap = {};
-  data.forEach(function(d) {
-    if (!d.oddeleni) return;
-    if (!oddMap[d.oddeleni]) oddMap[d.oddeleni] = [];
-    oddMap[d.oddeleni].push(d);
-  });
-  var oddNames = Object.keys(oddMap).sort(function(a,b){ return a.localeCompare(b,'cs'); });
   var container = document.getElementById('odd-list');
-  if (!oddNames.length) { container.innerHTML = '<div class="loading" style="padding:30px">Žádná data.</div>'; return; }
+  if (!data.length) { container.innerHTML = '<div class="loading" style="padding:30px">Žádná data.</div>'; return; }
 
-  container.innerHTML = oddNames.map(function(name) {
-    var items = oddMap[name];
-    var poch = items.filter(function(d){ return d.katH==='Pochvala'||d.katV==='Pochvala'; });
-    var podn = items.filter(function(d){ return d.katH==='Podn\u011bt'||d.katV==='Podn\u011bt'; });
-    var neut = items.filter(function(d){ return d.katH==='Neutr\u00e1ln\u00ed'&&d.katV!=='Pochvala'&&d.katV!=='Podn\u011bt'; });
-    var id = 'odd' + name.replace(/[^a-z0-9]/gi,'_');
-    return '<div class="odd-item" id="item-'+id+'">' +
-      '<div class="odd-header" onclick="toggleOdd(\''+id+'\')">' +
-        '<span class="odd-name">'+escH(name)+'</span>' +
-        '<span class="odd-meta"><span class="odd-count">'+items.length+' koment\u00e1\u0159\u016f</span><span class="odd-arrow">\u25bc</span></span>' +
+  // Normalizovat názvy oddělení
+  var normData = data.map(function(d) {
+    var n = normOddeleni(d.oddeleni, d.skupina);
+    return Object.assign({}, d, {oddeleniNorm: n, skupinaObor: getSkupina(n, d.skupina)});
+  });
+
+  // Skupiny oborů pro tuto skupinu pacientů (hosp/amb/deti)
+  var useGroups = activeSkupina === 'hosp' || activeSkupina === 'amb';
+
+  if (!useGroups) {
+    // Děti – bez seskupení
+    var oddMap = {};
+    normData.forEach(function(d) {
+      var n = d.oddeleniNorm || d.oddeleni;
+      if (!n) return;
+      if (!oddMap[n]) oddMap[n] = [];
+      oddMap[n].push(d);
+    });
+    var names = Object.keys(oddMap).sort(function(a,b){ return a.localeCompare(b,'cs'); });
+    container.innerHTML = names.map(function(name){ return renderOddItem(name, oddMap[name]); }).join('');
+    return;
+  }
+
+  // Seskupit podle oboru
+  var skupinyMap = activeSkupina === 'hosp' ? SKUPINY_HOSP : SKUPINY_AMB;
+  var oborMap = {}; // obor -> {oddeleni -> [items]}
+  normData.forEach(function(d) {
+    var n = d.oddeleniNorm || d.oddeleni;
+    if (!n) return;
+    var obor = d.skupinaObor;
+    if (!oborMap[obor]) oborMap[obor] = {};
+    if (!oborMap[obor][n]) oborMap[obor][n] = [];
+    oborMap[obor][n].push(d);
+  });
+
+  // Řadit obory podle pořadí v SKUPINY_HOSP/AMB
+  var oborOrder = Object.keys(skupinyMap);
+  var oborNames = Object.keys(oborMap).sort(function(a,b){
+    var ia = oborOrder.indexOf(a), ib = oborOrder.indexOf(b);
+    if (ia === -1) ia = 999; if (ib === -1) ib = 999;
+    return ia - ib;
+  });
+
+  container.innerHTML = oborNames.map(function(obor) {
+    var oddElems = oborMap[obor];
+    var oddNames = Object.keys(oddElems).sort(function(a,b){ return a.localeCompare(b,'cs'); });
+    var totalObor = oddNames.reduce(function(s,n){ return s+oddElems[n].length; }, 0);
+    var oborId = 'obor' + obor.replace(/[^a-z0-9]/gi,'_');
+
+    // Pokud jen jedno oddělení, zobraz přímo bez skupiny
+    if (oddNames.length === 1) {
+      return renderOddItem(oddNames[0], oddElems[oddNames[0]]);
+    }
+
+    return '<div class="obor-group" id="ig-'+oborId+'">' +
+      '<div class="obor-header" onclick="toggleObor(\''+oborId+'\')">' +
+        '<span class="obor-name">'+escH(obor)+'</span>' +
+        '<span class="obor-meta"><span class="odd-count">'+totalObor+' koment\u00e1\u0159\u016f</span><span class="odd-arrow" id="arr-'+oborId+'">\u25bc</span></span>' +
       '</div>' +
-      '<div class="odd-body" id="body-'+id+'">' +
-        '<div class="inner-tabs">' +
-          '<button class="it-btn ap" onclick="showInner(event,\''+id+'\',\'p\')">\u2b50 Pochvaly <span class="it-count cp">'+poch.length+'</span></button>' +
-          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'n\')">&#128161; Podn\u011bty <span class="it-count cn">'+podn.length+'</span></button>' +
-          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'u\')">&#9675; Neutr\u00e1ln\u00ed <span class="it-count cu">'+neut.length+'</span></button>' +
-        '</div>' +
-        '<div class="inner-panel active" id="panel-'+id+'-p">'+renderKomItems(poch)+'</div>' +
-        '<div class="inner-panel" id="panel-'+id+'-n">'+renderKomItems(podn)+'</div>' +
-        '<div class="inner-panel" id="panel-'+id+'-u">'+renderKomItems(neut)+'</div>' +
+      '<div class="obor-body" id="ob-'+oborId+'" style="display:none">' +
+        oddNames.map(function(name){ return renderOddItem(name, oddElems[name]); }).join('') +
       '</div>' +
     '</div>';
   }).join('');
+}
+
+function renderOddItem(name, items) {
+  var poch = items.filter(function(d){ return d.katH==='Pochvala'||d.katV==='Pochvala'; });
+  var podn = items.filter(function(d){ return d.katH==='Podn\u011bt'||d.katV==='Podn\u011bt'; });
+  var neut = items.filter(function(d){ return d.katH==='Neutr\u00e1ln\u00ed'&&d.katV!=='Pochvala'&&d.katV!=='Podn\u011bt'; });
+  var id = 'odd' + name.replace(/[^a-z0-9]/gi,'_');
+  return '<div class="odd-item" id="item-'+id+'">' +
+    '<div class="odd-header" onclick="toggleOdd(\''+id+'\')">' +
+      '<span class="odd-name">'+escH(name)+'</span>' +
+      '<span class="odd-meta"><span class="odd-count">'+items.length+' koment\u00e1\u0159\u016f</span><span class="odd-arrow">\u25bc</span></span>' +
+    '</div>' +
+    '<div class="odd-body" id="body-'+id+'">' +
+      '<div class="inner-tabs">' +
+        '<button class="it-btn ap" onclick="showInner(event,\''+id+'\',\'p\')">\u2b50 Pochvaly <span class="it-count cp">'+poch.length+'</span></button>' +
+        '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'n\')">&#128161; Podn\u011bty <span class="it-count cn">'+podn.length+'</span></button>' +
+        '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'u\')">&#9675; Neutr\u00e1ln\u00ed <span class="it-count cu">'+neut.length+'</span></button>' +
+      '</div>' +
+      '<div class="inner-panel active" id="panel-'+id+'-p">'+renderKomItems(poch)+'</div>' +
+      '<div class="inner-panel" id="panel-'+id+'-n">'+renderKomItems(podn)+'</div>' +
+      '<div class="inner-panel" id="panel-'+id+'-u">'+renderKomItems(neut)+'</div>' +
+    '</div>' +
+  '</div>';
 }
 
 function renderKomItems(items) {
@@ -620,6 +675,16 @@ function renderKomItems(items) {
   return items.map(function(d){
     return '<div class="kom-item">'+escH(d.text)+(d.period?'<div class="kom-period">'+escH(d.period)+'</div>':'')+'</div>';
   }).join('');
+}
+
+function toggleObor(id) {
+  var body = document.getElementById('ob-'+id);
+  var arr = document.getElementById('arr-'+id);
+  var open = body.style.display === 'none';
+  body.style.display = open ? 'flex' : 'none';
+  body.style.flexDirection = 'column';
+  body.style.gap = '5px';
+  if (arr) arr.style.transform = open ? 'rotate(180deg)' : '';
 }
 
 function toggleOdd(id) {
