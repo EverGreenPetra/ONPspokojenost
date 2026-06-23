@@ -10,7 +10,7 @@
 :root{
   --bg:#f2f0eb;--card:#fff;--ink:#1a1a2e;--mu:#6b7080;
   --a1:#2c6e8a;--a2:#e8a045;--a3:#5caa7f;--a4:#c94040;--a5:#7b5ea7;
-  --bd:#e0ddd6;
+  --bd:#e0ddd6;--tag:#eef4f7;
   --pochvala:#5caa7f;--pochvala-bg:#d4f0e2;--pochvala-txt:#257a50;
   --podnet:#e8a045;--podnet-bg:#fdf0d5;--podnet-txt:#9a6a10;
   --neutralni:#7b5ea7;--neutralni-bg:#ede8f5;--neutralni-txt:#5a3e8a;
@@ -18,19 +18,21 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
 
+/* ── HEADER ── */
 header{background:var(--ink);color:#fff;padding:14px 28px 10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}
 .hdr-left{display:flex;align-items:center;gap:14px;}
 .hdr-logo{width:36px;height:36px;background:#2c6e8a;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .hdr-title{font-family:'DM Serif Display',serif;font-size:1.35rem;font-weight:400;line-height:1.2;}
 .hdr-title em{color:var(--a2);font-style:italic;}
 .hdr-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px;}
-.hdr-chip{font-size:.7rem;padding:2px 9px;border-radius:20px;border:1px solid #444;color:#ccc;}
+.hdr-chip{font-size:.7rem;padding:2px 9px;border-radius:20px;border:1px solid #444;color:#ccc;cursor:default;}
 .hdr-chip.hosp{border-color:#5caa7f;color:#5caa7f;}
 .hdr-chip.amb{border-color:#2c6e8a;color:#7bc8e8;}
 .hdr-chip.deti{border-color:#e8a045;color:#e8a045;}
 .back-link{color:#aaa;font-size:.78rem;text-decoration:none;display:flex;align-items:center;gap:5px;}
 .back-link:hover{color:#fff;}
 
+/* ── SKUPINA NAV (top) ── */
 .skupiny-nav{background:#111827;display:flex;gap:0;border-bottom:1px solid #2e2e44;overflow-x:auto;}
 .sk-btn{background:none;border:none;color:#888;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;padding:11px 20px;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:flex;align-items:center;gap:7px;}
 .sk-btn:hover{color:#fff;}
@@ -38,22 +40,26 @@ header{background:var(--ink);color:#fff;padding:14px 28px 10px;display:flex;alig
 .sk-btn .sk-count{background:#2a2a3e;color:#aaa;font-size:.68rem;padding:1px 7px;border-radius:10px;font-weight:700;}
 .sk-btn.active .sk-count{background:var(--a2);color:#1a1a2e;}
 
+/* ── SUBTAB NAV ── */
 .subtabs-nav{background:#1a1a2e;display:flex;gap:0;padding:0 28px;border-bottom:1px solid #2e2e44;}
 .stb{background:none;border:none;color:#777;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;padding:9px 16px;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .stb:hover{color:#fff;}
 .stb.active{color:var(--a2);border-bottom-color:var(--a2);}
 
+/* ── MAIN ── */
 main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .subsec{display:none;}.subsec.active{display:block;}
 
+/* ── LOADING ── */
 .loading{text-align:center;padding:60px 20px;color:var(--mu);font-size:.9rem;}
 .loading-spinner{display:inline-block;width:30px;height:30px;border:3px solid var(--bd);border-top-color:var(--a1);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .error-box{background:#fde0e0;border:1px solid #e0a0a0;border-radius:10px;padding:14px 18px;color:#7a2020;font-size:.84rem;line-height:1.6;margin-bottom:16px;}
-.debug-box{background:#fffbe6;border:1px solid #f0d080;border-radius:8px;padding:10px 14px;font-size:.72rem;color:#555;margin-bottom:14px;line-height:1.7;font-family:monospace;white-space:pre-wrap;}
 
+/* ── KPI ── */
 .ks{display:grid;gap:12px;margin-bottom:18px;}
 .k4{grid-template-columns:repeat(4,1fr);}
+.k3{grid-template-columns:repeat(3,1fr);}
 .kpi{background:var(--card);border-radius:11px;padding:14px 16px;border:1px solid var(--bd);position:relative;overflow:hidden;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi.c1::before{background:var(--a1);}
@@ -64,18 +70,22 @@ main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .kv{font-family:'DM Serif Display',serif;font-size:1.8rem;line-height:1;}
 .ks2{font-size:.7rem;color:var(--mu);margin-top:3px;}
 
+/* ── GRID ── */
 .gr{display:grid;gap:16px;margin-bottom:18px;}
 .g2{grid-template-columns:1fr 1fr;}
 .g3{grid-template-columns:1fr 1fr 1fr;}
+.g1{grid-template-columns:1fr;}
 .cc{background:var(--card);border-radius:11px;padding:16px 18px;border:1px solid var(--bd);}
-.cc h3{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+.cc h3{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;color:var(--ink);}
 .cs{font-size:.68rem;color:var(--mu);margin-bottom:12px;}
 .chart-wrap{position:relative;}
 .h220{height:220px;}
 .h260{height:260px;}
 
+/* ── INFO ── */
 .info{background:#e8f4fb;border:1px solid #a8d4ea;border-radius:8px;padding:10px 14px;font-size:.76rem;color:#1a5a72;margin-bottom:14px;line-height:1.5;}
 
+/* ── ODDĚLENÍ ACCORDION ── */
 .odd-list{display:flex;flex-direction:column;gap:6px;}
 .odd-item{background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;transition:box-shadow .15s;}
 .odd-item.open{box-shadow:0 3px 14px rgba(0,0,0,.08);}
@@ -89,8 +99,10 @@ main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .odd-body{display:none;border-top:1px solid var(--bd);}
 .odd-item.open .odd-body{display:block;}
 
+/* záložky uvnitř karty */
 .inner-tabs{display:flex;gap:0;border-bottom:1px solid var(--bd);background:#fafaf8;}
 .it-btn{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;padding:9px 14px;cursor:pointer;border-bottom:3px solid transparent;color:var(--mu);transition:all .12s;display:flex;align-items:center;gap:5px;}
+.it-btn:hover{color:var(--ink);}
 .it-btn.ap{color:var(--pochvala-txt);border-bottom-color:var(--pochvala);}
 .it-btn.an{color:var(--podnet-txt);border-bottom-color:var(--podnet);}
 .it-btn.au{color:var(--neutralni-txt);border-bottom-color:var(--neutralni);}
@@ -101,11 +113,13 @@ main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .inner-panel{display:none;padding:12px 16px;}
 .inner-panel.active{display:block;}
 
-.kom-item{padding:9px 0;border-bottom:1px solid #f0ede8;font-size:.84rem;line-height:1.55;}
+/* komentáře uvnitř */
+.kom-item{padding:9px 0;border-bottom:1px solid #f0ede8;font-size:.84rem;line-height:1.55;color:var(--ink);}
 .kom-item:last-child{border-bottom:none;}
 .kom-period{font-size:.68rem;color:var(--a1);font-weight:600;margin-top:3px;}
 .kom-empty{font-size:.82rem;color:var(--mu);padding:14px 0;text-align:center;}
 
+/* ── PODNĚTY TAB ── */
 .obdobi-filter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:12px 16px;background:var(--card);border-radius:10px;border:1px solid var(--bd);}
 .obdobi-filter label{font-size:.78rem;color:var(--mu);font-weight:500;margin-right:4px;}
 .ob-btn{padding:4px 13px;border-radius:20px;border:1.5px solid var(--bd);background:var(--card);font-size:.75rem;font-weight:500;cursor:pointer;color:var(--mu);transition:all .12s;}
@@ -113,14 +127,16 @@ main{flex:1;padding:20px 28px;max-width:1400px;margin:0 auto;width:100%;}
 .ob-btn.on{background:var(--ink);border-color:var(--ink);color:#fff;}
 
 .podnet-sekce{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px 18px;margin-bottom:10px;}
-.podnet-sekce h4{font-size:.82rem;font-weight:600;margin-bottom:10px;border-bottom:1px solid var(--bd);padding-bottom:7px;}
-.podnet-item{padding:8px 0;border-bottom:1px solid #f0ede8;font-size:.83rem;line-height:1.5;}
+.podnet-sekce h4{font-size:.82rem;font-weight:600;margin-bottom:10px;color:var(--ink);border-bottom:1px solid var(--bd);padding-bottom:7px;}
+.podnet-item{padding:8px 0;border-bottom:1px solid #f0ede8;font-size:.83rem;line-height:1.5;color:var(--ink);}
 .podnet-item:last-child{border-bottom:none;}
 .podnet-period{font-size:.68rem;color:var(--podnet-txt);font-weight:600;margin-top:2px;}
 .podnet-empty{font-size:.82rem;color:var(--mu);text-align:center;padding:20px 0;}
 
+/* ── FOOTER ── */
 footer{padding:12px 28px;border-top:1px solid var(--bd);font-size:.68rem;color:var(--mu);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 
+/* ── RESPONSIVE ── */
 @media(max-width:800px){
   header,main,footer{padding-left:14px;padding-right:14px;}
   .subtabs-nav{padding:0 14px;}
@@ -133,141 +149,156 @@ footer{padding:12px 28px;border-top:1px solid var(--bd);font-size:.68rem;color:v
 
 <header>
   <div class="hdr-left">
-    <div class="hdr-logo">&#x1F3E5;</div>
+    <div class="hdr-logo">🏥</div>
     <div>
-      <div style="font-size:.65rem;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Oblastn&#237; nemocnice P&#345;&#237;bram</div>
-      <div class="hdr-title">Slovn&#237; hodnocen&#237; pacient&#367; <em>2024&#8211;2026</em></div>
+      <div style="font-size:.65rem;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Oblastní nemocnice Příbram</div>
+      <div class="hdr-title">Slovní hodnocení pacientů <em>2024–2026</em></div>
       <div class="hdr-chips">
-        <span class="hdr-chip hosp" id="chip-hosp">Hosp. dosp&#283;l&#237; &middot; &#8212;</span>
-        <span class="hdr-chip amb" id="chip-amb">Ambulance &middot; &#8212;</span>
-        <span class="hdr-chip deti" id="chip-deti">Hosp. d&#283;ti &middot; &#8212;</span>
+        <span class="hdr-chip hosp" id="chip-hosp">Hosp. dospělí · —</span>
+        <span class="hdr-chip amb" id="chip-amb">Ambulance · —</span>
+        <span class="hdr-chip deti" id="chip-deti">Hosp. děti · —</span>
       </div>
     </div>
   </div>
-  <a class="back-link" href="index.html">&#8592; Zp&#283;t na rozce stn&#237;k</a>
+  <a class="back-link" href="index.html">← Zpět na rozcestník</a>
 </header>
 
+<!-- SKUPINY NAV -->
 <nav class="skupiny-nav">
-  <button class="sk-btn active" data-skupina="vse">&#128203; V&#353;echny skupiny <span class="sk-count" id="skc-vse">&#8212;</span></button>
-  <button class="sk-btn" data-skupina="hosp">&#128203; Hospitalizovan&#237; dosp&#283;l&#237; <span class="sk-count" id="skc-hosp">&#8212;</span></button>
-  <button class="sk-btn" data-skupina="amb">&#127973; Ambulance <span class="sk-count" id="skc-amb">&#8212;</span></button>
-  <button class="sk-btn" data-skupina="deti">&#128118; Hospitalizovan&#233; d&#283;ti <span class="sk-count" id="skc-deti">&#8212;</span></button>
+  <button class="sk-btn active" data-skupina="hosp">
+    📋 Hospitalizovaní dospělí <span class="sk-count" id="skc-hosp">—</span>
+  </button>
+  <button class="sk-btn" data-skupina="amb">
+    🏥 Ambulance <span class="sk-count" id="skc-amb">—</span>
+  </button>
+  <button class="sk-btn" data-skupina="deti">
+    👶 Hospitalizované děti <span class="sk-count" id="skc-deti">—</span>
+  </button>
 </nav>
 
+<!-- SUBTABS -->
 <nav class="subtabs-nav">
-  <button class="stb active" data-sub="prehled">&#128202; P&#345;ehled</button>
-  <button class="stb" data-sub="oddeleni">&#128193; Podle odd&#283;len&#237;</button>
-  <button class="stb" data-sub="podnet">&#9888;&#65039; Podn&#283;ty</button>
+  <button class="stb active" data-sub="prehled">📊 Přehled</button>
+  <button class="stb" data-sub="oddeleni">📁 Podle oddělení</button>
+  <button class="stb" data-sub="podnet">⚠️ Podněty</button>
 </nav>
 
 <main>
   <div id="global-loading" class="loading">
     <div class="loading-spinner"></div>
-    <div>Na&#269;&#237;t&#225;m data z Google Sheets&#8230;</div>
+    <div>Načítám data z Google Sheets…</div>
   </div>
   <div id="global-content" style="display:none">
 
-    <!-- PŘEHLED -->
+    <!-- ══ PŘEHLED ══ -->
     <div class="subsec active" id="sub-prehled">
-      <div id="debug-box" class="debug-box" style="display:none"></div>
       <div class="ks k4">
-        <div class="kpi c1"><div class="kl">Koment&#225;&#345;&#367; celkem</div><div class="kv" id="kpi-total">&#8212;</div><div class="ks2" id="kpi-total-sub"></div></div>
-        <div class="kpi c2"><div class="kl">Pochvaly</div><div class="kv" id="kpi-pochvala">&#8212;</div><div class="ks2" id="kpi-pochvala-sub"></div></div>
-        <div class="kpi c3"><div class="kl">Podn&#283;ty ke zlep&#353;en&#237;</div><div class="kv" id="kpi-podnet">&#8212;</div><div class="ks2" id="kpi-podnet-sub"></div></div>
-        <div class="kpi c4"><div class="kl">Neutr&#225;ln&#237;</div><div class="kv" id="kpi-neutralni">&#8212;</div><div class="ks2" id="kpi-neutralni-sub"></div></div>
+        <div class="kpi c1"><div class="kl">Komentářů celkem</div><div class="kv" id="kpi-total">—</div><div class="ks2" id="kpi-total-sub"></div></div>
+        <div class="kpi c2"><div class="kl">Pochvaly</div><div class="kv" id="kpi-pochvala">—</div><div class="ks2" id="kpi-pochvala-sub"></div></div>
+        <div class="kpi c3"><div class="kl">Podněty ke zlepšení</div><div class="kv" id="kpi-podnet">—</div><div class="ks2" id="kpi-podnet-sub"></div></div>
+        <div class="kpi c4"><div class="kl">Neutrální</div><div class="kv" id="kpi-neutralni">—</div><div class="ks2" id="kpi-neutralni-sub"></div></div>
       </div>
+
       <div class="gr g2">
         <div class="cc">
-          <h3>Pom&#283;r kategori&#237;</h3>
-          <div class="cs" id="pie-sub-label">V&#353;echny skupiny &middot; v&#353;echny roky</div>
+          <h3>Poměr kategorií — vybraná skupina</h3>
+          <div class="cs" id="pie-sub-label">Všechny roky</div>
           <div class="chart-wrap h220"><canvas id="cPie"></canvas></div>
         </div>
         <div class="cc">
-          <h3>Koment&#225;&#345;e podle skupin pacient&#367;</h3>
-          <div class="cs">Po&#269;ty v kategori&#237;ch</div>
+          <h3>Komentáře podle skupin pacientů</h3>
+          <div class="cs">Počty v kategoriích</div>
           <div class="chart-wrap h220"><canvas id="cTypBar"></canvas></div>
         </div>
       </div>
+
       <div class="gr g2">
         <div class="cc">
-          <h3>V&#253;voj po&#269;tu koment&#225;&#345;&#367; podle pololet&#237;</h3>
-          <div class="cs" id="rok-sub-label">Vybran&#225; skupina</div>
-          <div class="chart-wrap h260"><canvas id="cRokBar"></canvas></div>
+          <h3>Vývoj počtu komentářů</h3>
+          <div class="cs">Počty podle roku</div>
+          <div class="chart-wrap h220"><canvas id="cRokBar"></canvas></div>
         </div>
         <div class="cc">
-          <h3>Pochvaly vs Podn&#283;ty vs Neutr&#225;ln&#237; podle pololet&#237;</h3>
-          <div class="cs">Procentu&#225;ln&#237; pom&#283;r (vybran&#225; skupina)</div>
-          <div class="chart-wrap h260"><canvas id="cRokPct"></canvas></div>
+          <h3>Pochvaly vs Podněty vs Neutrální podle roku</h3>
+          <div class="cs">Procentuální poměr v každém roce (vybraná skupina)</div>
+          <div class="chart-wrap h220"><canvas id="cRokPct"></canvas></div>
         </div>
       </div>
     </div>
 
-    <!-- PODLE ODDĚLENÍ -->
+    <!-- ══ PODLE ODDĚLENÍ ══ -->
     <div class="subsec" id="sub-oddeleni">
-      <div class="info">&#128161; Klikn&#283;te na odd&#283;len&#237; pro zobrazen&#237; koment&#225;&#345;&#367;. Z&#225;lo&#382;ky <strong>Pochvaly</strong> / <strong>Podn&#283;ty</strong> / <strong>Neutr&#225;ln&#237;</strong> jsou uvnit&#345; ka&#382;d&#233; karty.</div>
+      <div class="info">💡 Klikněte na oddělení pro zobrazení komentářů. Záložky <strong>Pochvaly</strong> / <strong>Podněty</strong> / <strong>Neutrální</strong> jsou uvnitř každé karty.</div>
       <div class="odd-list" id="odd-list"></div>
     </div>
 
-    <!-- PODNĚTY -->
+    <!-- ══ PODNĚTY ══ -->
     <div class="subsec" id="sub-podnet">
       <div class="obdobi-filter">
-        <label>Obdob&#237;:</label>
-        <div id="ob-filter-wrap"></div>
+        <label>Období:</label>
+        <div id="ob-filter-wrap">
+          <button class="ob-btn on" data-ob="vse">Vše</button>
+        </div>
       </div>
       <div id="podnet-list"></div>
     </div>
 
-  </div>
+  </div><!-- /global-content -->
 </main>
 
 <footer>
-  <span>Oblastn&#237; nemocnice P&#345;&#237;bram &middot; Slovn&#237; hodnocen&#237; pacient&#367; &middot; <span id="ft-counts"></span></span>
-  <span>Kategorizace: Google Sheets &middot; 2024&#8211;2026</span>
+  <span>Oblastní nemocnice Příbram · Slovní hodnocení pacientů · <span id="ft-counts"></span></span>
+  <span>Kategorizace: Google Sheets · 2024–2026</span>
 </footer>
 
 <script>
+// ══════════════════════════════════════
+// KONFIGURACE
+// ══════════════════════════════════════
 var PUB_ID = '2PACX-1vRKAitPM2iL8KvB68w2WKMAFP9qynjDt3FDhZC-nclmY1Z99nYS9sEpTJwEwlcaZIYRxxMYPPh-6Qcz';
 
 var SHEETS = {
-  'Hospitalizovan\u00ed': {
+  'Hospitalizovaní': {
     skupina: 'hosp',
     gid: '1872805831',
-    // Pouzivame pouze jmenne vyhledavani - indexy nesedi kvuli HOSP prefixu
-    iText: -1, iDatum: -1, iOddeleni: -1, iKatH: -1, iKatV: -1,
-    colText:     'Va\u0161e dal\u0161\u00ed post\u0159ehy a koment\u00e1\u0159e:',
-    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
-    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m jste byl/a hospitalizovan\u00fd/\u00e1',
-    colKatH:     'Hlavn\u00ed - Pochvala / podn\u011bt / neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    colText:     'Vaše další postřehy a komentáře:',
+    colDatum:    'Zapište, prosím, dnešní datum',
+    colOddeleni: 'Název oddělení, na kterém jste byl/a hospitalizovaný/á',
+    colKatH:     'Hlavní - Pochvala/podnět/neutrální',
+    colKatV:     'Vedlejší - pochvala /podnět'
   },
-  'Ambulantn\u00ed': {
+  'Ambulantní': {
     skupina: 'amb',
     gid: '0',
-    iText: 17, iDatum: 0, iOddeleni: 16, iKatH: 18, iKatV: 19,
-    colText:     'Pokud n\u00e1m chcete sd\u011blit n\u011bco v\u00edce (p\u0159ipom\u00ednky, pochvaly aj.), napi\u0161te n\u00e1m n\u00ed\u017ee:',
-    colDatum:    '\u010casov\u00e1 zna\u010dka',
-    colOddeleni: 'Jakou ambulanci/pracovi\u0161t\u011b jste nav\u0161t\u00edvili?',
-    colKatH:     'Hlavn\u00ed - Pochvala/p',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    colText:     'Pokud nám chcete sdělit něco více (připomínky, pochvaly aj.), napište nám níže:',
+    colDatum:    'Časová značka',
+    colOddeleni: 'Jakou ambulanci/pracoviště jste navštívili?',
+    colKatH:     'Hlavní - Pochvala/podnět/neutrální',
+    colKatV:     'Vedlejší - pochvala /podnět'
   },
-  'D\u011bti': {
+  'Děti': {
     skupina: 'deti',
     gid: '1447672423',
-    iText: 33, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35,
-    colText:     'Cht\u011bli byste v nemocnici n\u011bco zlep\u0161it nebo n\u00e1m n\u011bco sd\u011blit?',
-    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
-    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m bylo Va\u0161e d\u00edt\u011b hospitalizov\u00e1no',
-    colKatH:     'Hlavn\u00ed - Pochvala / podn\u011bt / neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - /podn\u011bt'
+    colText:     'Chtěli byste v nemocnici něco zlepšit nebo nám něco sdělit?',
+    colDatum:    'Zapište, prosím, dnešní datum',
+    colOddeleni: 'Název oddělení, na kterém bylo Vaše dítě hospitalizováno',
+    colKatH:     'Hlavní - Pochvala/podnět/neutrální',
+    colKatV:     'Vedlejší - pochvala /podnět'
   }
 };
 
+// ══════════════════════════════════════
+// STAV
+// ══════════════════════════════════════
 var allData = [];
-var activeSkupina = 'vse';
+var activeSkupina = 'hosp';
 var activeSub = 'prehled';
 var activeOb = 'vse';
 var CH = {};
 
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
 function csvUrl(gid) {
   return 'https://docs.google.com/spreadsheets/d/e/' + PUB_ID + '/pub?gid=' + gid + '&single=true&output=csv';
 }
@@ -295,16 +326,11 @@ function parseCsv(text) {
   for (var i = 1; i < lines.length; i++) {
     if (!lines[i].trim()) continue;
     var vals = parseCsvLine(lines[i]);
-    // Uložit jako pole i jako objekt
-    var obj = { _vals: vals };
+    var obj = {};
     headers.forEach(function(h, idx){ obj[h.trim()] = (vals[idx] || '').trim(); });
     rows.push(obj);
   }
   return rows;
-}
-
-function getByIdx(row, idx) {
-  return (row._vals && row._vals[idx] !== undefined) ? (row._vals[idx] || '').trim() : '';
 }
 
 function parseCsvLine(line) {
@@ -321,43 +347,31 @@ function parseCsvLine(line) {
   return result;
 }
 
-// Kategorie — přímé porovnání (hodnoty jsou přesně "Pochvala", "Podnět", "Neutrální")
+function norml(s) { return (s || '').trim().toLowerCase(); }
+
 function katLabel(k) {
-  var s = (k || '').trim();
-  if (s === 'Pochvala') return 'Pochvala';
-  if (s === 'Podn\u011bt') return 'Podn\u011bt';
-  if (s === 'Neutr\u00e1ln\u00ed') return 'Neutr\u00e1ln\u00ed';
-  // fallback — fuzzy
-  var n = s.toLowerCase();
-  if (n.indexOf('pochval') >= 0) return 'Pochvala';
-  if (n.indexOf('podn') >= 0 || n.indexOf('zlep') >= 0) return 'Podn\u011bt';
-  if (n.indexOf('neutr') >= 0) return 'Neutr\u00e1ln\u00ed';
-  return s;
+  var n = norml(k);
+  if (n.includes('pochval')) return 'Pochvala';
+  if (n.includes('podn') || n.includes('p\u0159ipom') || n.includes('zlep\u0161')) return 'Podn\u011bt';
+  if (n.includes('neutr')) return 'Neutr\u00e1ln\u00ed';
+  return k ? k.trim() : '';
 }
 
-// Pololetí — robustní detekce
+// Rok + pololetí z data
 function parsePeriod(datum) {
-  if (!datum) return { rok: '', period: '' };
-  var rokM = datum.match(/(202[4-9])/);
+  var rokM = datum.match(/(202[4-9]|20[3-9]\d)/);
   if (!rokM) return { rok: '', period: '' };
   var rok = rokM[1];
+  // zkusit mesic
+  // formáty: DD.MM.YYYY nebo YYYY-MM-DD nebo MM/DD/YYYY
   var mesic = 0;
-
-  // Formát: DD.MM.YYYY
-  var m1 = datum.match(/^(\d{1,2})\.(\d{1,2})\.\d{4}/);
-  // Formát: YYYY-MM-DD
-  var m2 = datum.match(/^\d{4}-(\d{2})-\d{2}/);
-  // Formát Google Sheets timestamp: M/D/YYYY H:MM:SS nebo MM/DD/YYYY
-  var m3 = datum.match(/^(\d{1,2})\/\d{1,2}\/\d{4}/);
-  // Formát: D. M. YYYY
-  var m4 = datum.match(/^\d{1,2}\.\s*(\d{1,2})\.\s*\d{4}/);
-
-  if (m1) mesic = parseInt(m1[2], 10);
-  else if (m2) mesic = parseInt(m2[1], 10);
-  else if (m3) mesic = parseInt(m3[1], 10);
-  else if (m4) mesic = parseInt(m4[1], 10);
-
-  var h = (mesic >= 1 && mesic <= 6) ? 'H1' : (mesic >= 7 && mesic <= 12) ? 'H2' : '';
+  var m1 = datum.match(/(\d{1,2})\.(\d{1,2})\.\d{4}/);
+  var m2 = datum.match(/\d{4}-(\d{2})-(\d{2})/);
+  var m3 = datum.match(/(\d{1,2})\/(\d{1,2})\/\d{4}/);
+  if (m1) mesic = parseInt(m1[2]);
+  else if (m2) mesic = parseInt(m2[1]);
+  else if (m3) mesic = parseInt(m3[1]);
+  var h = mesic >= 1 && mesic <= 6 ? 'H1' : mesic >= 7 ? 'H2' : '';
   return { rok: rok, period: h ? rok + ' ' + h : rok };
 }
 
@@ -367,94 +381,73 @@ var BF = {family:"'DM Sans',sans-serif", size:11};
 var PIE_COLORS = ['#5caa7f','#e8a045','#7b5ea7'];
 var PIE_LABELS = ['Pochvala','Podn\u011bt','Neutr\u00e1ln\u00ed'];
 
+// ══════════════════════════════════════
+// FETCH
+// ══════════════════════════════════════
 function fetchAll() {
   var keys = Object.keys(SHEETS);
   var promises = keys.map(function(typ) {
     var sh = SHEETS[typ];
     return fetch(csvUrl(sh.gid))
       .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' pro ' + typ);
         return r.text();
       })
       .then(function(text) {
         var rows = parseCsv(text);
         var items = [];
-        if (rows.length > 0) {
-          window['_dbg_' + typ] = { headers: rows[0]._vals, row0: rows[0] };
-        }
         rows.forEach(function(row) {
-          // Zkusit index, pak název sloupce jako fallback
-          var txt = getByIdx(row, sh.iText) || (sh.colText ? findCol(row, sh.colText) : '');
+          var txt = findCol(row, sh.colText);
           if (!txt || txt.length < 3) return;
-          var katHraw = getByIdx(row, sh.iKatH) || (sh.colKatH ? findCol(row, sh.colKatH) : '');
-          var katVraw = getByIdx(row, sh.iKatV) || (sh.colKatV ? findCol(row, sh.colKatV) : '');
-          var katH = katLabel(katHraw);
-          var katV = katLabel(katVraw);
-          var datum = getByIdx(row, sh.iDatum) || (sh.colDatum ? findCol(row, sh.colDatum) : '');
+          var katH = katLabel(findCol(row, sh.colKatH));
+          var katV = katLabel(findCol(row, sh.colKatV));
+          var datum = findCol(row, sh.colDatum);
           var pp = parsePeriod(datum);
-          var oddeleni = getByIdx(row, sh.iOddeleni) || (sh.colOddeleni ? findCol(row, sh.colOddeleni) : '');
-          items.push({ typ: typ, skupina: sh.skupina, text: txt, katH: katH, katV: katV,
-                       katHraw: katHraw, rok: pp.rok, period: pp.period, oddeleni: oddeleni, datum: datum });
+          var oddeleni = findCol(row, sh.colOddeleni);
+          items.push({ typ: typ, skupina: sh.skupina, text: txt, katH: katH, katV: katV, rok: pp.rok, period: pp.period, oddeleni: oddeleni });
         });
-        return items;
+        return { typ: typ, items: items };
       });
   });
 
   Promise.all(promises)
     .then(function(results) {
       allData = [];
-      results.forEach(function(r) { allData = allData.concat(r); });
-
-      // DEBUG — zobrazit info
-      var unikKat = {};
-      allData.forEach(function(d){ unikKat[d.katH||'(prazdne)'] = (unikKat[d.katH||'(prazdne)']||0)+1; });
-      var unikPeriod = {};
-      allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
-      var d0 = allData[0] || {};
-      var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
-      var hospHeaders = dbgH.headers || [];
-      var hospTextIdx = hospHeaders.findIndex(function(h){ return h && h.indexOf('post\u0159ehy') >= 0; });
-      var hospKatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('Hlavn\u00ed') >= 0; });
-      var hospDatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('datum') >= 0; });
-      var dbg = document.getElementById('debug-box');
-      dbg.style.display = 'block';
-      dbg.textContent =
-        'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'HOSP celkem hlavicek: ' + hospHeaders.length + '\n' +
-        'HOSP text idx=' + hospTextIdx + ' katH idx=' + hospKatIdx + ' datum idx=' + hospDatIdx + '\n' +
-        'HOSP vsechny hlavicky:\n' + hospHeaders.map(function(h,i){ return i+': '+h; }).join('\n');
-
+      results.forEach(function(r) { allData = allData.concat(r.items); });
       onDataReady();
     })
     .catch(function(err) {
       document.getElementById('global-loading').innerHTML =
-        '<div class="error-box">&#9888;&#65039; <strong>Nepoda&#345;ilo se na&#269;&#237;st data.</strong><br>' + err.message + '</div>';
+        '<div class="error-box">\u26a0\ufe0f <strong>Nepoda\u0159ilo se na\u010d\u00edst data.</strong><br>Zkontrolujte, zda je Google tabulka publikovan\u00e1.<br><small>' + err.message + '</small></div>';
     });
 }
 
+// ══════════════════════════════════════
+// PO NAČTENÍ
+// ══════════════════════════════════════
 function onDataReady() {
   document.getElementById('global-loading').style.display = 'none';
   document.getElementById('global-content').style.display = 'block';
 
-  function cnt(sk) { return sk === 'vse' ? allData.length : allData.filter(function(d){ return d.skupina===sk; }).length; }
-  var cH = cnt('hosp'), cA = cnt('amb'), cD = cnt('deti'), cV = allData.length;
-
+  // Counts do chipů a nav
+  function cnt(sk) { return allData.filter(function(d){ return d.skupina === sk; }).length; }
+  var cH = cnt('hosp'), cA = cnt('amb'), cD = cnt('deti');
   document.getElementById('chip-hosp').textContent = 'Hosp. dosp\u011bl\u00ed \u00b7 ' + cH;
   document.getElementById('chip-amb').textContent = 'Ambulance \u00b7 ' + cA;
   document.getElementById('chip-deti').textContent = 'Hosp. d\u011bti \u00b7 ' + cD;
-  document.getElementById('skc-vse').textContent = cV;
   document.getElementById('skc-hosp').textContent = cH;
   document.getElementById('skc-amb').textContent = cA;
   document.getElementById('skc-deti').textContent = cD;
   document.getElementById('ft-counts').textContent =
     'Hosp. dosp. n=' + cH + ' \u00b7 Ambulance n=' + cA + ' \u00b7 Hosp. d\u011bti n=' + cD;
 
+  // Naplnit filter pololetí
   buildObdobiFilter();
+
   renderAll();
 }
 
 function skupinaData() {
-  if (activeSkupina === 'vse') return allData;
   return allData.filter(function(d){ return d.skupina === activeSkupina; });
 }
 
@@ -464,6 +457,9 @@ function renderAll() {
   buildPodnet();
 }
 
+// ══════════════════════════════════════
+// PŘEHLED
+// ══════════════════════════════════════
 function buildPrehled() {
   var data = skupinaData();
   var total = data.length;
@@ -481,21 +477,22 @@ function buildPrehled() {
   document.getElementById('kpi-neutralni').textContent = neut;
   document.getElementById('kpi-neutralni-sub').textContent = pct(neut);
 
-  var skupNames = {vse:'V\u0161echny skupiny', hosp:'Hospitalizovan\u00ed dosp\u011bl\u00ed', amb:'Ambulance', deti:'Hospitalizovan\u00e9 d\u011bti'};
+  var skupNames = {hosp:'Hospitalizovan\u00ed dosp\u011bl\u00ed', amb:'Ambulance', deti:'Hospitalizovan\u00e9 d\u011bti'};
   document.getElementById('kpi-total-sub').textContent = skupNames[activeSkupina];
 
+  // Koláč
   buildPie('cPie', [poch, podn, neut]);
 
-  // Bar skupiny — vždy všechny
+  // Bar — skupiny
+  var skupiny = ['Hospitalizovan\u00ed','Ambulantn\u00ed','D\u011bti'];
   var skupKeys = ['hosp','amb','deti'];
-  var skupLabels = ['Hospitalizovan\u00ed','Ambulantn\u00ed','D\u011bti'];
   var typColors = ['#5caa7f','#2c6e8a','#e8a045'];
   dc('cTypBar');
   CH.cTypBar = new Chart(document.getElementById('cTypBar'), {
     type: 'bar',
     data: {
       labels: PIE_LABELS,
-      datasets: skupLabels.map(function(t, i) {
+      datasets: skupiny.map(function(t, i) {
         return {
           label: t,
           data: PIE_LABELS.map(function(k) {
@@ -506,63 +503,56 @@ function buildPrehled() {
       })
     },
     options: {
-      responsive:true, maintainAspectRatio:false,
-      scales:{ x:{grid:{display:false},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF}} },
-      plugins:{ legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}} }
+      responsive: true, maintainAspectRatio: false,
+      scales: { x:{grid:{display:false},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF}} },
+      plugins: { legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}} }
     }
   });
 
-  // Pololetí — seřazená unikátní
-  var periods = [];
-  data.forEach(function(d){ if(d.period && periods.indexOf(d.period)<0) periods.push(d.period); });
-  periods.sort();
-
-  document.getElementById('rok-sub-label').textContent = skupNames[activeSkupina];
-
+  // Rok bar
+  var roky = [];
+  allData.forEach(function(d){ if(d.rok && roky.indexOf(d.rok)<0) roky.push(d.rok); });
+  roky.sort();
   dc('cRokBar');
   CH.cRokBar = new Chart(document.getElementById('cRokBar'), {
-    type: 'line',
+    type: 'bar',
     data: {
-      labels: periods,
+      labels: roky,
       datasets: [{
         label: 'Po\u010det koment\u00e1\u0159\u016f',
-        data: periods.map(function(p){ return data.filter(function(d){ return d.period===p; }).length; }),
-        borderColor: '#2c6e8a', backgroundColor: 'rgba(44,110,138,0.12)',
-        pointBackgroundColor: '#2c6e8a', pointRadius: 5, pointHoverRadius: 7,
-        tension: 0.3, fill: true
+        data: roky.map(function(r){ return data.filter(function(d){ return d.rok===r; }).length; }),
+        backgroundColor: '#2c6e8a', borderRadius: 5
       }]
     },
     options: {
-      responsive:true, maintainAspectRatio:false,
-      scales:{ x:{grid:{color:GC},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF},beginAtZero:true} },
-      plugins:{ legend:{display:false} }
+      responsive: true, maintainAspectRatio: false,
+      scales: { x:{grid:{display:false},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF}} },
+      plugins: { legend:{display:false} }
     }
   });
 
+  // Rok % stacked
   dc('cRokPct');
   CH.cRokPct = new Chart(document.getElementById('cRokPct'), {
-    type: 'line',
+    type: 'bar',
     data: {
-      labels: periods,
+      labels: roky,
       datasets: [
-        { label:'Pochvaly', borderColor:'#5caa7f', backgroundColor:'rgba(92,170,127,0.08)',
-          pointBackgroundColor:'#5caa7f', pointRadius:5, pointHoverRadius:7, tension:0.3,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Pochvala';}).length; return t?Math.round(n/t*100):null; }) },
-        { label:'Podn\u011bty', borderColor:'#e8a045', backgroundColor:'rgba(232,160,69,0.08)',
-          pointBackgroundColor:'#e8a045', pointRadius:5, pointHoverRadius:7, tension:0.3,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Podn\u011bt';}).length; return t?Math.round(n/t*100):null; }) },
-        { label:'Neutr\u00e1ln\u00ed', borderColor:'#7b5ea7', backgroundColor:'rgba(123,94,167,0.08)',
-          pointBackgroundColor:'#7b5ea7', pointRadius:5, pointHoverRadius:7, tension:0.3,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Neutr\u00e1ln\u00ed';}).length; return t?Math.round(n/t*100):null; }) }
+        { label: 'Pochvaly', backgroundColor: '#5caa7f', borderRadius: 4,
+          data: roky.map(function(r){ var t=data.filter(function(d){return d.rok===r;}).length; var n=data.filter(function(d){return d.rok===r&&d.katH==='Pochvala';}).length; return t?Math.round(n/t*100):0; }) },
+        { label: 'Podn\u011bty', backgroundColor: '#e8a045', borderRadius: 4,
+          data: roky.map(function(r){ var t=data.filter(function(d){return d.rok===r;}).length; var n=data.filter(function(d){return d.rok===r&&d.katH==='Podn\u011bt';}).length; return t?Math.round(n/t*100):0; }) },
+        { label: 'Neutr\u00e1ln\u00ed', backgroundColor: '#7b5ea7', borderRadius: 4,
+          data: roky.map(function(r){ var t=data.filter(function(d){return d.rok===r;}).length; var n=data.filter(function(d){return d.rok===r&&d.katH==='Neutr\u00e1ln\u00ed';}).length; return t?Math.round(n/t*100):0; }) }
       ]
     },
     options: {
-      responsive:true, maintainAspectRatio:false,
-      scales:{
-        x:{grid:{color:GC},ticks:{font:BF}},
-        y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x:{stacked:true,grid:{display:false},ticks:{font:BF}},
+        y:{stacked:true,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}
       },
-      plugins:{ legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}} }
+      plugins: { legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}} }
     }
   });
 }
@@ -571,10 +561,10 @@ function buildPie(id, data) {
   dc(id);
   CH[id] = new Chart(document.getElementById(id), {
     type: 'doughnut',
-    data: { labels:PIE_LABELS, datasets:[{data:data, backgroundColor:PIE_COLORS, borderWidth:2, borderColor:'#fff'}] },
+    data: { labels: PIE_LABELS, datasets:[{data:data, backgroundColor:PIE_COLORS, borderWidth:2, borderColor:'#fff'}] },
     options: {
       responsive:true, maintainAspectRatio:false,
-      plugins:{
+      plugins: {
         legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}},
         tooltip:{callbacks:{label:function(c){
           var t=c.dataset.data.reduce(function(a,b){return a+b;},0);
@@ -585,67 +575,95 @@ function buildPie(id, data) {
   });
 }
 
+// ══════════════════════════════════════
+// PODLE ODDĚLENÍ
+// ══════════════════════════════════════
 function buildOddeleni() {
   var data = skupinaData();
+  // Sbíráme oddělení
   var oddMap = {};
   data.forEach(function(d) {
     if (!d.oddeleni) return;
     if (!oddMap[d.oddeleni]) oddMap[d.oddeleni] = [];
     oddMap[d.oddeleni].push(d);
   });
+
   var oddNames = Object.keys(oddMap).sort(function(a,b){ return a.localeCompare(b,'cs'); });
+
   var container = document.getElementById('odd-list');
-  if (!oddNames.length) { container.innerHTML = '<div class="loading" style="padding:30px">Žádná data.</div>'; return; }
+  if (oddNames.length === 0) {
+    container.innerHTML = '<div class="loading" style="padding:40px">Žádná data pro tuto skupinu.</div>';
+    return;
+  }
 
   container.innerHTML = oddNames.map(function(name) {
     var items = oddMap[name];
     var poch = items.filter(function(d){ return d.katH==='Pochvala'||d.katV==='Pochvala'; });
     var podn = items.filter(function(d){ return d.katH==='Podn\u011bt'||d.katV==='Podn\u011bt'; });
     var neut = items.filter(function(d){ return d.katH==='Neutr\u00e1ln\u00ed'&&d.katV!=='Pochvala'&&d.katV!=='Podn\u011bt'; });
-    var id = 'odd' + name.replace(/[^a-z0-9]/gi,'_');
+
+    var id = 'odd-' + name.replace(/[^a-z0-9]/gi,'_');
+
     return '<div class="odd-item" id="item-'+id+'">' +
       '<div class="odd-header" onclick="toggleOdd(\''+id+'\')">' +
         '<span class="odd-name">'+escH(name)+'</span>' +
-        '<span class="odd-meta"><span class="odd-count">'+items.length+' koment\u00e1\u0159\u016f</span><span class="odd-arrow">\u25bc</span></span>' +
+        '<span class="odd-meta">' +
+          '<span class="odd-count">'+items.length+' koment\u00e1\u0159\u016f</span>' +
+          '<span class="odd-arrow">▼</span>' +
+        '</span>' +
       '</div>' +
       '<div class="odd-body" id="body-'+id+'">' +
         '<div class="inner-tabs">' +
           '<button class="it-btn ap" onclick="showInner(event,\''+id+'\',\'p\')">\u2b50 Pochvaly <span class="it-count cp">'+poch.length+'</span></button>' +
-          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'n\')">&#128161; Podn\u011bty <span class="it-count cn">'+podn.length+'</span></button>' +
-          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'u\')">&#9675; Neutr\u00e1ln\u00ed <span class="it-count cu">'+neut.length+'</span></button>' +
+          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'n\')">💡 Podn\u011bty <span class="it-count cn">'+podn.length+'</span></button>' +
+          '<button class="it-btn" onclick="showInner(event,\''+id+'\',\'u\')">○ Neutr\u00e1ln\u00ed <span class="it-count cu">'+neut.length+'</span></button>' +
         '</div>' +
-        '<div class="inner-panel active" id="panel-'+id+'-p">'+renderKomItems(poch)+'</div>' +
-        '<div class="inner-panel" id="panel-'+id+'-n">'+renderKomItems(podn)+'</div>' +
-        '<div class="inner-panel" id="panel-'+id+'-u">'+renderKomItems(neut)+'</div>' +
+        '<div class="inner-panel active" id="panel-'+id+'-p">' + renderKomItems(poch) + '</div>' +
+        '<div class="inner-panel" id="panel-'+id+'-n">' + renderKomItems(podn) + '</div>' +
+        '<div class="inner-panel" id="panel-'+id+'-u">' + renderKomItems(neut) + '</div>' +
       '</div>' +
     '</div>';
   }).join('');
 }
 
 function renderKomItems(items) {
-  if (!items.length) return '<div class="kom-empty">&#381;\u00e1dn\u00e9 koment\u00e1\u0159e v t\u00e9to kategorii.</div>';
-  return items.map(function(d){
-    return '<div class="kom-item">'+escH(d.text)+(d.period?'<div class="kom-period">'+escH(d.period)+'</div>':'')+'</div>';
+  if (!items.length) return '<div class="kom-empty">Žádné komentáře v této kategorii.</div>';
+  return items.map(function(d) {
+    return '<div class="kom-item">' +
+      escH(d.text) +
+      (d.period ? '<div class="kom-period">'+escH(d.period)+'</div>' : '') +
+    '</div>';
   }).join('');
 }
 
 function toggleOdd(id) {
-  document.getElementById('item-'+id).classList.toggle('open');
+  var item = document.getElementById('item-'+id);
+  item.classList.toggle('open');
 }
 
 function showInner(e, id, panel) {
   e.stopPropagation();
-  ['p','n','u'].forEach(function(p){
+  // Aktivovat správný panel
+  ['p','n','u'].forEach(function(p) {
     document.getElementById('panel-'+id+'-'+p).classList.toggle('active', p===panel);
   });
-  var btns = document.getElementById('body-'+id).querySelectorAll('.it-btn');
-  btns.forEach(function(b){ b.className='it-btn'; });
-  if(panel==='p') btns[0].classList.add('ap');
-  if(panel==='n') btns[1].classList.add('an');
-  if(panel==='u') btns[2].classList.add('au');
-  document.getElementById('item-'+id).classList.add('open');
+  // Aktivovat správný tab button
+  var body = document.getElementById('body-'+id);
+  var btns = body.querySelectorAll('.it-btn');
+  btns.forEach(function(b, i) {
+    b.className = 'it-btn';
+    if (i===0&&panel==='p') b.classList.add('ap');
+    if (i===1&&panel==='n') b.classList.add('an');
+    if (i===2&&panel==='u') b.classList.add('au');
+  });
+  // Otevřít kartu pokud zavřená
+  var item = document.getElementById('item-'+id);
+  if (!item.classList.contains('open')) item.classList.add('open');
 }
 
+// ══════════════════════════════════════
+// PODNĚTY
+// ══════════════════════════════════════
 function buildObdobiFilter() {
   var periods = [];
   allData.forEach(function(d){ if(d.period && periods.indexOf(d.period)<0) periods.push(d.period); });
@@ -653,8 +671,9 @@ function buildObdobiFilter() {
   var wrap = document.getElementById('ob-filter-wrap');
   wrap.innerHTML = '<button class="ob-btn on" data-ob="vse">V\u0161e</button>' +
     periods.map(function(p){ return '<button class="ob-btn" data-ob="'+escH(p)+'">'+escH(p)+'</button>'; }).join('');
-  wrap.addEventListener('click', function(e){
-    var btn = e.target.closest('.ob-btn'); if(!btn) return;
+  wrap.addEventListener('click', function(e) {
+    var btn = e.target.closest('.ob-btn');
+    if (!btn) return;
     activeOb = btn.dataset.ob;
     wrap.querySelectorAll('.ob-btn').forEach(function(b){ b.classList.remove('on'); });
     btn.classList.add('on');
@@ -665,27 +684,50 @@ function buildObdobiFilter() {
 function buildPodnet() {
   var data = skupinaData().filter(function(d){ return d.katH==='Podn\u011bt'||d.katV==='Podn\u011bt'; });
   if (activeOb !== 'vse') data = data.filter(function(d){ return d.period===activeOb; });
+
+  // Seskupit podle oddělení
   var oddMap = {};
-  data.forEach(function(d){
-    var key = d.oddeleni || 'Neuvedeno';
-    if(!oddMap[key]) oddMap[key]=[];
+  data.forEach(function(d) {
+    var key = d.oddeleni || 'Neuveden\u00e9 odd\u011blen\u00ed';
+    if (!oddMap[key]) oddMap[key] = [];
     oddMap[key].push(d);
   });
+
   var names = Object.keys(oddMap).sort(function(a,b){ return a.localeCompare(b,'cs'); });
   var container = document.getElementById('podnet-list');
-  if (!data.length) { container.innerHTML='<div class="podnet-sekce"><div class="podnet-empty">&#381;\u00e1dn\u00e9 podn\u011bty v tomto obdob\u00ed.</div></div>'; return; }
-  container.innerHTML = names.map(function(name){
+
+  if (!data.length) {
+    container.innerHTML = '<div class="podnet-sekce"><div class="podnet-empty">Žádné podněty v tomto období.</div></div>';
+    return;
+  }
+
+  container.innerHTML = names.map(function(name) {
     var items = oddMap[name];
-    return '<div class="podnet-sekce"><h4>'+escH(name)+' <span style="font-weight:400;color:var(--mu);font-size:.75rem;">('+items.length+')</span></h4>'+
-      items.map(function(d){ return '<div class="podnet-item">'+escH(d.text)+(d.period?'<div class="podnet-period">'+escH(d.period)+'</div>':'')+' </div>'; }).join('')+
+    return '<div class="podnet-sekce">' +
+      '<h4>'+escH(name)+' <span style="font-weight:400;color:var(--mu);font-size:.75rem;">('+items.length+')</span></h4>' +
+      items.map(function(d){
+        return '<div class="podnet-item">' +
+          escH(d.text) +
+          (d.period ? '<div class="podnet-period">'+escH(d.period)+'</div>' : '') +
+        '</div>';
+      }).join('') +
     '</div>';
   }).join('');
 }
 
-function escH(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+// ══════════════════════════════════════
+// ESCAPE
+// ══════════════════════════════════════
+function escH(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-document.querySelectorAll('.sk-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
+// ══════════════════════════════════════
+// NAVIGACE
+// ══════════════════════════════════════
+// Skupiny
+document.querySelectorAll('.sk-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
     activeSkupina = btn.dataset.skupina;
     document.querySelectorAll('.sk-btn').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
@@ -693,8 +735,9 @@ document.querySelectorAll('.sk-btn').forEach(function(btn){
   });
 });
 
-document.querySelectorAll('.stb').forEach(function(btn){
-  btn.addEventListener('click', function(){
+// Subtaby
+document.querySelectorAll('.stb').forEach(function(btn) {
+  btn.addEventListener('click', function() {
     activeSub = btn.dataset.sub;
     document.querySelectorAll('.stb').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
@@ -703,6 +746,9 @@ document.querySelectorAll('.stb').forEach(function(btn){
   });
 });
 
+// ══════════════════════════════════════
+// START
+// ══════════════════════════════════════
 fetchAll();
 </script>
 </body>
