@@ -376,8 +376,8 @@ function fetchAll() {
       .then(function(text) {
         var rows = parseCsv(text, 0);
         var items = [];
-        if (rows.length > 0) {
-          window['_dbg_' + typ] = { headers: rows[0]._vals, row0: rows[0] };
+        if (rows.length > 1) {
+          window['_dbg_' + typ] = { headers: rows[0]._vals, row0: rows[1] };
         }
         rows.forEach(function(row) {
           // Zkusit index, pak název sloupce jako fallback
@@ -409,14 +409,15 @@ function fetchAll() {
       allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
       var d0 = allData[0] || {};
       var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
-      var hospHeaders = dbgH.headers || [];
+      var hospRow0 = dbgH.row0 || {};
+      var hospVals = hospRow0._vals || [];
       var hospSample = allData.find(function(d){ return d.skupina==='hosp' && d.text; }) || {};
       var dbg = document.getElementById('debug-box');
       dbg.style.display = 'block';
       dbg.textContent =
         'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'HOSP prvni zaznam: katHraw="' + (hospSample.katHraw||'') + '" text="' + (hospSample.text||'').slice(0,40) + '" period="' + (hospSample.period||'') + '"\n' +
-        'HOSP idx34="' + (hospHeaders[34]||'(prazdne)') + '" idx35="' + (hospHeaders[35]||'(prazdne)') + '"';
+        'HOSP prvni radek surova data: idx30="' + (hospVals[30]||'') + '" idx31="' + (hospVals[31]||'') + '" idx32="' + (hospVals[32]||'') + '" idx33="' + (hospVals[33]||'') + '" idx34="' + (hospVals[34]||'') + '" idx35="' + (hospVals[35]||'') + '"\n' +
+        'HOSP prvni zaznam s textem: katHraw="' + (hospSample.katHraw||'') + '" text="' + (hospSample.text||'').slice(0,40) + '"';
 
       onDataReady();
     })
