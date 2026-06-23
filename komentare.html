@@ -413,7 +413,6 @@ function fetchAll() {
       var d0 = allData[0] || {};
       var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
       var hospHeaders = dbgH.headers || [];
-      // Najit kde jsou klic. sloupce
       var hospTextIdx = hospHeaders.findIndex(function(h){ return h && h.indexOf('post\u0159ehy') >= 0; });
       var hospKatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('Hlavn\u00ed') >= 0; });
       var hospDatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('datum') >= 0; });
@@ -421,12 +420,9 @@ function fetchAll() {
       dbg.style.display = 'block';
       dbg.textContent =
         'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'obdobi: ' + JSON.stringify(unikPeriod) + '\n' +
-        'prvni zaznam: katHraw="' + (d0.katHraw||'') + '" datum="' + (d0.datum||'') + '" text="' + (d0.text||'').slice(0,40) + '"\n' +
-        'HOSP text sloupec idx=' + hospTextIdx + ' nazev="' + (hospHeaders[hospTextIdx]||'') + '"\n' +
-        'HOSP katH sloupec idx=' + hospKatIdx  + ' nazev="' + (hospHeaders[hospKatIdx]||'')  + '"\n' +
-        'HOSP datum sloupec idx=' + hospDatIdx + ' nazev="' + (hospHeaders[hospDatIdx]||'') + '"\n' +
-        'HOSP celkem hlavicek: ' + hospHeaders.length;
+        'HOSP celkem hlavicek: ' + hospHeaders.length + '\n' +
+        'HOSP text idx=' + hospTextIdx + ' katH idx=' + hospKatIdx + ' datum idx=' + hospDatIdx + '\n' +
+        'HOSP vsechny hlavicky:\n' + hospHeaders.map(function(h,i){ return i+': '+h; }).join('\n');
 
       onDataReady();
     })
