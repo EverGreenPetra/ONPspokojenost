@@ -232,10 +232,8 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    // Z debugu: posledni 2 hlavicky jsou Hlavni(AI=34) a Vedlejsi(AJ=35)
-    // Text "Vase dalsi postrehy" = AE=30, datum=B=1, oddeleni=F=5
-    // Ale z debugu vidime hosp ma 0 zaznamu -> zkusime hledat podle nazvu jako fallback
-    iText: 30, iDatum: 1, iOddeleni: 5, iKatH: 34, iKatV: 35,
+    // Pouzivame pouze jmenne vyhledavani - indexy nesedi kvuli HOSP prefixu
+    iText: -1, iDatum: -1, iOddeleni: -1, iKatH: -1, iKatV: -1,
     colText:     'Va\u0161e dal\u0161\u00ed post\u0159ehy a koment\u00e1\u0159e:',
     colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
     colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m jste byl/a hospitalizovan\u00fd/\u00e1',
@@ -414,13 +412,21 @@ function fetchAll() {
       allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
       var d0 = allData[0] || {};
       var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
+      var hospHeaders = dbgH.headers || [];
+      // Najit kde jsou klic. sloupce
+      var hospTextIdx = hospHeaders.findIndex(function(h){ return h && h.indexOf('post\u0159ehy') >= 0; });
+      var hospKatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('Hlavn\u00ed') >= 0; });
+      var hospDatIdx  = hospHeaders.findIndex(function(h){ return h && h.indexOf('datum') >= 0; });
       var dbg = document.getElementById('debug-box');
       dbg.style.display = 'block';
       dbg.textContent =
         'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
         'obdobi: ' + JSON.stringify(unikPeriod) + '\n' +
-        'prvni zaznam: katHraw="' + (d0.katHraw||'') + '" datum="' + (d0.datum||'') + '" text zacatek="' + (d0.text||'').slice(0,40) + '"\n' +
-        'hosp hlavicky [30]=' + (dbgH.headers ? dbgH.headers[30] : '?') + ' [35]=' + (dbgH.headers ? dbgH.headers[35] : '?');
+        'prvni zaznam: katHraw="' + (d0.katHraw||'') + '" datum="' + (d0.datum||'') + '" text="' + (d0.text||'').slice(0,40) + '"\n' +
+        'HOSP text sloupec idx=' + hospTextIdx + ' nazev="' + (hospHeaders[hospTextIdx]||'') + '"\n' +
+        'HOSP katH sloupec idx=' + hospKatIdx  + ' nazev="' + (hospHeaders[hospKatIdx]||'')  + '"\n' +
+        'HOSP datum sloupec idx=' + hospDatIdx + ' nazev="' + (hospHeaders[hospDatIdx]||'') + '"\n' +
+        'HOSP celkem hlavicek: ' + hospHeaders.length;
 
       onDataReady();
     })
