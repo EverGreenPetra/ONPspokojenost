@@ -232,9 +232,8 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    // AE=30(text), B=1(casova znacka), G=6(oddeleni), AI=34(katH), AJ=35(katV)
-    // Datum: zkusime index 1 (B = casova znacka formatu 4.2.2024 10:35:24)
-    iText: 30, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35,
+    // idx30=text(779), idx33=katH, idx34=katV, idx1=datum, idx6=oddeleni
+    iText: 30, iText2: -1, iDatum: 1, iOddeleni: 6, iKatH: 33, iKatV: 34,
     colText: '', colDatum: '', colOddeleni: '', colKatH: '', colKatV: ''
   },
   'Ambulantn\u00ed': {
@@ -381,7 +380,7 @@ function fetchAll() {
         }
         rows.forEach(function(row) {
           // Zkusit index, pak název sloupce jako fallback
-          var txt = getByIdx(row, sh.iText) || (sh.colText ? findCol(row, sh.colText) : '');
+          var txt = getByIdx(row, sh.iText) || (sh.iText2 !== undefined ? getByIdx(row, sh.iText2) : '') || (sh.colText ? findCol(row, sh.colText) : '');
           if (!txt || txt.length < 3) return;
           var katHraw = getByIdx(row, sh.iKatH) || (sh.colKatH ? findCol(row, sh.colKatH) : '');
           var katVraw = getByIdx(row, sh.iKatV) || (sh.colKatV ? findCol(row, sh.colKatV) : '');
@@ -408,16 +407,15 @@ function fetchAll() {
       var unikPeriod = {};
       allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
       var d0 = allData[0] || {};
-      var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
-      var hospRow0 = dbgH.row0 || {};
-      var hospVals = hospRow0._vals || [];
-      var hospSample = allData.find(function(d){ return d.skupina==='hosp' && d.text; }) || {};
       var dbg = document.getElementById('debug-box');
+      dbg.style.display = 'block';
+      var hospCount = allData.filter(function(d){return d.skupina==='hosp';}).length;
+      var hospKat = allData.filter(function(d){return d.skupina==='hosp'&&d.katH;}).length;
       dbg.style.display = 'block';
       dbg.textContent =
         'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'HOSP prvni radek surova data: idx30="' + (hospVals[30]||'') + '" idx31="' + (hospVals[31]||'') + '" idx32="' + (hospVals[32]||'') + '" idx33="' + (hospVals[33]||'') + '" idx34="' + (hospVals[34]||'') + '" idx35="' + (hospVals[35]||'') + '"\n' +
-        'HOSP prvni zaznam s textem: katHraw="' + (hospSample.katHraw||'') + '" text="' + (hospSample.text||'').slice(0,40) + '"';
+        'HOSP celkem: ' + hospCount + ' | s kategorii: ' + hospKat + '\n' +
+        'obdobi: ' + JSON.stringify(unikPeriod);
 
       onDataReady();
     })
