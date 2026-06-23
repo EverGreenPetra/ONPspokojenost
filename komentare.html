@@ -232,8 +232,9 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    // A=0, B=1(datum), G=6(oddeleni), AE=30(text), AJ=35(katH), AK=36(katV)
-    iText: 30, iDatum: 1, iOddeleni: 6, iKatH: 35, iKatV: 36,
+    // AE=30(text), B=1(casova znacka), G=6(oddeleni), AI=34(katH), AJ=35(katV)
+    // Datum: zkusime index 1 (B = casova znacka formatu 4.2.2024 10:35:24)
+    iText: 30, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35,
     colText: '', colDatum: '', colOddeleni: '', colKatH: '', colKatV: ''
   },
   'Ambulantn\u00ed': {
@@ -409,13 +410,13 @@ function fetchAll() {
       var d0 = allData[0] || {};
       var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
       var hospHeaders = dbgH.headers || [];
+      var hospSample = allData.find(function(d){ return d.skupina==='hosp' && d.text; }) || {};
       var dbg = document.getElementById('debug-box');
       dbg.style.display = 'block';
       dbg.textContent =
         'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
-        'obdobi: ' + JSON.stringify(unikPeriod) + '\n' +
-        'HOSP prvni zaznam s textem: katHraw="' + (allData.find(function(d){return d.skupina==='hosp'&&d.text;})||{katHraw:''}).katHraw + '" text="' + ((allData.find(function(d){return d.skupina==='hosp'&&d.text;})||{text:''}).text||'').slice(0,50) + '"\n' +
-        'HOSP idx30="' + (hospHeaders[30]||'') + '" idx35="' + (hospHeaders[35]||'') + '" idx36="' + (hospHeaders[36]||'') + '"';
+        'HOSP prvni zaznam: katHraw="' + (hospSample.katHraw||'') + '" text="' + (hospSample.text||'').slice(0,40) + '" period="' + (hospSample.period||'') + '"\n' +
+        'HOSP idx34="' + (hospHeaders[34]||'(prazdne)') + '" idx35="' + (hospHeaders[35]||'(prazdne)') + '"';
 
       onDataReady();
     })
