@@ -232,20 +232,35 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    // Sloupce podle indexu (0-based): AE=30, AJ=35, AK=36, datum=B=1, oddělení=F=5
-    iText: 30, iDatum: 1, iOddeleni: 5, iKatH: 35, iKatV: 36
+    // Z debugu: posledni 2 hlavicky jsou Hlavni(AI=34) a Vedlejsi(AJ=35)
+    // Text "Vase dalsi postrehy" = AE=30, datum=B=1, oddeleni=F=5
+    // Ale z debugu vidime hosp ma 0 zaznamu -> zkusime hledat podle nazvu jako fallback
+    iText: 30, iDatum: 1, iOddeleni: 5, iKatH: 34, iKatV: 35,
+    colText:     'Va\u0161e dal\u0161\u00ed post\u0159ehy a koment\u00e1\u0159e:',
+    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
+    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m jste byl/a hospitalizovan\u00fd/\u00e1',
+    colKatH:     'Hlavn\u00ed - Pochvala / podn\u011bt / neutr\u00e1ln\u00ed',
+    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
   },
   'Ambulantn\u00ed': {
     skupina: 'amb',
     gid: '0',
-    // Sloupce: R=17 (text), S=18 (katH), T=19 (katV), A=0 (datum), Q=16 (oddělení)
-    iText: 17, iDatum: 0, iOddeleni: 16, iKatH: 18, iKatV: 19
+    iText: 17, iDatum: 0, iOddeleni: 16, iKatH: 18, iKatV: 19,
+    colText:     'Pokud n\u00e1m chcete sd\u011blit n\u011bco v\u00edce (p\u0159ipom\u00ednky, pochvaly aj.), napi\u0161te n\u00e1m n\u00ed\u017ee:',
+    colDatum:    '\u010casov\u00e1 zna\u010dka',
+    colOddeleni: 'Jakou ambulanci/pracovi\u0161t\u011b jste nav\u0161t\u00edvili?',
+    colKatH:     'Hlavn\u00ed - Pochvala/p',
+    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
   },
   'D\u011bti': {
     skupina: 'deti',
     gid: '1447672423',
-    // Sloupce: AH=33 (text), AI=34 (katH), AJ=35 (katV), B=1 (datum), G=6 (oddělení)
-    iText: 33, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35
+    iText: 33, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35,
+    colText:     'Cht\u011bli byste v nemocnici n\u011bco zlep\u0161it nebo n\u00e1m n\u011bco sd\u011blit?',
+    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
+    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m bylo Va\u0161e d\u00edt\u011b hospitalizov\u00e1no',
+    colKatH:     'Hlavn\u00ed - Pochvala / podn\u011bt / neutr\u00e1ln\u00ed',
+    colKatV:     'Vedlej\u0161\u00ed - /podn\u011bt'
   }
 };
 
@@ -366,20 +381,20 @@ function fetchAll() {
       .then(function(text) {
         var rows = parseCsv(text);
         var items = [];
-        // Uložit hlavičky pro debug
         if (rows.length > 0) {
-          window['_dbg_' + typ] = { headers: rows[0]._vals };
+          window['_dbg_' + typ] = { headers: rows[0]._vals, row0: rows[0] };
         }
         rows.forEach(function(row) {
-          var txt = getByIdx(row, sh.iText);
+          // Zkusit index, pak název sloupce jako fallback
+          var txt = getByIdx(row, sh.iText) || (sh.colText ? findCol(row, sh.colText) : '');
           if (!txt || txt.length < 3) return;
-          var katHraw = getByIdx(row, sh.iKatH);
-          var katVraw = getByIdx(row, sh.iKatV);
+          var katHraw = getByIdx(row, sh.iKatH) || (sh.colKatH ? findCol(row, sh.colKatH) : '');
+          var katVraw = getByIdx(row, sh.iKatV) || (sh.colKatV ? findCol(row, sh.colKatV) : '');
           var katH = katLabel(katHraw);
           var katV = katLabel(katVraw);
-          var datum = getByIdx(row, sh.iDatum);
+          var datum = getByIdx(row, sh.iDatum) || (sh.colDatum ? findCol(row, sh.colDatum) : '');
           var pp = parsePeriod(datum);
-          var oddeleni = getByIdx(row, sh.iOddeleni);
+          var oddeleni = getByIdx(row, sh.iOddeleni) || (sh.colOddeleni ? findCol(row, sh.colOddeleni) : '');
           items.push({ typ: typ, skupina: sh.skupina, text: txt, katH: katH, katV: katV,
                        katHraw: katHraw, rok: pp.rok, period: pp.period, oddeleni: oddeleni, datum: datum });
         });
@@ -504,41 +519,46 @@ function buildPrehled() {
 
   dc('cRokBar');
   CH.cRokBar = new Chart(document.getElementById('cRokBar'), {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: periods,
       datasets: [{
         label: 'Po\u010det koment\u00e1\u0159\u016f',
         data: periods.map(function(p){ return data.filter(function(d){ return d.period===p; }).length; }),
-        backgroundColor: '#2c6e8a', borderRadius: 5
+        borderColor: '#2c6e8a', backgroundColor: 'rgba(44,110,138,0.12)',
+        pointBackgroundColor: '#2c6e8a', pointRadius: 5, pointHoverRadius: 7,
+        tension: 0.3, fill: true
       }]
     },
     options: {
       responsive:true, maintainAspectRatio:false,
-      scales:{ x:{grid:{display:false},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF}} },
+      scales:{ x:{grid:{color:GC},ticks:{font:BF}}, y:{grid:{color:GC},ticks:{font:BF},beginAtZero:true} },
       plugins:{ legend:{display:false} }
     }
   });
 
   dc('cRokPct');
   CH.cRokPct = new Chart(document.getElementById('cRokPct'), {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: periods,
       datasets: [
-        { label:'Pochvaly', backgroundColor:'#5caa7f', borderRadius:4,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Pochvala';}).length; return t?Math.round(n/t*100):0; }) },
-        { label:'Podn\u011bty', backgroundColor:'#e8a045', borderRadius:4,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Podn\u011bt';}).length; return t?Math.round(n/t*100):0; }) },
-        { label:'Neutr\u00e1ln\u00ed', backgroundColor:'#7b5ea7', borderRadius:4,
-          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Neutr\u00e1ln\u00ed';}).length; return t?Math.round(n/t*100):0; }) }
+        { label:'Pochvaly', borderColor:'#5caa7f', backgroundColor:'rgba(92,170,127,0.08)',
+          pointBackgroundColor:'#5caa7f', pointRadius:5, pointHoverRadius:7, tension:0.3,
+          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Pochvala';}).length; return t?Math.round(n/t*100):null; }) },
+        { label:'Podn\u011bty', borderColor:'#e8a045', backgroundColor:'rgba(232,160,69,0.08)',
+          pointBackgroundColor:'#e8a045', pointRadius:5, pointHoverRadius:7, tension:0.3,
+          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Podn\u011bt';}).length; return t?Math.round(n/t*100):null; }) },
+        { label:'Neutr\u00e1ln\u00ed', borderColor:'#7b5ea7', backgroundColor:'rgba(123,94,167,0.08)',
+          pointBackgroundColor:'#7b5ea7', pointRadius:5, pointHoverRadius:7, tension:0.3,
+          data: periods.map(function(p){ var t=data.filter(function(d){return d.period===p;}).length; var n=data.filter(function(d){return d.period===p&&d.katH==='Neutr\u00e1ln\u00ed';}).length; return t?Math.round(n/t*100):null; }) }
       ]
     },
     options: {
       responsive:true, maintainAspectRatio:false,
       scales:{
-        x:{stacked:true,grid:{display:false},ticks:{font:BF}},
-        y:{stacked:true,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}
+        x:{grid:{color:GC},ticks:{font:BF}},
+        y:{min:0,max:100,grid:{color:GC},ticks:{font:BF,callback:function(v){return v+' %';}}}
       },
       plugins:{ legend:{position:'bottom',labels:{font:BF,padding:10,boxWidth:11}} }
     }
