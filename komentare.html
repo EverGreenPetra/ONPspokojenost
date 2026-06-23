@@ -232,29 +232,20 @@ var SHEETS = {
   'Hospitalizovan\u00ed': {
     skupina: 'hosp',
     gid: '1872805831',
-    colText:     'Va\u0161e dal\u0161\u00ed podn\u011bty a koment\u00e1\u0159e:',
-    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
-    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m jste byl/a hospitalizovan\u00fd/\u00e1',
-    colKatH:     'Hlavn\u00ed - Pochvala/podn\u011bt/neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    // Sloupce podle indexu (0-based): AE=30, AJ=35, AK=36, datum=B=1, oddělení=F=5
+    iText: 30, iDatum: 1, iOddeleni: 5, iKatH: 35, iKatV: 36
   },
   'Ambulantn\u00ed': {
     skupina: 'amb',
     gid: '0',
-    colText:     'Pokud n\u00e1m chcete sd\u011blit n\u011bco v\u00edce (p\u0159ipom\u00ednky, pochvaly aj.), napi\u0161te n\u00e1m n\u00ed\u017ee:',
-    colDatum:    '\u010casov\u00e1 zna\u010dka',
-    colOddeleni: 'Jakou ambulanci/pracovi\u0161t\u011b jste nav\u0161t\u00edvili?',
-    colKatH:     'Hlavn\u00ed - Pochvala/podn\u011bt/neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    // Sloupce: R=17 (text), S=18 (katH), T=19 (katV), A=0 (datum), Q=16 (oddělení)
+    iText: 17, iDatum: 0, iOddeleni: 16, iKatH: 18, iKatV: 19
   },
   'D\u011bti': {
     skupina: 'deti',
     gid: '1447672423',
-    colText:     'Cht\u011bli byste v nemocnici n\u011bco zlep\u0161it nebo n\u00e1m n\u011bco sd\u011blit?',
-    colDatum:    'Zapi\u0161te, pros\u00edm, dne\u0161n\u00ed datum',
-    colOddeleni: 'N\u00e1zev odd\u011blen\u00ed, na kter\u00e9m bylo Va\u0161e d\u00edt\u011b hospitalizov\u00e1no',
-    colKatH:     'Hlavn\u00ed - Pochvala/podn\u011bt/neutr\u00e1ln\u00ed',
-    colKatV:     'Vedlej\u0161\u00ed - pochvala /podn\u011bt'
+    // Sloupce: AH=33 (text), AI=34 (katH), AJ=35 (katV), B=1 (datum), G=6 (oddělení)
+    iText: 33, iDatum: 1, iOddeleni: 6, iKatH: 34, iKatV: 35
   }
 };
 
@@ -291,11 +282,16 @@ function parseCsv(text) {
   for (var i = 1; i < lines.length; i++) {
     if (!lines[i].trim()) continue;
     var vals = parseCsvLine(lines[i]);
-    var obj = {};
+    // Uložit jako pole i jako objekt
+    var obj = { _vals: vals };
     headers.forEach(function(h, idx){ obj[h.trim()] = (vals[idx] || '').trim(); });
     rows.push(obj);
   }
   return rows;
+}
+
+function getByIdx(row, idx) {
+  return (row._vals && row._vals[idx] !== undefined) ? (row._vals[idx] || '').trim() : '';
 }
 
 function parseCsvLine(line) {
@@ -370,21 +366,20 @@ function fetchAll() {
       .then(function(text) {
         var rows = parseCsv(text);
         var items = [];
-        // Uložit hlavičky prvního řádku pro debug
-        if (rows.length > 0 && typ === 'Hospitalizovan\u00ed') {
-          window._debugHeaders = Object.keys(rows[0]);
-          window._debugRow0 = rows[0];
+        // Uložit hlavičky pro debug
+        if (rows.length > 0) {
+          window['_dbg_' + typ] = { headers: rows[0]._vals };
         }
         rows.forEach(function(row) {
-          var txt = findCol(row, sh.colText);
+          var txt = getByIdx(row, sh.iText);
           if (!txt || txt.length < 3) return;
-          var katHraw = findCol(row, sh.colKatH);
-          var katVraw = findCol(row, sh.colKatV);
+          var katHraw = getByIdx(row, sh.iKatH);
+          var katVraw = getByIdx(row, sh.iKatV);
           var katH = katLabel(katHraw);
           var katV = katLabel(katVraw);
-          var datum = findCol(row, sh.colDatum);
+          var datum = getByIdx(row, sh.iDatum);
           var pp = parsePeriod(datum);
-          var oddeleni = findCol(row, sh.colOddeleni);
+          var oddeleni = getByIdx(row, sh.iOddeleni);
           items.push({ typ: typ, skupina: sh.skupina, text: txt, katH: katH, katV: katV,
                        katHraw: katHraw, rok: pp.rok, period: pp.period, oddeleni: oddeleni, datum: datum });
         });
@@ -403,12 +398,14 @@ function fetchAll() {
       var unikPeriod = {};
       allData.forEach(function(d){ unikPeriod[d.period||'(prazdne)'] = (unikPeriod[d.period||'(prazdne)']||0)+1; });
       var d0 = allData[0] || {};
+      var dbgH = window['_dbg_Hospitalizovan\u00ed'] || {};
       var dbg = document.getElementById('debug-box');
       dbg.style.display = 'block';
-      dbg.textContent = 'DEBUG — kategorie katH: ' + JSON.stringify(unikKat) + '\n' +
-        'DEBUG — obdobi: ' + JSON.stringify(unikPeriod) + '\n' +
-        'DEBUG — prvni zaznam katHraw: "' + (d0.katHraw||'') + '" | datum: "' + (d0.datum||'') + '" | period: "' + (d0.period||'') + '"' + '\n' +
-        'DEBUG — hlavicky hosp: ' + JSON.stringify(window._debugHeaders || []);
+      dbg.textContent =
+        'katH hodnoty: ' + JSON.stringify(unikKat) + '\n' +
+        'obdobi: ' + JSON.stringify(unikPeriod) + '\n' +
+        'prvni zaznam: katHraw="' + (d0.katHraw||'') + '" datum="' + (d0.datum||'') + '" text zacatek="' + (d0.text||'').slice(0,40) + '"\n' +
+        'hosp hlavicky [30]=' + (dbgH.headers ? dbgH.headers[30] : '?') + ' [35]=' + (dbgH.headers ? dbgH.headers[35] : '?');
 
       onDataReady();
     })
